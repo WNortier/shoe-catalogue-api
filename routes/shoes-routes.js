@@ -1,4 +1,4 @@
-module.exports = function MockRoutes(mockFactory) {
+module.exports = function ShoesRoutes(mockFactory) {
 
     // function sendRoute(req, res, err) {
     //     res.send("Basic ExpressJS Server Template");

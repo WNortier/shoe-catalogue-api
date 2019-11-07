@@ -7,13 +7,13 @@ body {
   left: 0;
   top: 0;
   font-size: 100%;
-  background-color: darkgreen;
+  background-color: rgb(57, 66, 76);
 }
 
 /* ROOT FONT STYLES */
 
 * {
-  font-family: 'Lato', Helvetica, sans-serif;
+  font-family: monospace;
   color: #333447;
   line-height: 1.5;
 }
@@ -22,6 +22,8 @@ body {
 
 h1 {
   font-size: 2.5rem;
+  font-weight: bold;
+  color: darkcyan
 }
 
 h2 {
@@ -165,22 +167,26 @@ p {
 }
 
 .row::after {
-	content: "";
-	display: table;
-	clear: both;
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .hidden-sm {
   display: none;
 }
 
-@media only screen and (min-width: 33.75em) {  /* 540px */
+@media only screen and (min-width: 33.75em) {
+
+  /* 540px */
   .container {
     width: 80%;
   }
 }
 
-@media only screen and (min-width: 45em) {  /* 720px */
+@media only screen and (min-width: 45em) {
+
+  /* 720px */
   .col-1 {
     width: 4.33%;
   }
@@ -234,25 +240,291 @@ p {
   }
 }
 
-@media only screen and (min-width: 60em) { /* 960px */
+@media only screen and (min-width: 60em) {
+
+  /* 960px */
   .container {
     width: 75%;
     max-width: 60rem;
   }
 }
 
-table {
-  border-collapse: collapse;
+
+.header {
+height: 5em;
+background-color: white;
+width: 100%;
+border-bottom: 0.3em solid;
+border-top: 0.3em solid;
 }
 
-table, th, td {
-  border: 1px solid black;
+.header h1 {
+margin: auto;
 }
 
-#header {
-  background-color: darkgray;
-  border-radius: 30px;
-  border: 3px solid rgb(49, 135, 163);
-  box-sizing: border-box;
-  overflow: hidden
+.purchaseSettings {
+box-sizing: border-box;
+background-color: rgb(49, 52, 54);
+height: 20em;
+border-radius: 50px;
+border: 3px solid rgb(49, 135, 163);
+box-sizing: border-box;
+}
+
+.purchaseSettings h2 {
+color: white;
+margin: auto;
+}
+
+.purchaseSettings select {
+padding: 10px;
+color: white;
+border-color: #575757;
+background-color: #181a1b;
+font-size: 14px;
+}
+
+.settingsSpacer {
+height: 0.25em;
+}
+
+.settingsSpacerSecond {
+height: 1em;
+}
+
+.settingsSpacerThird {
+height: 0.5em;
+}
+
+
+button {
+border-color: #575757;
+color: whitesmoke;
+font-size: 15px;
+font-weight: lighter;
+background-color: rgb(23, 64, 77);
+padding: 10px;
+width: 4em;
+border-radius: 3em;
+
+}
+
+.addBtn {
+width: 5em;
+}
+
+
+.focus:focus {
+color: red
+}
+
+.cart {
+background-color: rgb(49, 52, 54);
+height: 42em;
+border-radius: 50px;
+border: 3px solid rgb(49, 135, 163);
+width: 25em;
+/* overflow-y: scroll;
+top: 0;
+bottom: 0; 
+overflow:auto;*/
+overflow: auto;
+}
+
+::-webkit-scrollbar {
+width: 20px;
+}
+
+::-webkit-scrollbar-thumb {
+width: 20px;
+}
+
+::-webkit-scrollbar-track-piece {
+width: 20px;
+}
+
+.cart h2 {
+color: white;
+margin: auto;
+}
+
+.addSettings {
+background-color: rgb(49, 52, 54);
+height: 20em;
+border-radius: 50px;
+border: 3px solid rgb(49, 135, 163);
+box-sizing: border-box;
+
+}
+
+.buttonZone button {
+width: 10em;
+}
+
+.stockListDiv {
+background-color: rgb(49, 52, 54);
+height: 30em;
+border-radius: 50px;
+border: 3px solid rgb(49, 135, 163);
+box-sizing: border-box;
+color: white;
+width: 40em;
+/* overflow-y: scroll;
+top: 0;
+bottom: 0; 
+overflow:auto;*/
+}
+
+.scrollable {
+height: 16em;
+overflow-y: scroll;
+}
+
+
+.addSettingsTwo h2 {
+color: white;
+}
+
+
+.addSettings select {
+padding: 10px;
+color: white;
+border-color: #575757;
+background-color: #181a1b;
+font-size: 14px;
+}
+
+.addSettings h2 {
+color: white;
+margin: auto;
+}
+
+.addSettings input {
+width: 9.9em;
+height: 2.2em;
+color: white;
+border-color: #575757;
+background-color: #181a1b;
+font-size: 15px;
+}
+
+.addSettings input::placeholder {
+color: white;
+opacity: 1;
+text-indent: 0.5em;
+font-size: 1em;
+}
+
+
+.shoeData {
+box-sizing: border-box;
+background-color: rgb(49, 52, 54);
+height: 7em;
+border-radius: 50px;
+border: 3px solid rgb(49, 135, 163);
+color: white;
+font-size: 18px;
+}
+
+.shoeData h2 {
+color: white;
+margin: auto;
+}
+
+.shoeDataInfo {
+color: whitesmoke;
+font-style: italic;
+font-weight: lighter;
+font-size: 1.0em;
+}
+
+.shoeDataError {
+color: orange;
+font-style: italic;
+font-weight: ligther;
+font-size: 1.1em;
+opacity: 0;
+transition: opacity 3000ms;
+}
+
+.shoeDataErrorGreen {
+color: green;
+}
+
+.shoeDataError.show {
+opacity: 1;
+}
+
+.error {
+box-sizing: border-box;
+background-color: rgb(49, 52, 54);
+height: 7em;
+border-radius: 50px;
+border: 3px solid rgb(49, 135, 163);
+margin-top: 15px;
+color: white;
+font-size: 18px;
+}
+.error h2 {
+color: white;
+margin: auto;
+}
+
+.cartContainer {
+float: right;
+}
+
+.cartSpacer {
+height: 36em;
+}
+
+.checkoutBtn {
+border-color: #575757;
+color: whitesmoke;
+font-size: 15px;
+font-weight: lighter;
+background-color: rgb(23, 64, 77);
+padding: 10px;
+width: 8em;
+border-radius: 3em;
+}
+
+.cancelBtn {
+border-color: #575757;
+color: whitesmoke;
+font-size: 15px;
+font-weight: lighter;
+background-color: rgb(23, 64, 77);
+padding: 10px;
+width: 8em;
+border-radius: 3em;
+}
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+
+.inner {
+color: white;
+font-size: 14px;
+}
+
+.cartStyling {
+color: white;
+}
+
+table td {
+color: white;
+}
+
+table th {
+color: white;
+border-collapse: collapse;
+border: 1px solid black;
+}
+
+.cancelBtn {
+margin-right: 4em;
 }

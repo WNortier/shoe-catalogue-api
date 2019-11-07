@@ -1,4 +1,4 @@
-module.exports = function MockFactory(pool) {
+module.exports = function shoeService(pool) {
 
     function helloWorld() {
         try {
