@@ -26,7 +26,7 @@ app.set('view engine', 'handlebars');
 app.use(express.static('public'))
 //Postgresql
 const pg = require("pg");
-const Pool = pg.Pool;
+
 const connectionString = process.env.DATABASE_URL || 'postgresql://warwick:pg123@localhost:5432/shoecatalogue';
 
 let useSSL = false;
@@ -34,7 +34,7 @@ let local = process.env.LOCAL || false;
 if (process.env.DATABASE_URL && !local) {
   useSSL = true;
 }
-
+const Pool = pg.Pool;
 const pool = new Pool({
   connectionString,
   ssl: useSSL
@@ -43,11 +43,11 @@ const pool = new Pool({
 //const AppService = require('./public/app')
 const ShoesService = require('./services/shoes-service')
 const ShoesRoutes = require('./routes/shoes-routes')
-const ShoesAPI = require('./api/shoes-api')
+//const ShoesAPI = require('./api/shoes-api')
 //const appService = AppService(pool)
 const shoesService = ShoesService(pool)
 const shoesRoutes = ShoesRoutes(shoesService)
-const shoesAPI = ShoesAPI(shoesService)
+//const shoesAPI = ShoesAPI(shoesService)
 
 function errorHandler(err, req, res, next) {
   res.status(500);
@@ -55,14 +55,18 @@ function errorHandler(err, req, res, next) {
 }
 app.use(errorHandler);
 
-//Routes
+//Route
 
+console.log(shoesRoutes.homeRoute);
 
-//app.get("/", shoesRoutes.sendRoute);
 app.get('/', shoesRoutes.homeRoute);
-app.post('/aPostRoute', shoesRoutes.aPostRoute);
 
-let PORT = process.env.PORT || 4008;
+// app.get('/', async function(req, res, next){
+//   res.render('home')
+// });
+//app.post('/aPostRoute', shoesRoutes.aPostRoute);
+
+let PORT = process.env.PORT || 4009;
 
 app.listen(PORT, function () {
   console.log('App starting on port', PORT);
