@@ -16,60 +16,41 @@ const pool = new Pool({
     ssl: useSSL
 });
 
-describe('createAccount function', async () => {
+describe('all function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Yuma', 'Black', 'Sandals', 8, 999, 5)`);
         await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Zonverse', 'Red', 'Sneakers', 10, 1299, 5)`);
         await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Jimmy Woo', 'Metallic', 'High Heels', 8, 1499, 2)`);
     });
-    describe('AddShoe function', async () => {
-        it('should UPDATE a shoes quantity in the shoes table if it already exists', async () => {
-            const shoeServiceTesting = ShoeServiceTesting(pool);
-            await shoeServiceTesting.addShoe('Yuma', 'Black', 'Sandals', 8, 999, 5);
-            let result = await shoeServiceTesting.shoesTestAssistant();
-            assert.equal(3, result.length);
-            assert.equal(10, result[2].quantity);
-        });
+    it('should return all shoes currently in my shoecatalogue(database)', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        let result = await shoeServiceTesting.all();
+        assert.equal(3, result.length);
     });
-    describe('AddShoe function', async () => {
-        it('should INSERT a shoe in the shoes table if it does not exist', async () => {
-            const shoeServiceTesting = ShoeServiceTesting(pool);
-            await shoeServiceTesting.addShoe('Yuma', 'Orange', 'Sneaker', 7, 699, 5);
-            let result = await shoeServiceTesting.shoesTestAssistant();
-            assert.equal(4, result.length);
-        });
-    });    
-    after(function(){
+});
+
+describe('add function', async () => {
+    beforeEach(async () => {
+        await pool.query(`delete from shoes`);
+        await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Yuma', 'Black', 'Sandals', 8, 999, 5)`);
+        await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Zonverse', 'Red', 'Sneakers', 10, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Jimmy Woo', 'Metallic', 'High Heels', 8, 1499, 2)`);
+    });
+    it('should UPDATE a shoes quantity in the shoes table if it already exists', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        await shoeServiceTesting.add('Yuma', 'Black', 'Sandals', 8, 999, 5);
+        let result = await shoeServiceTesting.all();
+        assert.equal(3, result.length);
+        assert.equal(10, result[2].quantity);
+    });
+    it('should INSERT a shoe in the shoes table if it does not exist', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        await shoeServiceTesting.add('Yuma', 'Orange', 'Sneaker', 7, 699, 5);
+        let result = await shoeServiceTesting.all();
+        assert.equal(4, result.length);
+    });
+    after(function () {
         pool.end();
     })
 });
-
-// describe('createAccount function', async () => {
-//     beforeEach(async () => {
-//         await pool.query(`delete from shoes`);
-//         await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Yuma', 'Black', 'Sandals', 8, 999, 5)`);
-//         await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Zonverse', 'Red', 'Sneakers', 10, 1299, 5)`);
-//         await pool.query(`insert into shoes (brand, color, style, size, price, quantity) values ('Jimmy Woo', 'Metallic', 'High Heels', 8, 1499, 2)`);
-//     });
-//     describe('AddShoe function', async () => {
-//         it('should UPDATE a shoes quantity in the shoes table if it already exists', async () => {
-//             const shoeServiceTesting = ShoeServiceTesting(pool);
-//             await shoeServiceTesting.addShoe('Yuma', 'Black', 'Sandals', 8, 999, 5);
-//             let result = await shoeServiceTesting.shoesTestAssistant();
-//             assert.equal(3, result.length);
-//             assert.equal(10, result[2].quantity);
-//         });
-//     });
-//     describe('AddShoe function', async () => {
-//         it('should INSERT a shoe in the shoes table if it does not exist', async () => {
-//             const shoeServiceTesting = ShoeServiceTesting(pool);
-//             await shoeServiceTesting.addShoe('Yuma', 'Orange', 'Sneaker', 7, 699, 5);
-//             let result = await shoeServiceTesting.shoesTestAssistant();
-//             assert.equal(4, result.length);
-//         });
-//     });    
-//     after(function(){
-//         pool.end();
-//     })
-// });

@@ -43,11 +43,11 @@ const pool = new Pool({
 //const AppService = require('./public/app')
 const ShoesService = require('./services/shoes-service')
 const ShoesRoutes = require('./routes/shoes-routes')
-//const ShoesAPI = require('./api/shoes-api')
+const ShoesAPI = require('./api/shoes-api')
 //const appService = AppService(pool)
 const shoesService = ShoesService(pool)
 const shoesRoutes = ShoesRoutes(shoesService)
-//const shoesAPI = ShoesAPI(shoesService)
+const shoesAPI = ShoesAPI(shoesService)
 
 function errorHandler(err, req, res, next) {
   res.status(500);
@@ -56,15 +56,14 @@ function errorHandler(err, req, res, next) {
 app.use(errorHandler);
 
 //Route
-
-console.log(shoesRoutes.homeRoute);
-
 app.get('/', shoesRoutes.homeRoute);
-
-// app.get('/', async function(req, res, next){
-//   res.render('home')
-// });
 //app.post('/aPostRoute', shoesRoutes.aPostRoute);
+
+//API Routes
+app.get('/api/shoes', shoesAPI.allShoes);
+
+
+
 
 let PORT = process.env.PORT || 4009;
 

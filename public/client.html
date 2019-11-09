@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Shoe Catalogue</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="/style.css">
+    <script type="text/x-template" class="shoesListTemplate">
+        <table>
+        <tr>
+            <th>Brand</th>
+            <th>Color</th>
+            <th>Style</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        {{#each shoesEntry}}
+        <tr>
+                <td>{{brand}}</td>
+                <td>{{color}}</td>
+                <td>{{style}}</td>
+                <td>{{size}}</td>
+                <td>{{price}}</td>
+                <td>{{Quantity}}</td>
+                
+                <!-- <td><button onclick="editProduct({{id}})">Edit</button></td> -->
+            </tr>
+        {{/each}}
+    </table>
+    </script>
+</head>
+
+<body>
+    <div class="row header center">
+        <div class="col-3" class="#" id="#">
+            <h1>Shoe Catalogue</h1>
+        </div>
+        <div class="col-4" class="#" id="#">
+        </div>
+        <div class="col-4" class="#" id="#">
+        </div>
+    </div>
+    <!-- ▉▉▉▉▉▉ PURHCASE-SETTINGS ▉▉▉▉▉▉ -->
+    <div class="row">
+        <div class="col-9">
+
+            <div class="row">
+                <div class="col-6 center purchaseSettings">
+                    <div class="settingsSpacer"></div>
+                    <div class="row">
+                        <div class="center">
+                            <div class="col-4 right">
+                                <button class="infoBtn">Info</button>
+                                <button class="cartBtn">Cart</button>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4"></div>
+
+                        </div>
+                    </div>
+                    <div class="settingsSpacerSecond"></div>
+                    <div class="purchaseDropdown">
+                        <select class="selectPurchaseBrand">
+                            <option class="inner" value="">Select a brand</option>
+                            <option class="inner" value="Zonverse">Zonverse</option>
+                            <option class="inner" value="Yuma">Yuma</option>
+                            <option class="inner" value="Kucci">Kucci</option>
+                            <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
+                        </select>
+                        <select class="selectPurchaseStyle">
+                            <option class="inner" value="">Select a style</option>
+                            <option class="inner" value="sneaker">Sneaker</option>
+                            <option class="inner" value="high-heels">High-heels</option>
+                            <option class="inner" value="boots">Boots</option>
+                            <option class="inner" value="sandals">Sandals</option>
+                        </select>
+                        <select class="selectPurchaseColor">
+                            <option class="inner" value="">Select a color</option>
+                            <option class="inner" value="black">Black</option>
+                            <option class="inner" value="pink">Pink</option>
+                            <option class="inner" value="red">Red</option>
+                            <option class="inner" value="metallic">Metallic</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- ▉▉▉▉▉▉ INFO/STATUS DASHBOARDS ▉▉▉▉▉▉ -->
+                <div class="col-6 center" class="#" id="#">
+                    <div class="shoeData">
+                        <h2>Stock Info</h2>
+                        <div class="settingsSpacerSecond"></div>
+                        <div class="row">
+                            <div class="center infoTemplateInsertPoint infoDivs">
+                                <!-- <div class="col-12 shoeDataInfo">Info displayed here</div> -->|
+                            </div>
+                        </div>
+                    </div>
+                    <div class="error">
+                        <h2>Status</h2>
+                        <!-- <div class="settingsSpacerSecond"></div> -->
+                        <div class="row">
+                            <div class="center">
+                                <div class="col-12 shoeDataError">...</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ▉▉▉▉▉▉ ADD-STOCK SETTINGS ▉▉▉▉▉▉ -->
+            <div class="row">
+                <div class="col-6 center addSettings" class="#" id="#">
+                    <h2>Update Stock Settings</h2>
+                    <div class="settingsSpacer addSpacerRemover"></div>
+                    <div class="row">
+                        <div class="center ">
+                            <div class="col-4 right">
+                                <button class="addBtn">Update</button>
+                                <button style="visibility: hidden;">fake</button>
+                            </div>
+                            <div class="col-4"></div>
+                            <div class="col-4"></div>
+                        </div>
+                    </div>
+
+                    <div class="settingsSpacerSecond addSpacerRemover"></div>
+                    <div class="addDropdown">
+                        <select class="selectAddBrand">
+                            <option class="inner" value="">Select a brand</option>
+                            <option class="inner" value="Zonverse">Zonverse</option>
+                            <option class="inner" value="Yuma">Yuma</option>
+                            <option class="inner" value="Kucci">Kucci</option>
+                            <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
+                        </select>
+                        <select class="selectAddStyle">
+                            <option class="inner" value="">Select a style</option>
+                            <option class="inner" value="sneaker">Sneaker</option>
+                            <option class="inner" value="high-heels">High-heels</option>
+                            <option class="inner" value="boots">Boots</option>
+                            <option class="inner" value="sandals">Sandals</option>
+                        </select>
+                        <select class="selectAddColor">
+                            <option class="inner" value="">Select a color</option>
+                            <option class="inner" value="black">Black</option>
+                            <option class="inner" value="pink">Pink</option>
+                            <option class="inner" value="red">Red</option>
+                            <option class="inner" value="metallic">Metallic</option>
+                        </select>
+                    </div>
+
+                    <div class="settingsSpacerThird addSpacerRemover"></div>
+                    <div class="row">
+                        <div class="center">
+                            <div class="col-10"><input class="addPrice" placeholder="Enter price"
+                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                    type="number" maxlength="7">
+                                <input class="addQuantity" placeholder="Enter quantity"
+                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                    type="number" maxlength="2"></div>
+                            <div class="col-2"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 center button buttonZone">
+                    <button class="stockListBtn">Stock list</button>
+                </div>
+                <div class="scrollable stockListDiv center getShoesTemplateInsertPoint">
+                    <!-- style="display:none;" -->
+                    <!-- <table class="col-12 center getShoesTemplateInsertPoint"> -->
+                        <!-- <h2>Stock List</h2>
+                                <div class="settingsSpacerSecond"></div>
+                                <div class="row">
+                                    <div class="center stockListTemplateInsertPoint stockListDivs">
+                                    </div>
+                                </div> -->
+                    <!-- </table> -->
+                </div>
+            </div>
+        </div>
+        <!-- ▉▉▉▉▉▉ CART SETTINGS ▉▉▉▉▉▉ -->
+        <div class="col-12 center cart" class="#" id="#">
+            <div class="row">
+                <div class="col-12 center">
+                    <div class="col-12 center myHeader">
+                        <h2>Shopping Basket</h2>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="cartSpacer"></div> -->
+            <div class="col-12 center ">
+                <div class="row">
+                    <div class="col-12 center">
+                        <table class="col-12 cartTemplateInsertPoint cartInfoTable cartStyling">
+
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="row">
+        <div class="center">
+            <div class="col-9"></div>
+            <div class="col-3 cartButtons">
+                <button class="checkoutBtn">Checkout</button>
+                <button class="cancelBtn">Cancel</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="client.js"></script>
+
+</html>

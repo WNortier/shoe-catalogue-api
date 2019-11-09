@@ -1,6 +1,6 @@
 module.exports = function ShoeService(pool) {
 
-    async function addShoe(brand, color, style, size, price, quantity) {
+    async function add(brand, color, style, size, price, quantity) {
         const duplicateShoesCheck = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND style = $3`, [brand, color, style]);
         const result = duplicateShoesCheck.rowCount;
         if (result > 0) {
@@ -12,13 +12,13 @@ module.exports = function ShoeService(pool) {
         }
     }
 
-    async function shoesTestAssistant() {
-        const shoesTest = await pool.query(`SELECT * FROM shoes`);
-        return shoesTest.rows;
+    async function all() {
+        const allShoes = await pool.query(`SELECT * FROM shoes`);
+        return allShoes.rows;
     }
 
     return {
-        addShoe,
-        shoesTestAssistant
+        add,
+        all
     }
 }
