@@ -18,6 +18,7 @@ const pool = new Pool({
 
 describe('all function', async () => {
     beforeEach(async () => {
+        await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 5)`);
@@ -32,6 +33,7 @@ describe('all function', async () => {
 
 describe('add function', async () => {
     beforeEach(async () => {
+        await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 5)`);
@@ -53,6 +55,7 @@ describe('add function', async () => {
 });
 describe('search function', async () => {
     beforeEach(async () => {
+        await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Red', 7, 999, 5)`);
@@ -81,8 +84,22 @@ describe('search function', async () => {
         console.log(result)
         assert.equal(1, result.length);
     });
+
+});
+describe('cart function', async () => {
+    beforeEach(async () => {
+        await pool.query(`delete from cart`);
+        await pool.query(`delete from shoes`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
+    });
+    it('should decrement the shoe entry in the database and return the carted shoe for rendering', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        let result = await shoeServiceTesting.cart('Yuma', 'Black', 8)
+        assert.deepEqual({brand:'Yuma',color:'Black', size:8, price:999, quantity:1}, result)
+    });
     after(function () {
         pool.end();
     })
-
 });
