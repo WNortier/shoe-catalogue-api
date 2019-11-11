@@ -1,6 +1,4 @@
 module.exports = function ShoeService(pool) {
-    let cartedShoe = {}
-
     async function add(brand, color, size, price, quantity) {
         const duplicateShoesCheck = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [brand, color, size]);
         const result = duplicateShoesCheck.rowCount;
@@ -56,22 +54,22 @@ module.exports = function ShoeService(pool) {
         else if (alreadyCartedCheck.rowCount > 0) {
             let cartUpdateExtraction = await pool.query(`SELECT brand, color, size, price, quantity FROM cart WHERE shoes_id = $1`, [cartedShoe.id])
             let cartUpdate = cartUpdateExtraction.rows[0]
-            cartUpdate.quantity++
-            await pool.query(`UPDATE cart SET quantity = $1 WHERE shoes_id = $2`, []);
+            
+           
         //only if the quantity is less than that of the same entry in the shoes table
             if (cartUpdate.quantity < cartedShoe.quantity) {
-            
                 cartUpdate.quantity++
+                await pool.query(`UPDATE cart SET quantity = $1 WHERE shoes_id = $2`, [cartUpdate.quantity, cartedShoe.id]);
         //if they are the same prevent carting
             } else if (cartUpdate.quantity == cartedShoe.quantity) {
                 return false
             }
 
         }
-        let cartExtraction = await pool.query(`SELECT brand, color, size, price, quantity FROM cart WHERE shoes_id = $1`, [cartedShoe.id])
+        //let cartExtraction = await pool.query(`SELECT brand, color, size, price, quantity FROM cart WHERE shoes_id = $1`, [cartedShoe.id])
         // cartedShoe = cartedShoeExtraction.rows[0];
         // cartedShoe.quantity = 1;
-        return cartExtraction.rows[0]
+        return showCart();
     }
 
     return {

@@ -15,7 +15,6 @@ const pool = new Pool({
     connectionString,
     ssl: useSSL
 });
-
 describe('all function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`);
@@ -30,7 +29,6 @@ describe('all function', async () => {
         assert.equal(3, result.length);
     });
 });
-
 describe('add function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`);
@@ -81,7 +79,6 @@ describe('search function', async () => {
     it('should return all shoes of a specific brand, size and color', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         let result = await shoeServiceTesting.filter('Zonverse', 'Red', 10)
-        console.log(result)
         assert.equal(1, result.length);
     });
 
@@ -91,13 +88,50 @@ describe('cart function', async () => {
         await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
-        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 3)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
     });
-    it('should decrement the shoe entry in the database and return the carted shoe for rendering', async () => {
+    it('should return the carted shoe for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         let result = await shoeServiceTesting.cart('Yuma', 'Black', 8)
-        assert.deepEqual({brand:'Yuma',color:'Black', size:8, price:999, quantity:1}, result)
+        assert.equal('Yuma', result[0].brand)
+        assert.equal('Black', result[0].color)
+        assert.equal(8, result[0].size)
+    });
+    it('should add to the quantity if the shoe has already been carted and return the carted shoe for rendering', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        await shoeServiceTesting.cart('Yuma', 'Black', 8)
+        let result = await shoeServiceTesting.cart('Yuma', 'Black', 8)
+        assert.equal('Yuma', result[0].brand)
+        assert.equal('Black', result[0].color)
+        assert.equal(8, result[0].size)
+        assert.equal(2, result[0].quantity)
+    });
+    it('should return the carted shoes for rendering', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        await shoeServiceTesting.cart('Yuma', 'Black', 8)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        let result = await shoeServiceTesting.showCart()
+        let firstCartedShoe = result[0]
+        let secondCartedShoe = result[1]
+        assert.equal("Yuma", firstCartedShoe.brand)
+        assert.equal("Zonverse", secondCartedShoe.brand)
+        assert.equal(2, secondCartedShoe.quantity)
+    });
+    it('should prevent cart quantity from incrementing if it is equal to that of the shoes stock', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        await shoeServiceTesting.cart('Yuma', 'Black', 8)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        let result = await shoeServiceTesting.showCart()
+        let firstCartedShoe = result[0]
+        let secondCartedShoe = result[1]
+        assert.equal("Yuma", firstCartedShoe.brand)
+        assert.equal("Zonverse", secondCartedShoe.brand)
+        assert.equal(3, secondCartedShoe.quantity)
     });
     after(function () {
         pool.end();
