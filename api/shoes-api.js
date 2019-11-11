@@ -14,6 +14,26 @@ module.exports = function(shoesService) {
                 next(err);
             }
         };
+
+        async function add(req, res) {
+            try {
+                await shoesService.add({
+                    category_id: Number(req.body.category_id),
+                    description : req.body.description,
+                    price: Number(req.body.price)
+                });
+                
+                res.json({
+                    status: "success",
+                });
+            }
+            catch (err) {
+                res.json({
+                    status: "error",
+                    error: err.stack
+                });
+            }
+        };
     
         // async function add(req, res) {
     

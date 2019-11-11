@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/style.css">
     <script type="text/x-template" class="shoesListTemplate">
-        <table>
+        <table class="center">
         <tr>
             <th>Brand</th>
             <th>Color</th>
@@ -26,7 +26,7 @@
                 <td>{{style}}</td>
                 <td>{{size}}</td>
                 <td>{{price}}</td>
-                <td>{{Quantity}}</td>
+                <td>{{quantity}}</td>
                 
                 <!-- <td><button onclick="editProduct({{id}})">Edit</button></td> -->
             </tr>
@@ -72,19 +72,19 @@
                             <option class="inner" value="Kucci">Kucci</option>
                             <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
                         </select>
-                        <select class="selectPurchaseStyle">
-                            <option class="inner" value="">Select a style</option>
-                            <option class="inner" value="sneaker">Sneaker</option>
-                            <option class="inner" value="high-heels">High-heels</option>
-                            <option class="inner" value="boots">Boots</option>
-                            <option class="inner" value="sandals">Sandals</option>
-                        </select>
                         <select class="selectPurchaseColor">
                             <option class="inner" value="">Select a color</option>
                             <option class="inner" value="black">Black</option>
                             <option class="inner" value="pink">Pink</option>
                             <option class="inner" value="red">Red</option>
                             <option class="inner" value="metallic">Metallic</option>
+                        </select>
+                        <select class="selectPurchaseSize">
+                            <option class="inner" value="">Select a size</option>
+                            <option class="inner" value="9">9</option>
+                            <option class="inner" value="8">8</option>
+                            <option class="inner" value="7">7</option>
+                            <option class="inner" value="6">6</option>
                         </select>
                     </div>
                 </div>
@@ -171,7 +171,7 @@
                 <div class="scrollable stockListDiv center getShoesTemplateInsertPoint">
                     <!-- style="display:none;" -->
                     <!-- <table class="col-12 center getShoesTemplateInsertPoint"> -->
-                        <!-- <h2>Stock List</h2>
+                    <!-- <h2>Stock List</h2>
                                 <div class="settingsSpacerSecond"></div>
                                 <div class="row">
                                     <div class="center stockListTemplateInsertPoint stockListDivs">
