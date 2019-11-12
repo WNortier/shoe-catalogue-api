@@ -15,14 +15,9 @@ module.exports = function(shoesService) {
             }
         };
 
-        async function add(req, res) {
+        async function addShoe(req, res) {
             try {
-                await shoesService.add({
-                    category_id: Number(req.body.category_id),
-                    description : req.body.description,
-                    price: Number(req.body.price)
-                });
-                
+                await shoesService.add(req.body.brand, req.body.color, Number(req.body.size), Number(req.body.price), Number(req.body.quantity))
                 res.json({
                     status: "success",
                 });
@@ -110,7 +105,9 @@ module.exports = function(shoesService) {
         // };
     
         return {
-            allShoes
+            allShoes,
+            addShoe
+            //add
             // add,
             // get,
             // delete : deleteProduct,

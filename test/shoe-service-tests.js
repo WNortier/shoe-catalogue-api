@@ -64,23 +64,24 @@ describe('search function', async () => {
     it('should return all shoes of a specific brand', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         let result = await shoeServiceTesting.filter('Yuma')
+        console.log(result)
         assert.equal(2, result.length);
     });
-    it('should return all shoes of a specific color', async () => {
-        const shoeServiceTesting = ShoeServiceTesting(pool);
-        let result = await shoeServiceTesting.filter('Red')
-        assert.equal(3, result.length);
-    });
-    it('should return all shoes of a specific size', async () => {
-        const shoeServiceTesting = ShoeServiceTesting(pool);
-        let result = await shoeServiceTesting.filter(8)
-        assert.equal(2, result.length);
-    });
-    it('should return all shoes of a specific brand, size and color', async () => {
-        const shoeServiceTesting = ShoeServiceTesting(pool);
-        let result = await shoeServiceTesting.filter('Zonverse', 'Red', 10)
-        assert.equal(1, result.length);
-    });
+    // it('should return all shoes of a specific color', async () => {
+    //     const shoeServiceTesting = ShoeServiceTesting(pool);
+    //     let result = await shoeServiceTesting.filter('Red')
+    //     assert.equal(3, result.length);
+    // });
+    // it('should return all shoes of a specific size', async () => {
+    //     const shoeServiceTesting = ShoeServiceTesting(pool);
+    //     let result = await shoeServiceTesting.filter(8)
+    //     assert.equal(2, result.length);
+    // });
+    // it('should return all shoes of a specific brand, size and color', async () => {
+    //     const shoeServiceTesting = ShoeServiceTesting(pool);
+    //     let result = await shoeServiceTesting.filter('Zonverse', 'Red', 10)
+    //     assert.equal(1, result.length);
+    // });
 
 });
 describe('cart function', async () => {
@@ -133,7 +134,35 @@ describe('cart function', async () => {
         assert.equal("Zonverse", secondCartedShoe.brand)
         assert.equal(3, secondCartedShoe.quantity)
     });
+});
+describe('checkout function', async () => {
+    beforeEach(async () => {
+        await pool.query(`delete from cart`);
+        await pool.query(`delete from shoes`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Red', 7, 999, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 3)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 9, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
+    });
+    it('should clear the cart table and decrement the quantities of the corresponding items in the shoes table, deleting entries that have a quantity of 0', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Yuma', 'Red', 7)
+        await shoeServiceTesting.cart('Yuma', 'Red', 7)
+        await shoeServiceTesting.cart('Yuma', 'Red', 7)
+        await shoeServiceTesting.cart('Yuma', 'Red', 7)
+        await shoeServiceTesting.cart('Yuma', 'Red', 7)
+        await shoeServiceTesting.checkout()
+        let result = await shoeServiceTesting.all()
+        assert.equal(4, result.length)
+        assert.equal(1, result[3].quantity)
+
+    });
     after(function () {
         pool.end();
     })
 });
+
+

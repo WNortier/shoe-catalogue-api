@@ -1,4 +1,5 @@
 module.exports = function ShoeService(pool) {
+
     async function add(brand, color, size, price, quantity) {
         const duplicateShoesCheck = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [brand, color, size]);
         const result = duplicateShoesCheck.rowCount;
@@ -11,23 +12,52 @@ module.exports = function ShoeService(pool) {
         }
     }
 
-    async function filter(input, inputTwo, InputThree) {
-        if (input !== undefined && inputTwo == undefined && InputThree == undefined) {
-            if (input == "Yuma" || input == "Zonverse" || input == "Jimmy Woo") {
-                const filterByBrandExtraction = await pool.query(`SELECT * FROM shoes WHERE brand = $1`, [input]);
-                return filterByBrandExtraction.rows
-            } else if (input == "Black" || input == "Red" || input == "Metallic") {
-                const filterByColorExtraction = await pool.query(`SELECT * FROM shoes WHERE color = $1`, [input]);
-                return filterByColorExtraction.rows
-            } else if (input == 9 || input == 8 || input == 7 || input == 6) {
-                const filterBySizeExtraction = await pool.query(`SELECT * FROM shoes WHERE size = $1`, [input])
-                return filterBySizeExtraction.rows
-            }
-        } else if (input !== undefined && inputTwo !== undefined && InputThree !== undefined) {
-            const filterByBrandColorSize = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [input, inputTwo, Number(InputThree)])
-            return filterByBrandColorSize.rows
-        }
+    // async function filter(input, inputTwo, InputThree) {
+    //     if (input !== undefined && inputTwo == null && InputThree == null) {
+    //         if (input == "Yuma" || input == "Zonverse" || input == "Jimmy Woo" || input == "Kucci") {
+    //             const filterByBrandExtraction = await pool.query(`SELECT * FROM shoes WHERE brand = $1`, [input]);
+    //             return filterByBrandExtraction.rows
+    //         } else if (input == "Black" || input == "Red" || input == "Metallic" || input == "Pink") {
+    //             const filterByColorExtraction = await pool.query(`SELECT * FROM shoes WHERE color = $1`, [input]);
+    //             return filterByColorExtraction.rows
+    //         } else if (input == 9 || input == 8 || input == 7 || input == 6) {
+    //             const filterBySizeExtraction = await pool.query(`SELECT * FROM shoes WHERE size = $1`, [input])
+    //             return filterBySizeExtraction.rows
+    //         }
+    //     } else if (input !== undefined && inputTwo !== null && InputThree !== null) {
+    //         const filterByBrandColorSize = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [input, inputTwo, Number(InputThree)])
+    //         return filterByBrandColorSize.rows
+    //     }
+    // }
+
+    async function filterBrand(brand) {
+        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
+        let allShoes = allShoesExtraction.rows
+        const brandFilter = allShoes.filter((rows)=>{
+            return rows.brand == brand
+        })
+        console.log(brandFilter)
+        return brandFilter
     }
+
+    async function filterColor(color){
+        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
+        let allShoes = allShoesExtraction.rows
+        const colorFilter = allShoes.filter((rows)=>{
+            return rows.color == color
+        })
+        return colorFilter
+    }
+
+    async function filterSize(size){
+        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
+        let allShoes = allShoesExtraction.rows
+        const sizeFilter = allShoes.filter((rows)=>{
+            return rows.size == size
+        })
+        return sizeFilter
+    }
+
 
     async function all() {
         const allShoes = await pool.query(`SELECT * FROM shoes`);
@@ -54,29 +84,49 @@ module.exports = function ShoeService(pool) {
         else if (alreadyCartedCheck.rowCount > 0) {
             let cartUpdateExtraction = await pool.query(`SELECT brand, color, size, price, quantity FROM cart WHERE shoes_id = $1`, [cartedShoe.id])
             let cartUpdate = cartUpdateExtraction.rows[0]
-            
-           
-        //only if the quantity is less than that of the same entry in the shoes table
+
+
+            //only if the quantity is less than that of the same entry in the shoes table
             if (cartUpdate.quantity < cartedShoe.quantity) {
                 cartUpdate.quantity++
                 await pool.query(`UPDATE cart SET quantity = $1 WHERE shoes_id = $2`, [cartUpdate.quantity, cartedShoe.id]);
-        //if they are the same prevent carting
+                //if they are the same prevent carting
             } else if (cartUpdate.quantity == cartedShoe.quantity) {
                 return false
             }
-
         }
-        //let cartExtraction = await pool.query(`SELECT brand, color, size, price, quantity FROM cart WHERE shoes_id = $1`, [cartedShoe.id])
-        // cartedShoe = cartedShoeExtraction.rows[0];
-        // cartedShoe.quantity = 1;
-        return showCart();
+        let cartItemsExtraction = await pool.query(`SELECT brand, color, size, price, quantity FROM cart`)
+        let cartItems = cartItemsExtraction.rows
+        let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS result FROM cart`)
+        let cartTotal = cartTotalExtraction.rows[0]
+        cartItems.push(cartTotal)
+        return cartItems
+    }
+
+    async function checkout() {
+        let cartItemsExtraction = await pool.query(`SELECT quantity, shoes_id FROM cart`)
+        let cartItems = cartItemsExtraction.rows
+        const cartQuantitiesAndIds = cartItems.map((row) => {
+            return `${row.quantity} ${row.shoes_id}`
+        }).join(',').split(",")
+        const splittedData = cartQuantitiesAndIds.map((entry) => {
+            return entry.split(" ")
+        })
+        for (let i = 0; i < splittedData.length; i++) {
+            await pool.query(`UPDATE shoes SET quantity = quantity - $1 WHERE id = $2`, splittedData[i])
+        }
+        await pool.query(`DELETE from cart`)
+        await pool.query(`DELETE from shoes where quantity = 0`)
     }
 
     return {
         add,
         all,
         showCart,
-        filter,
-        cart
+        filterBrand,
+        cart,
+        checkout,
+        filterColor,
+        filterSize
     }
 }

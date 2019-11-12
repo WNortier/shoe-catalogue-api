@@ -1,12 +1,7 @@
 //Express
 const express = require('express');
 const app = express();
-//Bodyparser
-const bodyParser = require('body-parser')
-app.use(bodyParser.urlencoded({
-  extended: false
-}))
-app.use(bodyParser.json())
+
 //Flashmessaging
 const flash = require('express-flash');
 const session = require('express-session');
@@ -41,13 +36,13 @@ const pool = new Pool({
 });
 //Factories
 //const AppService = require('./public/app')
-const ShoesService = require('./services/shoes-service')
+const ShoeService = require('./services/shoes-service')
 const ShoesRoutes = require('./routes/shoes-routes')
 const ShoesAPI = require('./api/shoes-api')
 //const appService = AppService(pool)
-const shoesService = ShoesService(pool)
-const shoesRoutes = ShoesRoutes(shoesService)
-const shoesAPI = ShoesAPI(shoesService)
+const shoeService = ShoeService(pool)
+const shoesRoutes = ShoesRoutes(shoeService)
+const shoesAPI = ShoesAPI(shoeService)
 
 function errorHandler(err, req, res, next) {
   res.status(500);
@@ -55,12 +50,35 @@ function errorHandler(err, req, res, next) {
 }
 app.use(errorHandler);
 
-//Route
+//Bodyparser
+const bodyParser = require('body-parser')
+app.use(bodyParser.urlencoded({
+  extended: false
+}))
+app.use(bodyParser.json())
+
+//Backend Routes
 app.get('/', shoesRoutes.homeRoute);
+app.post('/shoes', shoesRoutes.addRoute);
+app.get('/shoes/brand/:brand', shoesRoutes.filterRoute);
+
 //app.post('/aPostRoute', shoesRoutes.aPostRoute);
 
 //API Routes
+//list all shoes
 app.get('/api/shoes', shoesAPI.allShoes);
+//list all shoes for a given brand
+app.get('/api/shoes/brand/:brand');
+//list all shoes for a given size
+app.get('/api/shoes/size/:size');
+//list all shoes for a given color
+app.get('/api/shoes/color/:color');
+//list all shoes for a given brand, size and color
+app.get('/api/shoes/brand/:brand/size/:size/color/:color');
+//update stock levels when a shoe is sold
+app.post('/api/shoes/sold/:id');
+//add a new shoe to stock
+app.post('/api/shoes', shoesAPI.addShoe);
 
 
 
