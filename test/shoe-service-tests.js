@@ -39,14 +39,16 @@ describe('add function', async () => {
     });
     it('should UPDATE a shoes quantity in the shoes table if it already exists', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.add('Yuma', 'Black', 8, 999, 5);
+        const shoe = {brand:'Yuma', color:'Black', size:8, price:999, quantity:5}
+        await shoeServiceTesting.add(shoe);
         let result = await shoeServiceTesting.all();
         assert.equal(3, result.length);
         assert.equal(10, result[2].quantity);
     });
     it('should INSERT a shoe in the shoes table if it does not exist', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.add('Yuma', 'Orange', 7, 699, 5);
+        const shoe = {brand:'Yuma', color:'Orange', size:7, price:699, quantity:5}
+        await shoeServiceTesting.add(shoe);
         let result = await shoeServiceTesting.all();
         assert.equal(4, result.length);
     });
@@ -63,8 +65,7 @@ describe('search function', async () => {
     });
     it('should return all shoes of a specific brand', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        let result = await shoeServiceTesting.filter('Yuma')
-        console.log(result)
+        let result = await shoeServiceTesting.filterBrand('Yuma')
         assert.equal(2, result.length);
     });
     // it('should return all shoes of a specific color', async () => {

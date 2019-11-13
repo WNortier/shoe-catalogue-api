@@ -1,10 +1,10 @@
-module.exports = function(shoesService) {
+module.exports = function(shoeService) {
 
     
 	
         async function allShoes(req, res) {
             try {
-                let results = await shoesService.all();
+                let results = await shoeService.all();
                 res.json({
                     status: 'success',
                     data: results
@@ -17,7 +17,7 @@ module.exports = function(shoesService) {
 
         async function addShoe(req, res) {
             try {
-                await shoesService.add(req.body.brand, req.body.color, Number(req.body.size), Number(req.body.price), Number(req.body.quantity))
+                await shoeService.add(req.body)
                 res.json({
                     status: "success",
                 });

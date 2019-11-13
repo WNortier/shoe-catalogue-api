@@ -1,14 +1,14 @@
 module.exports = function ShoeService(pool) {
 
-    async function add(brand, color, size, price, quantity) {
-        const duplicateShoesCheck = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [brand, color, size]);
+    async function add(shoe) {
+        const duplicateShoesCheck = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [shoe.brand, shoe.color, shoe.size]);
         const result = duplicateShoesCheck.rowCount;
         if (result > 0) {
-            const currentShoesQuantityExtraction = await pool.query(`SELECT quantity FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [brand, color, size]);
-            let newShoesQuantity = currentShoesQuantityExtraction.rows[0].quantity + quantity;
-            await pool.query('UPDATE shoes SET quantity = $1 WHERE brand = $2 AND color = $3 AND size = $4', [newShoesQuantity, brand, color, size]);
+            const currentShoesQuantityExtraction = await pool.query(`SELECT quantity FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [shoe.brand, shoe.color, shoe.size]);
+            let newShoesQuantity = currentShoesQuantityExtraction.rows[0].quantity + shoe.quantity;
+            await pool.query('UPDATE shoes SET quantity = $1 WHERE brand = $2 AND color = $3 AND size = $4', [newShoesQuantity, shoe.brand, shoe.color, shoe.size]);
         } else {
-            await pool.query(`INSERT INTO shoes (brand, color, size, price, quantity) VALUES ($1, $2, $3, $4, $5)`, [brand, color, size, price, quantity]);
+            await pool.query(`INSERT INTO shoes (brand, color, size, price, quantity) VALUES ($1, $2, $3, $4, $5)`, [shoe.brand, shoe.color, shoe.size, shoe.price, shoe.quantity]);
         }
     }
 

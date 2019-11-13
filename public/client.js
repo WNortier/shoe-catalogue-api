@@ -16,8 +16,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     function ShoesService() {
-        function postShoes(brand, color, size, price, quantity) {
-            return axios.post('/api/shoes', brand, color, size, price, quantity)
+        function postShoes(data) {
+            return axios.post('/api/shoes', data)
         }
 
         function getShoes() {
@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // if (errors.length === 0) {
         //     errorsElem.innerHTML = '';
-            shoesService.postShoes(brand, color, size, price, quantity)
+            shoesService.postShoes({brand, color, size, price, quantity})
             .then(function() {
                 showShoes();
                 //clearFields();

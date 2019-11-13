@@ -14,12 +14,10 @@ module.exports = function ShoesRoutes(shoeService) {
         }
     }
 
+
     async function addRoute(req, res, next) {
         try {
-            console.log(req.body.brand)
-            console.log(req.body.color)
-            console.log(req.body.size)
-            await shoeService.add(req.body.brand, req.body.color, Number(req.body.size), Number(req.body.price), Number(req.body.quantity))
+            await shoeService.add(req.body)
             res.redirect("/");
         } catch (err) {
             next(err);
