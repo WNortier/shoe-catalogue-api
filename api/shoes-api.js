@@ -28,6 +28,36 @@ module.exports = function (shoeService) {
         }
     };
 
+    async function filterShoes(req, res) {
+        try {
+            let brand = req.params.brand
+            let color = req.params.color
+            let size = req.params.size
+            //console.log(brand)
+            if (brand && !color && !size) {
+                var filteredData = await shoeService.filterBrand(brand);
+            }
+            if (color && !brand && !size) {
+                var filteredData = await shoeService.filterColor(color);
+            }
+            if (size && !brand && !color) {
+                var filteredData = await shoeService.filterSize(size);
+            }
+            if (brand && color && size) {
+                var filteredData = await shoeService.filterBrandColorSize(brand, color, size);
+            }
+            res.json({
+                status: "success",
+                data: filteredData
+            });
+        } catch (err) {
+            res.json({
+                status: "error",
+                error: err.stack
+            });
+        }
+    };
+
     // async function add(req, res) {
 
     //     try {
@@ -49,34 +79,7 @@ module.exports = function (shoeService) {
     //     }
     // };
 
-    async function filterShoes(req, res) {
-        try {
-            let brand = req.body.brand
-            let color = req.body.color
-            let size = req.body.size
-            if (brand && !color && !size) {
-                var filteredData = await shoeService.filterBrand(brand);
-            }
-            if (color && !brand && !size) {
-                var filteredData = await shoeService.filterBrand(color);
-            }
-            if (size && !brand && !color) {
-                var filteredData = await shoeService.filterBrand(size);
-            }
-            if (brand && color && size) {
-                var filteredData = await shoeService.filterBrand(brand, color, size);
-            }
-            res.json({
-                status: "success",
-                data: filteredData
-            });
-        } catch (err) {
-            res.json({
-                status: "error",
-                error: err.stack
-            });
-        }
-    };
+
 
     // async function update(req, res, next) {
     //     try{

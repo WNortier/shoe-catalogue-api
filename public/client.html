@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/style.css">
+    
     <script type="text/x-template" class="shoesListTemplate">
         <table class="center">
         <tr>
@@ -21,17 +22,38 @@
         </tr>
         {{#each shoesEntry}}
         <tr>
-                <td>{{brand}}</td>
-                <td>{{color}}</td>
-                <td>{{style}}</td>
-                <td>{{size}}</td>
-                <td>{{price}}</td>
-                <td>{{quantity}}</td>
-                
-                <!-- <td><button onclick="editProduct({{id}})">Edit</button></td> -->
-            </tr>
+            <td>{{brand}}</td>
+            <td>{{color}}</td>
+            <td>{{style}}</td>
+            <td>{{size}}</td>
+            <td>{{price}}</td>
+            <td>{{quantity}}</td>
+        </tr>
         {{/each}}
     </table>
+    </script>
+
+    <script type="text/x-template" class="filteredShoesListTemplate">
+        <table class="center">
+        <tr>
+            <th>Brand</th>
+            <th>Color</th>
+            <th>Style</th>
+            <th>Size</th>
+            <th>Price</th>
+            <th>Quantity</th>
+        </tr>
+        {{#each filteredShoes}}
+        <tr>
+            <td>{{brand}}</td>
+            <td>{{color}}</td>
+            <td>{{style}}</td>
+            <td>{{size}}</td>
+            <td>{{price}}</td>
+            <td>{{quantity}}</td>
+        </tr>
+        {{/each}}
+        </table>
     </script>
 </head>
 
@@ -65,21 +87,21 @@
                     </div>
                     <div class="settingsSpacerSecond"></div>
                     <div class="purchaseDropdown">
-                        <select class="selectPurchaseBrand">
+                        <select class="selectFilterBrand">
                             <option class="inner" value="">Select a brand</option>
                             <option class="inner" value="Zonverse">Zonverse</option>
                             <option class="inner" value="Yuma">Yuma</option>
                             <option class="inner" value="Kucci">Kucci</option>
                             <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
                         </select>
-                        <select class="selectPurchaseColor">
+                        <select class="selectFilterColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="black">Black</option>
-                            <option class="inner" value="pink">Pink</option>
-                            <option class="inner" value="red">Red</option>
-                            <option class="inner" value="metallic">Metallic</option>
+                            <option class="inner" value="Black">Black</option>
+                            <option class="inner" value="Pink">Pink</option>
+                            <option class="inner" value="Red">Red</option>
+                            <option class="inner" value="Metallic">Metallic</option>
                         </select>
-                        <select class="selectPurchaseSize">
+                        <select class="selectFilterSize">
                             <option class="inner" value="">Select a size</option>
                             <option class="inner" value="9">9</option>
                             <option class="inner" value="8">8</option>
@@ -94,7 +116,8 @@
                         <h2>Stock Info</h2>
                         <div class="settingsSpacerSecond"></div>
                         <div class="row">
-                            <div class="center infoTemplateInsertPoint infoDivs">
+                            <div
+                                class="center infoTemplateInsertPoint infoDivs getFilteredShoesListTemplateInsertPoint">
                                 <!-- <div class="col-12 shoeDataInfo">Info displayed here</div> -->|
                             </div>
                         </div>
@@ -138,10 +161,10 @@
                         </select>
                         <select class="selectAddColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="black">Black</option>
-                            <option class="inner" value="pink">Pink</option>
-                            <option class="inner" value="red">Red</option>
-                            <option class="inner" value="metallic">Metallic</option>
+                            <option class="inner" value="Black">Black</option>
+                            <option class="inner" value="Pink">Pink</option>
+                            <option class="inner" value="Red">Red</option>
+                            <option class="inner" value="Metallic">Metallic</option>
                         </select>
                         <select class="selectAddSize">
                             <option class="inner" value="">Select a size</option>

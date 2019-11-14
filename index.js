@@ -68,20 +68,17 @@ app.post('/shoes/brand', shoesRoutes.filterRoute);
 //list all shoes
 app.get('/api/shoes', shoesAPI.allShoes);
 //list all shoes for a given brand
-app.get('/api/shoes/brand/:brand');
+app.get('/api/shoes/brand/:brand', shoesAPI.filterShoes);
 //list all shoes for a given size
-app.get('/api/shoes/size/:size');
+app.get('/api/shoes/size/:size', shoesAPI.filterShoes);
 //list all shoes for a given color
-app.get('/api/shoes/color/:color');
+app.get('/api/shoes/color/:color', shoesAPI.filterShoes);
 //list all shoes for a given brand, size and color
-app.get('/api/shoes/brand/:brand/size/:size/color/:color');
+app.get('/api/shoes/brand/:brand/size/:size/color/:color', shoesAPI.filterShoes);
 //update stock levels when a shoe is sold
 app.post('/api/shoes/sold/:id');
 //add a new shoe to stock
 app.post('/api/shoes', shoesAPI.addShoe);
-
-
-
 
 let PORT = process.env.PORT || 4009;
 

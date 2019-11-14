@@ -16,6 +16,7 @@ module.exports = function ShoesRoutes(shoeService) {
 
     async function addRoute(req, res, next) {
         try {
+            console.log(req.body)
             await shoeService.add(req.body)
             res.redirect("/");
         } catch (err) {
