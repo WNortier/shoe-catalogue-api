@@ -36,7 +36,6 @@ module.exports = function ShoeService(pool) {
         const brandFilter = allShoes.filter((rows)=>{
             return rows.brand == brand
         })
-        console.log(brandFilter)
         return brandFilter
     }
 
@@ -56,6 +55,15 @@ module.exports = function ShoeService(pool) {
             return rows.size == size
         })
         return sizeFilter
+    }
+
+    async function filterBrandColorSize(brand, color, size){
+        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
+        let allShoes = allShoesExtraction.rows 
+        const brandColorSizeFilter = allShoes.filter((rows)=>{
+            return rows.brand == brand && rows.color == color && rows.size == size
+        })
+        return brandColorSizeFilter
     }
 
 
@@ -124,9 +132,10 @@ module.exports = function ShoeService(pool) {
         all,
         showCart,
         filterBrand,
-        cart,
-        checkout,
         filterColor,
-        filterSize
+        filterSize,
+        filterBrandColorSize,
+        cart,
+        checkout
     }
 }

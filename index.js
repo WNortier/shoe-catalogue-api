@@ -60,7 +60,7 @@ app.use(bodyParser.json())
 //Backend Routes
 app.get('/', shoesRoutes.homeRoute);
 app.post('/shoes', shoesRoutes.addRoute);
-app.get('/shoes/brand/:brand', shoesRoutes.filterRoute);
+app.post('/shoes/brand', shoesRoutes.filterRoute);
 
 //app.post('/aPostRoute', shoesRoutes.aPostRoute);
 

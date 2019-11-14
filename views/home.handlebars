@@ -14,9 +14,9 @@
         <div class="row">
 
             <div class="col-6 center purchaseSettings">
-                {{#filteredShoes}}
-                <form method="GET" action="/shoes/brand/{{brand}}">
-                {{/filteredShoes}}
+
+                <form method="POST" action="/shoes/brand">
+
                     <div class="settingsSpacer"></div>
                     <div class="row">
                         <div class="center">
@@ -40,10 +40,10 @@
                         </select>
                         <select name="color" class="selectPurchaseColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="black">Black</option>
-                            <option class="inner" value="pink">Pink</option>
-                            <option class="inner" value="red">Red</option>
-                            <option class="inner" value="metallic">Metallic</option>
+                            <option class="inner" value="Black">Black</option>
+                            <option class="inner" value="Pink">Pink</option>
+                            <option class="inner" value="Red">Red</option>
+                            <option class="inner" value="Metallic">Metallic</option>
                         </select>
                         <select name="size" class="selectPurchaseSize">
                             <option class="inner" value="">Select a size</option>
@@ -126,10 +126,10 @@
                         </select>
                         <select name="color" class="selectAddColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="black">Black</option>
-                            <option class="inner" value="pink">Pink</option>
-                            <option class="inner" value="red">Red</option>
-                            <option class="inner" value="metallic">Metallic</option>
+                            <option class="inner" value="Black">Black</option>
+                            <option class="inner" value="Pink">Pink</option>
+                            <option class="inner" value="Red">Red</option>
+                            <option class="inner" value="Metallic">Metallic</option>
                         </select>
                         <select name="size" class="selectAddSize">
                             <option class="inner" value="">Select a size</option>

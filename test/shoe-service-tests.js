@@ -15,12 +15,13 @@ const pool = new Pool({
     connectionString,
     ssl: useSSL
 });
+
 describe('all function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
-        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 6, 1299, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo', 'Metallic', 8, 1499, 2)`);
     });
     it('should return all shoes currently in my shoecatalogue(database)', async () => {
@@ -29,12 +30,13 @@ describe('all function', async () => {
         assert.equal(3, result.length);
     });
 });
+
 describe('add function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
-        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 6, 1299, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
     });
     it('should UPDATE a shoes quantity in the shoes table if it already exists', async () => {
@@ -53,44 +55,45 @@ describe('add function', async () => {
         assert.equal(4, result.length);
     });
 });
+
 describe('search function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Red', 7, 999, 5)`);
-        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 6, 1299, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 9, 1299, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
     });
     it('should return all shoes of a specific brand', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        let result = await shoeServiceTesting.filterBrand('Yuma')
+        let result = await shoeServiceTesting.filterBrand('Yuma');
         assert.equal(2, result.length);
     });
-    // it('should return all shoes of a specific color', async () => {
-    //     const shoeServiceTesting = ShoeServiceTesting(pool);
-    //     let result = await shoeServiceTesting.filter('Red')
-    //     assert.equal(3, result.length);
-    // });
-    // it('should return all shoes of a specific size', async () => {
-    //     const shoeServiceTesting = ShoeServiceTesting(pool);
-    //     let result = await shoeServiceTesting.filter(8)
-    //     assert.equal(2, result.length);
-    // });
-    // it('should return all shoes of a specific brand, size and color', async () => {
-    //     const shoeServiceTesting = ShoeServiceTesting(pool);
-    //     let result = await shoeServiceTesting.filter('Zonverse', 'Red', 10)
-    //     assert.equal(1, result.length);
-    // });
-
+    it('should return all shoes of a specific color', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        let result = await shoeServiceTesting.filterColor('Red');
+        assert.equal(3, result.length);
+    });
+    it('should return all shoes of a specific size', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        let result = await shoeServiceTesting.filterSize(8);
+        assert.equal(2, result.length);
+    });
+    it('should return all shoes of a specific brand, color and size', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        let result = await shoeServiceTesting.filterBrandColorSize('Zonverse', 'Red', 9);
+        assert.equal(1, result.length);
+    });
 });
+
 describe('cart function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
-        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 3)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 6, 1299, 3)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
     });
     it('should return the carted shoe for rendering', async () => {
@@ -112,8 +115,8 @@ describe('cart function', async () => {
     it('should return the carted shoes for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         await shoeServiceTesting.cart('Yuma', 'Black', 8)
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
         let result = await shoeServiceTesting.showCart()
         let firstCartedShoe = result[0]
         let secondCartedShoe = result[1]
@@ -124,10 +127,10 @@ describe('cart function', async () => {
     it('should prevent cart quantity from incrementing if it is equal to that of the shoes stock', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         await shoeServiceTesting.cart('Yuma', 'Black', 8)
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
         let result = await shoeServiceTesting.showCart()
         let firstCartedShoe = result[0]
         let secondCartedShoe = result[1]
@@ -136,20 +139,21 @@ describe('cart function', async () => {
         assert.equal(3, secondCartedShoe.quantity)
     });
 });
+
 describe('checkout function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`);
         await pool.query(`delete from shoes`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Red', 7, 999, 5)`);
-        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 10, 1299, 3)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 6, 1299, 3)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 9, 1299, 5)`);
         await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
     });
     it('should clear the cart table and decrement the quantities of the corresponding items in the shoes table, deleting entries that have a quantity of 0', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
-        await shoeServiceTesting.cart('Zonverse', 'Red', 10)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
         await shoeServiceTesting.cart('Yuma', 'Red', 7)
         await shoeServiceTesting.cart('Yuma', 'Red', 7)
         await shoeServiceTesting.cart('Yuma', 'Red', 7)

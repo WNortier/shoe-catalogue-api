@@ -70,12 +70,6 @@ document.addEventListener('DOMContentLoaded', function () {
         // let category_id = categoryIdElem.value;
         // let price = priceElem.value;
 
-        // let brand = selectAddBrand.value
-        // let style =  selectAddStyle.value
-        // let color =  selectAddColor.value
-        // let price = addPrice.value
-        // let quantity = addQuantity.value
-
         // let errors = [];
         // if (!brand) {
         //     errors.push('Select a brand!');
