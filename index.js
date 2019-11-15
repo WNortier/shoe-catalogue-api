@@ -76,8 +76,9 @@ app.get('/api/shoes/size/:size', shoesAPI.filterShoes);
 app.get('/api/shoes/color/:color', shoesAPI.filterShoes);
 //list all shoes for a given brand, size and color
 app.get('/api/shoes/brand/:brand/size/:size/color/:color', shoesAPI.filterShoes);
-//update stock levels when a shoe is sold
+//update stock levels when a shoe or shoes are checked out
 app.post('/api/shoes/sold/:id');
+
 //add a new shoe to stock
 app.post('/api/shoes', shoesAPI.addShoe);
 
