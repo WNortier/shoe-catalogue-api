@@ -41,7 +41,13 @@ describe('add function', async () => {
     });
     it('should UPDATE a shoes quantity in the shoes table if it already exists', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        const shoe = {brand:'Yuma', color:'Black', size:8, price:999, quantity:5}
+        const shoe = {
+            brand: 'Yuma',
+            color: 'Black',
+            size: 8,
+            price: 999,
+            quantity: 5
+        }
         await shoeServiceTesting.add(shoe);
         let result = await shoeServiceTesting.all();
         assert.equal(3, result.length);
@@ -49,7 +55,13 @@ describe('add function', async () => {
     });
     it('should INSERT a shoe in the shoes table if it does not exist', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        const shoe = {brand:'Yuma', color:'Orange', size:7, price:699, quantity:5}
+        const shoe = {
+            brand: 'Yuma',
+            color: 'Orange',
+            size: 7,
+            price: 699,
+            quantity: 5
+        }
         await shoeServiceTesting.add(shoe);
         let result = await shoeServiceTesting.all();
         assert.equal(4, result.length);
@@ -98,7 +110,10 @@ describe('cart function', async () => {
     });
     it('should return the carted shoe for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
+ 
+
         let result = await shoeServiceTesting.cart('Yuma', 'Black', 8)
+        let check = await shoeServiceTesting.all();
         assert.equal('Yuma', result[0].brand)
         assert.equal('Black', result[0].color)
         assert.equal(8, result[0].size)
@@ -165,9 +180,25 @@ describe('checkout function', async () => {
         assert.equal(1, result[3].quantity)
 
     });
+});
+describe('cancel function', async () => {
+    beforeEach(async () => {
+        await pool.query(`delete from cart`);
+        await pool.query(`delete from shoes`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Black', 8, 999, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Yuma', 'Red', 7, 999, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 6, 1299, 3)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Zonverse', 'Red', 9, 1299, 5)`);
+        await pool.query(`insert into shoes (brand, color, size, price, quantity) values ('Jimmy Woo','Metallic', 8, 1499, 2)`);
+    });
+    it('should clear the cart table and restore the quantities of the corresponding items in the shoes table', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
+        await shoeServiceTesting.cart('Zonverse', 'Red', 6)
+        let cancelResult = await shoeServiceTesting.cancel()
+        assert.equal(0, cancelResult.length)
+    });
     after(function () {
         pool.end();
     })
 });
-
-

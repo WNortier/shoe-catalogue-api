@@ -12,24 +12,6 @@ module.exports = function ShoeService(pool) {
         }
     }
 
-    // async function filter(input, inputTwo, InputThree) {
-    //     if (input !== undefined && inputTwo == null && InputThree == null) {
-    //         if (input == "Yuma" || input == "Zonverse" || input == "Jimmy Woo" || input == "Kucci") {
-    //             const filterByBrandExtraction = await pool.query(`SELECT * FROM shoes WHERE brand = $1`, [input]);
-    //             return filterByBrandExtraction.rows
-    //         } else if (input == "Black" || input == "Red" || input == "Metallic" || input == "Pink") {
-    //             const filterByColorExtraction = await pool.query(`SELECT * FROM shoes WHERE color = $1`, [input]);
-    //             return filterByColorExtraction.rows
-    //         } else if (input == 9 || input == 8 || input == 7 || input == 6) {
-    //             const filterBySizeExtraction = await pool.query(`SELECT * FROM shoes WHERE size = $1`, [input])
-    //             return filterBySizeExtraction.rows
-    //         }
-    //     } else if (input !== undefined && inputTwo !== null && InputThree !== null) {
-    //         const filterByBrandColorSize = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [input, inputTwo, Number(InputThree)])
-    //         return filterByBrandColorSize.rows
-    //     }
-    // }
-
     async function filterBrand(brand) {
         const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
         let allShoes = allShoesExtraction.rows
@@ -65,7 +47,6 @@ module.exports = function ShoeService(pool) {
         })
         return brandColorSizeFilter
     }
-
 
     async function all() {
         const allShoes = await pool.query(`SELECT * FROM shoes`);
@@ -117,6 +98,7 @@ module.exports = function ShoeService(pool) {
         const cartQuantitiesAndIds = cartItems.map((row) => {
             return `${row.quantity} ${row.shoes_id}`
         }).join(',').split(",")
+
         const splittedData = cartQuantitiesAndIds.map((entry) => {
             return entry.split(" ")
         })
@@ -125,6 +107,13 @@ module.exports = function ShoeService(pool) {
         }
         await pool.query(`DELETE from cart`)
         await pool.query(`DELETE from shoes where quantity = 0`)
+    }
+
+    async function cancel(){
+        await pool.query(`DELETE from cart`)
+        let cartItemsExtraction = await pool.query(`SELECT quantity, shoes_id FROM cart`)
+        let cartItems = cartItemsExtraction.rows
+        return cartItems
     }
 
     return {
@@ -136,6 +125,7 @@ module.exports = function ShoeService(pool) {
         filterSize,
         filterBrandColorSize,
         cart,
-        checkout
+        checkout,
+        cancel 
     }
 }
