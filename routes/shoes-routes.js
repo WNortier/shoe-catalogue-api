@@ -35,7 +35,7 @@ module.exports = function ShoesRoutes(shoeService) {
                     shoesEntry: await shoeService.all()
                 });
             } else if (color && !brand && !size) {
-                res.render("home", {       
+                res.render("home", {
                     filteredShoes: await shoeService.filterColor(color),
                     shoesEntry: await shoeService.all()
                 });
@@ -55,17 +55,36 @@ module.exports = function ShoesRoutes(shoeService) {
         }
     }
 
+    async function cartRoute(req, res, next) {
+        try {
+            let brand = req.body.brand
+            let color = req.body.color
+            let size = req.body.size
+            console.log(brand)
+            console.log(color)
+            console.log(size)
+
+            if (brand && !color && !size) {
+                return false
+            } else if (color && !brand && !size) {
+                return false
+            } else if (size && !color && !brand) {
+                return false
+            } else if (brand && color && size) {
+                res.render("home", {
+                    cartedShoes: await shoeService.cart(brand, color, size),
+                    shoesEntry: await shoeService.all()
+                });
+            }
+        } catch (err) {
+            next(err);
+        }
+    }
+
     return {
         homeRoute,
         addRoute,
-        filterRoute
+        filterRoute,
+        cartRoute
     }
 }
-
-// it can all be done from one route 
-
-// if req.body.brand -> then we filter brand
-
-// if req.body.color -> then we filter color 
-
-// if req.body.size -> then we filter size

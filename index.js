@@ -61,6 +61,7 @@ app.use(bodyParser.json())
 app.get('/', shoesRoutes.homeRoute);
 app.post('/shoes', shoesRoutes.addRoute);
 app.post('/shoes/brand', shoesRoutes.filterRoute);
+app.post('/shoes/cart', shoesRoutes.cartRoute)
 
 //app.post('/aPostRoute', shoesRoutes.aPostRoute);
 

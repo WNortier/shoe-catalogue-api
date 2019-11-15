@@ -58,26 +58,31 @@ module.exports = function (shoeService) {
         }
     };
 
-    // async function add(req, res) {
-
-    //     try {
-    //         await productService.create({
-    //             category_id: Number(req.body.category_id),
-    //             description : req.body.description,
-    //             price: Number(req.body.price)
-    //         });
-
-    //         res.json({
-    //             status: "success",
-    //         });
-    //     }
-    //     catch (err) {
-    //         res.json({
-    //             status: "error",
-    //             error: err.stack
-    //         });
-    //     }
-    // };
+    async function cartShoes(req, res) {
+        try {
+            let brand = req.body.brand
+            let color = req.body.color
+            let size = req.body.size
+            if (brand && !color && !size) {
+                return false
+            } else if (color && !brand && !size) {
+                return false
+            } else if (size && !color && !brand) {
+                return false
+            } else if (brand && color && size) {
+                var cartData = await shoeService.cart(brand, color, size)
+            }
+            res.json({
+                status: "success",
+                data: cartData
+            });
+        } catch (err) {
+            res.json({
+                status: "error",
+                error: err.stack
+            });
+        }
+    };
 
 
 
@@ -120,7 +125,8 @@ module.exports = function (shoeService) {
     return {
         allShoes,
         addShoe,
-        filterShoes
+        filterShoes,
+        cartShoes
         //add
         // add,
         // get,

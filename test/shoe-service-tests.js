@@ -110,10 +110,7 @@ describe('cart function', async () => {
     });
     it('should return the carted shoe for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
- 
-
         let result = await shoeServiceTesting.cart('Yuma', 'Black', 8)
-        let check = await shoeServiceTesting.all();
         assert.equal('Yuma', result[0].brand)
         assert.equal('Black', result[0].color)
         assert.equal(8, result[0].size)

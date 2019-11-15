@@ -22,7 +22,7 @@
                         <div class="center">
                             <div class="col-4 right">
                                 <button type="submit" class="infoBtn">Info</button>
-                                {{!-- <button type="submit" class="cartBtn">Cart</button> --}}
+                                <button type="submit" formaction="/shoes/cart" class="cartBtn">Cart</button>
                             </div>
                             <div class="col-4"></div>
                             <div class="col-4"></div>
@@ -200,6 +200,36 @@
             <div class="row">
                 <div class="col-12 center">
                     <table class="col-12 cartTemplateInsertPoint cartInfoTable cartStyling">
+                        <caption>Cart Summary</caption>
+                        {{#each cartedShoes}}
+                        <tr>
+                            <th>Product Info</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+
+                        <tr>
+                            <td>{{brand}}</td>
+                            <td>{{price}}</td>
+                            <td>{{quantity}}</td>
+                        </tr>
+                        <tr>
+                            <td>{{size}}</td>
+                            <td></td>
+                            <td></td>
+                            <!-- <td><button>del</button></td> -->
+                        </tr>
+                        <tr>
+                            <td>{{color}}</td>
+                        </tr>
+                        {{/each}}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            {{#cartedShoes}}
+                            <td>CART TOTAL: {{result}}</td>
+                            {{/cartedShoes}}
+                        </tr>
                     </table>
                 </div>
             </div>

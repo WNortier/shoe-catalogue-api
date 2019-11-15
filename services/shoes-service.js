@@ -20,7 +20,6 @@ module.exports = function ShoeService(pool) {
         })
         return brandFilter
     }
-
     async function filterColor(color){
         const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
         let allShoes = allShoesExtraction.rows
@@ -29,7 +28,6 @@ module.exports = function ShoeService(pool) {
         })
         return colorFilter
     }
-
     async function filterSize(size){
         const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
         let allShoes = allShoesExtraction.rows
@@ -38,7 +36,6 @@ module.exports = function ShoeService(pool) {
         })
         return sizeFilter
     }
-
     async function filterBrandColorSize(brand, color, size){
         const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
         let allShoes = allShoesExtraction.rows 
@@ -63,6 +60,7 @@ module.exports = function ShoeService(pool) {
         const cartedShoeExtraction = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [brand, color, size]);
         let cartedShoe = cartedShoeExtraction.rows[0];
         //Checking if the shoe has been carted before
+        console.log(cartedShoe)
         let alreadyCartedCheck = await pool.query(`SELECT * FROM cart where brand = $1 AND color = $2 AND size = $3`, [cartedShoe.brand, cartedShoe.color, cartedShoe.size])
         //If the rowCount is 0, add it to the cart
         if (alreadyCartedCheck.rowCount == 0) {
@@ -89,6 +87,14 @@ module.exports = function ShoeService(pool) {
         let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS result FROM cart`)
         let cartTotal = cartTotalExtraction.rows[0]
         cartItems.push(cartTotal)
+        console.log(cartItems)
+        return cartItems
+    }
+
+    async function cancel(){
+        await pool.query(`DELETE from cart`)
+        let cartItemsExtraction = await pool.query(`SELECT quantity, shoes_id FROM cart`)
+        let cartItems = cartItemsExtraction.rows
         return cartItems
     }
 
@@ -109,13 +115,6 @@ module.exports = function ShoeService(pool) {
         await pool.query(`DELETE from shoes where quantity = 0`)
     }
 
-    async function cancel(){
-        await pool.query(`DELETE from cart`)
-        let cartItemsExtraction = await pool.query(`SELECT quantity, shoes_id FROM cart`)
-        let cartItems = cartItemsExtraction.rows
-        return cartItems
-    }
-
     return {
         add,
         all,
@@ -125,7 +124,7 @@ module.exports = function ShoeService(pool) {
         filterSize,
         filterBrandColorSize,
         cart,
-        checkout,
-        cancel 
+        cancel,
+        checkout
     }
 }
