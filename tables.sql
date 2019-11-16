@@ -7,24 +7,6 @@ create table shoes(
     quantity int not null
 );
 
-create table shoeBrands(
-    brands text not null, 
-    brands_id int,
-    foreign key (brands_id) references shoes(id)
-);
-
-create table shoeColors(
-    colors text not null,
-    colors_id int,
-    foreign key (colors_id) references shoes(id)
-);
-
-create table shoeSizes(
-    sizes int not null,
-    sizes_id int,
-    foreign key (sizes_id) references shoes(id)
-);
-
 create table cart(
     id serial not null primary key,
     brand text not null,
@@ -63,7 +45,23 @@ create table stock(
     foreign key (size_id) references sizes(id)
 );
 
-insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 5);
+
 insert into brands (id, brand) values (1, 'Zonverse');
+insert into brands (id, brand) values (2, 'Yuma');
+insert into brands (id, brand) values (3, 'Kucci');
+insert into brands (id, brand) values (4, 'Jimmy Woo');
+
 insert into colors (id, color) values (1, 'Black');
+insert into colors (id, color) values (2, 'Pink');
+insert into colors (id, color) values (3, 'Red');
+insert into colors (id, color) values (4, 'Metallic');
+
 insert into sizes (id, size) values (1, 6);
+insert into sizes (id, size) values (2, 7);
+insert into sizes (id, size) values (3, 8);
+insert into sizes (id, size) values (4, 9);
+
+insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3);
+insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3);
+insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3);
+insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 4, 4, 999, 3);
