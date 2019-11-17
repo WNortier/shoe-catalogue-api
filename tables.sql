@@ -41,8 +41,8 @@ create table cart(
     size int not null,
     price int not null,
     quantity int not null,
-	shoes_id int,
-	foreign key (shoes_id) references shoes(id)
+	stock_id int,
+	foreign key (stock_id) references stock(id)
 );
 
 
