@@ -1,54 +1,102 @@
 module.exports = function ShoeService(pool) {
 
     async function add(shoe) {
-        const duplicateShoesCheck = await pool.query(`SELECT * FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [shoe.brand, shoe.color, shoe.size]);
+
+        // const duplicateShoesCheck = await pool.query(`select stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        // from stock 
+        // inner join brands on stock.brand_id = brands.id 
+        // inner join colors on stock.color_id = colors.id 
+        // inner join sizes on stock.size_id = sizes.id;`)
+        //console.log(typeof shoe.brand)
+
+
+
+
+        const duplicateShoesCheck = await pool.query(`SELECT * FROM stock WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [shoe.brand, shoe.color, shoe.size]);
         const result = duplicateShoesCheck.rowCount;
         if (result > 0) {
-            const currentShoesQuantityExtraction = await pool.query(`SELECT quantity FROM shoes WHERE brand = $1 AND color = $2 AND size = $3`, [shoe.brand, shoe.color, shoe.size]);
+            const currentShoesQuantityExtraction = await pool.query(`SELECT quantity, price FROM stock WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [shoe.brand, shoe.color, shoe.size]);
             let newShoesQuantity = currentShoesQuantityExtraction.rows[0].quantity + shoe.quantity;
-            await pool.query('UPDATE shoes SET quantity = $1 WHERE brand = $2 AND color = $3 AND size = $4', [newShoesQuantity, shoe.brand, shoe.color, shoe.size]);
+            let shoesPrice = currentShoesQuantityExtraction.rows[0].price = shoe.price;
+            await pool.query('UPDATE stock SET quantity = $1, price = $2 WHERE brand_id = $3 AND color_id = $4 AND size_id = $5', [newShoesQuantity, shoesPrice, shoe.brand, shoe.color, shoe.size]);
         } else {
-            await pool.query(`INSERT INTO shoes (brand, color, size, price, quantity) VALUES ($1, $2, $3, $4, $5)`, [shoe.brand, shoe.color, shoe.size, shoe.price, shoe.quantity]);
+            await pool.query(`INSERT INTO stock (brand_id, color_id, size_id, price, quantity) VALUES ($1, $2, $3, $4, $5)`, [shoe.brand, shoe.color, shoe.size, shoe.price, shoe.quantity]);
         }
     }
 
+    async function all() {
+        const allShoes = await pool.query(`SELECT * FROM stock`);
+        return allShoes.rows;
+    }
+
     async function filterBrand(brand) {
-        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
-        let allShoes = allShoesExtraction.rows
-        const brandFilter = allShoes.filter((rows) => {
-            return rows.brand == brand
-        })
+        const brandFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        from stock 
+        inner join brands on stock.brand_id = brands.id 
+        inner join colors on stock.color_id = colors.id 
+        inner join sizes on stock.size_id = sizes.id
+        WHERE stock.brand_id = $1`, [brand]);
+        let brandFilter = brandFilterExtraction.rows
         return brandFilter
     }
+
     async function filterColor(color) {
-        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
-        let allShoes = allShoesExtraction.rows
-        const colorFilter = allShoes.filter((rows) => {
-            return rows.color == color
-        })
+        const colorFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        from stock 
+        inner join brands on stock.brand_id = brands.id 
+        inner join colors on stock.color_id = colors.id 
+        inner join sizes on stock.size_id = sizes.id
+        WHERE stock.color_id = $1`, [color]);
+        let colorFilter = colorFilterExtraction.rows
         return colorFilter
     }
+
     async function filterSize(size) {
-        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
-        let allShoes = allShoesExtraction.rows
-        const sizeFilter = allShoes.filter((rows) => {
-            return rows.size == size
-        })
+        const sizeFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        from stock 
+        inner join brands on stock.brand_id = brands.id 
+        inner join colors on stock.color_id = colors.id 
+        inner join sizes on stock.size_id = sizes.id
+        WHERE stock.size_id = $1`, [size]);
+        let sizeFilter = sizeFilterExtraction.rows
         return sizeFilter
     }
+
     async function filterBrandColorSize(brand, color, size) {
-        const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
-        let allShoes = allShoesExtraction.rows
-        const brandColorSizeFilter = allShoes.filter((rows) => {
-            return rows.brand == brand && rows.color == color && rows.size == size
-        })
+        const brandColorSizeFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        from stock 
+        inner join brands on stock.brand_id = brands.id 
+        inner join colors on stock.color_id = colors.id 
+        inner join sizes on stock.size_id = sizes.id
+        WHERE stock.brand_id = $1 AND stock.color_id = $2 AND stock.size_id = $3`, [brand, color, size]);
+        let brandColorSizeFilter = brandColorSizeFilterExtraction.rows
         return brandColorSizeFilter
     }
 
-    async function all() {
-        const allShoes = await pool.query(`SELECT * FROM shoes`);
-        return allShoes.rows;
-    }
+    // async function filterColor(color) {
+    //     const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
+    //     let allShoes = allShoesExtraction.rows
+    //     const colorFilter = allShoes.filter((rows) => {
+    //         return rows.color == color
+    //     })
+    //     return colorFilter
+    // }
+    // async function filterSize(size) {
+    //     const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
+    //     let allShoes = allShoesExtraction.rows
+    //     const sizeFilter = allShoes.filter((rows) => {
+    //         return rows.size == size
+    //     })
+    //     return sizeFilter
+    // }
+    // async function filterBrandColorSize(brand, color, size) {
+    //     const allShoesExtraction = await pool.query(`SELECT * FROM shoes`);
+    //     let allShoes = allShoesExtraction.rows
+    //     const brandColorSizeFilter = allShoes.filter((rows) => {
+    //         return rows.brand == brand && rows.color == color && rows.size == size
+    //     })
+    //     return brandColorSizeFilter
+    // }
 
     async function showCart() {
         const allCart = await pool.query('SELECT * FROM cart')
@@ -120,13 +168,17 @@ module.exports = function ShoeService(pool) {
     return {
         add,
         all,
-        showCart,
         filterBrand,
         filterColor,
         filterSize,
-        filterBrandColorSize,
-        cart,
-        cancel,
-        checkout
+        filterBrandColorSize
+        // showCart,
+        // filterBrand,
+        // filterColor,
+        // filterSize,
+        // filterBrandColorSize,
+        // cart,
+        // cancel,
+        // checkout
     }
 }
