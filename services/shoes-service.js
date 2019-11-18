@@ -124,7 +124,7 @@ module.exports = function ShoeService(pool) {
 
     async function cancel() {
         await pool.query(`DELETE from cart`)
-        let cartItemsExtraction = await pool.query(`SELECT quantity, shoes_id FROM cart`)
+        let cartItemsExtraction = await pool.query(`SELECT quantity, stock_id FROM cart`)
         let cartItems = cartItemsExtraction.rows
         //cartItems will always be an empty array
         return cartItems
@@ -132,11 +132,11 @@ module.exports = function ShoeService(pool) {
 
     async function checkout() {
         //Extracting the items which are in my cart
-        let cartItemsExtraction = await pool.query(`SELECT quantity, shoes_id FROM cart`)
+        let cartItemsExtraction = await pool.query(`SELECT quantity, stock_id FROM cart`)
         let cartItems = cartItemsExtraction.rows
-        //Using map to obtain quantities and id's, returns something like this [ [ '2', '3590' ], [ '5', '3589' ] ]
+        //Using map to obtain quantities and id's
         const cartQuantitiesAndIds = cartItems.map((row) => {
-            return `${row.quantity} ${row.shoes_id}`
+            return `${row.quantity} ${row.stock_id}`
         }).join(',').split(",")
         //Using map again to return something like this [ [ '2', '3590' ], [ '5', '3589' ] ]
         const splittedData = cartQuantitiesAndIds.map((entry) => {
@@ -144,12 +144,12 @@ module.exports = function ShoeService(pool) {
         })
         //Looping over my shoes table and subtracting the quantities from the correct Id's
         for (let i = 0; i < splittedData.length; i++) {
-            await pool.query(`UPDATE shoes SET quantity = quantity - $1 WHERE id = $2`, splittedData[i])
+            await pool.query(`UPDATE stock SET quantity = quantity - $1 WHERE id = $2`, splittedData[i])
         }
         //Clearing the cart table
         await pool.query(`DELETE from cart`)
         //Deleting any zero entries from shoes
-        await pool.query(`DELETE from shoes where quantity = 0`)
+        await pool.query(`DELETE from stock where quantity = 0`)
     }
 
     return {
@@ -160,9 +160,8 @@ module.exports = function ShoeService(pool) {
         filterSize,
         filterBrandColorSize,
         cart,
-        showCart
-        // cart,
-        // cancel,
-        // checkout
+        showCart,
+        checkout,
+        cancel
     }
 }
