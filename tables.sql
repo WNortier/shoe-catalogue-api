@@ -36,8 +36,8 @@ create table stock(
 
 create table cart(
     id serial not null primary key,
-    brand text not null,
-    color text not null,
+    brand int not null,
+    color int not null,
     size int not null,
     price int not null,
     quantity int not null,

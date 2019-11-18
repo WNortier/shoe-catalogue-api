@@ -11,8 +11,8 @@ inner join sizes on stock.size_id = sizes.id
 where stock.brand_id = brands.id;
 
 
--- select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
--- from cart 
--- inner join brands on cart.brand = brands.id 
--- inner join colors on cart.color = colors.id 
--- inner join sizes on cart.size = sizes.id
+select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
+from cart 
+inner join brands on cart.brand = brands.id 
+inner join colors on cart.color = colors.id 
+inner join sizes on cart.size = sizes.id;
