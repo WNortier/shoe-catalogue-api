@@ -1,10 +1,8 @@
 module.exports = function (shoeService) {
 
-
-
     async function allShoes(req, res) {
         try {
-            let results = await shoeService.all();
+            let results = await shoeService.allStock();
             res.json({
                 status: 'success',
                 data: results
@@ -60,9 +58,9 @@ module.exports = function (shoeService) {
 
     async function cartShoes(req, res) {
         try {
-            let brand = req.body.brand
-            let color = req.body.color
-            let size = req.body.size
+            let brand = req.params.brand
+            let color = req.params.color
+            let size = req.params.size
             if (brand && !color && !size) {
                 return false
             } else if (color && !brand && !size) {
@@ -83,6 +81,36 @@ module.exports = function (shoeService) {
             });
         }
     };
+
+    async function checkoutShoes(req, res) {
+        try {
+            await shoeService.checkout()
+            res.json({
+                status: "success",
+                data: cartData
+            });
+        } catch (err) {
+            res.json({
+                status: "error",
+                error: err.stack
+            });
+        }
+    };
+
+    async function cancelShoes(req, res) {
+        try {
+            await shoeService.cancel()
+            res.json({
+                status: "success",
+                data: cartData
+            });
+        } catch (err) {
+            res.json({
+                status: "error",
+                error: err.stack
+            });
+        }
+    }
 
 
 
@@ -126,7 +154,9 @@ module.exports = function (shoeService) {
         allShoes,
         addShoe,
         filterShoes,
-        cartShoes
+        cartShoes,
+        checkoutShoes,
+        cancelShoes
         //add
         // add,
         // get,

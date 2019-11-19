@@ -30,6 +30,15 @@ module.exports = function ShoeService(pool) {
         return allShoes.rows;
     }
 
+    async function allStock() {
+        const allStock = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        from stock 
+        inner join brands on stock.brand_id = brands.id 
+        inner join colors on stock.color_id = colors.id 
+        inner join sizes on stock.size_id = sizes.id`)
+        return allStock.rows
+    }
+
     async function filterBrand(brand) {
         const brandFilterExtraction = await pool.query(`SELECT brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
         FROM stock 
@@ -117,8 +126,9 @@ module.exports = function ShoeService(pool) {
         inner join sizes on cart.size = sizes.id`);
         let cartItems = cartItemsExtraction.rows
         let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
-        let cartTotal = cartTotalExtraction.rows[0]
-        cartItems.push(cartTotal)
+        let cartTotal = cartTotalExtraction.rows[0].totalprice
+        cartItems[0].total = cartTotal
+        //console.log(cartItems)
         return cartItems
     }
 
@@ -150,11 +160,16 @@ module.exports = function ShoeService(pool) {
         await pool.query(`DELETE from cart`)
         //Deleting any zero entries from shoes
         await pool.query(`DELETE from stock where quantity = 0`)
+
+        let cartItemsAfterCheckoutExtraction = await pool.query(`SELECT quantity, stock_id FROM cart`)
+        let cartItemsAfterCheckout = cartItemsAfterCheckoutExtraction.rows
+        return cartItemsAfterCheckout
     }
 
     return {
         add,
         all,
+        allStock,
         filterBrand,
         filterColor,
         filterSize,

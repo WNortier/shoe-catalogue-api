@@ -45,10 +45,59 @@ describe('all function', async () => {
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 4, 4, 999, 3)`);
     });
-    it('should return all shoes currently in my shoecatalogue(database)', async () => {
+    it('should return all shoes currently in my stock table', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         let result = await shoeServiceTesting.all();
         assert.equal(4, result.length);
+    });
+});
+
+describe('allStock function', async () => {
+    beforeEach(async () => {
+        await pool.query(`delete from cart`)
+        await pool.query(`delete from stock`);
+        await pool.query(`delete from brands`);
+        await pool.query(`delete from colors`);
+        await pool.query(`delete from sizes`);
+
+        await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
+        await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
+        await pool.query(`insert into brands (id, brand) values (3, 'Kucci')`);
+        await pool.query(`insert into brands (id, brand) values (4, 'Jimmy Woo')`);
+
+        await pool.query(`insert into colors (id, color) values (1, 'Black')`);
+        await pool.query(`insert into colors (id, color) values (2, 'Pink')`);
+        await pool.query(`insert into colors (id, color) values (3, 'Red')`);
+        await pool.query(`insert into colors (id, color) values (4, 'Metallic')`);
+
+        await pool.query(`insert into sizes (id, size) values (1, 6)`);
+        await pool.query(`insert into sizes (id, size) values (2, 7)`);
+        await pool.query(`insert into sizes (id, size) values (3, 8)`);
+        await pool.query(`insert into sizes (id, size) values (4, 9)`);
+
+        //INSERTING FOUR SHOES INTO DATABASE
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 4, 4, 999, 3)`);
+    });
+    it('should return all shoes currently in my stock table after performing an inner merge', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        let result = await shoeServiceTesting.allStock();
+
+        assert.equal(4, result.length);
+
+        assert.equal('Zonverse', result[0].brand);
+        assert.equal('Black', result[0].color);
+        assert.equal(6, result[0].size);
+        assert.equal(999, result[0].price);
+        assert.equal(3, result[0].quantity);
+
+        assert.equal('Yuma', result[1].brand);
+        assert.equal('Pink', result[1].color);
+        assert.equal(7, result[1].size);
+        assert.equal(799, result[1].price);
+        assert.equal(3, result[1].quantity);
     });
 });
 
@@ -253,19 +302,19 @@ describe('cart function', async () => {
         assert.equal(9, result[0].size);
         assert.equal(999, result[0].price);
         assert.equal(1, result[0].quantity)
-        assert.equal(999, result[1].totalprice);
+        assert.equal(999, result[0].total);
     });
     it('should add to the quantity if the shoe has already been carted and return the carted shoe for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         await shoeServiceTesting.cart(2, 2, 2)
         let result = await shoeServiceTesting.cart(2, 2, 2)
-        assert.equal(2, result.length)
+        assert.equal(1, result.length)
         assert.equal('Yuma', result[0].brand)
         assert.equal('Pink', result[0].color)
         assert.equal(7, result[0].size)
         assert.equal(799, result[0].price)
         assert.equal(2, result[0].quantity)
-        assert.equal(1598, result[1].totalprice)
+        assert.equal(1598, result[0].total)
     });
     it('should return multiple carted shoes for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -278,7 +327,7 @@ describe('cart function', async () => {
         let firstCartedShoe = result[0]
         let secondCartedShoe = result[1]
         let thirdCartedShoe = result[2]
-        let cartTotal = result[3].totalprice
+        let cartTotal = result[0].total
         assert.equal("Zonverse", firstCartedShoe.brand)
         assert.equal(3, firstCartedShoe.quantity)
         assert.equal("Yuma", secondCartedShoe.brand)
@@ -302,10 +351,9 @@ describe('cart function', async () => {
         assert.equal(1, cartItems[0].quantity)
         assert.equal('Zonverse', cartItems[1].brand)
         assert.equal(3, cartItems[1].quantity)
-        assert.equal(((cartItems[0].price) + (cartItems[1].price * 3)), result[2].totalprice)
+        assert.equal(((cartItems[0].price) + (cartItems[1].price * 3)), result[0].total)
     });
 });
-
 
 describe('checkout function', async () => {
     beforeEach(async () => {
@@ -400,6 +448,7 @@ describe('checkout function', async () => {
         assert.equal(2, result[2].quantity)
     });
 });
+
 describe('cancel function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`)

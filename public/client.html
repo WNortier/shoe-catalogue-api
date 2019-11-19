@@ -55,6 +55,39 @@
         {{/each}}
         </table>
     </script>
+
+    <script type="text/x-template" class="cartedShoesTemplate">
+        <table class="col-12 cartInfoTable cartStyling">
+            <caption>Cart Summary</caption>
+            {{#each cartedShoes}}
+            <tr>
+                <th>Product Info</th>
+                <th>Price</th>
+                <th>Quantity</th>
+            </tr>
+
+            <tr>
+                <td>{{brand}}</td>
+                <td>{{price}}</td>
+                <td>{{quantity}}</td>
+            </tr>
+            <tr>
+                <td>{{size}}</td>
+                <td></td>
+                <td></td>
+                <!-- <td><button>del</button></td> -->
+            </tr>
+            <tr>
+                <td>{{color}}</td>
+            </tr>
+            {{/each}}
+            <tr>
+                <td></td>
+                <td></td>
+                <td>CART TOTAL:{{#cartedShoes}}{{total}}{{/cartedShoes}}</td>
+            </tr>
+        </table>
+    </script>
 </head>
 
 <body>
@@ -89,24 +122,24 @@
                     <div class="purchaseDropdown">
                         <select class="selectFilterBrand">
                             <option class="inner" value="">Select a brand</option>
-                            <option class="inner" value="Zonverse">Zonverse</option>
-                            <option class="inner" value="Yuma">Yuma</option>
-                            <option class="inner" value="Kucci">Kucci</option>
-                            <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
+                            <option class="inner" value="1">Zonverse</option>
+                            <option class="inner" value="2">Yuma</option>
+                            <option class="inner" value="3">Kucci</option>
+                            <option class="inner" value="4">Jimmy Woo</option>
                         </select>
                         <select class="selectFilterColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="Black">Black</option>
-                            <option class="inner" value="Pink">Pink</option>
-                            <option class="inner" value="Red">Red</option>
-                            <option class="inner" value="Metallic">Metallic</option>
+                            <option class="inner" value="1">Black</option>
+                            <option class="inner" value="2">Pink</option>
+                            <option class="inner" value="3">Red</option>
+                            <option class="inner" value="4">Metallic</option>
                         </select>
                         <select class="selectFilterSize">
                             <option class="inner" value="">Select a size</option>
-                            <option class="inner" value="9">9</option>
-                            <option class="inner" value="8">8</option>
-                            <option class="inner" value="7">7</option>
-                            <option class="inner" value="6">6</option>
+                            <option class="inner" value="1">6</option>
+                            <option class="inner" value="2">7</option>
+                            <option class="inner" value="3">8</option>
+                            <option class="inner" value="4">9</option>
                         </select>
                     </div>
                 </div>
@@ -154,24 +187,24 @@
                     <div class="addDropdown">
                         <select class="selectAddBrand">
                             <option class="inner" value="">Select a brand</option>
-                            <option class="inner" value="Zonverse">Zonverse</option>
-                            <option class="inner" value="Yuma">Yuma</option>
-                            <option class="inner" value="Kucci">Kucci</option>
-                            <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
+                            <option class="inner" value="1">Zonverse</option>
+                            <option class="inner" value="2">Yuma</option>
+                            <option class="inner" value="3">Kucci</option>
+                            <option class="inner" value="4">Jimmy Woo</option>
                         </select>
                         <select class="selectAddColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="Black">Black</option>
-                            <option class="inner" value="Pink">Pink</option>
-                            <option class="inner" value="Red">Red</option>
-                            <option class="inner" value="Metallic">Metallic</option>
+                            <option class="inner" value="1">Black</option>
+                            <option class="inner" value="2">Pink</option>
+                            <option class="inner" value="3">Red</option>
+                            <option class="inner" value="4">Metallic</option>
                         </select>
                         <select class="selectAddSize">
                             <option class="inner" value="">Select a size</option>
-                            <option class="inner" value="9">9</option>
-                            <option class="inner" value="8">8</option>
-                            <option class="inner" value="7">7</option>
-                            <option class="inner" value="6">6</option>
+                            <option class="inner" value="1">6</option>
+                            <option class="inner" value="2">7</option>
+                            <option class="inner" value="3">8</option>
+                            <option class="inner" value="4">9</option>
                         </select>
                     </div>
 
@@ -216,10 +249,10 @@
             <!-- <div class="cartSpacer"></div> -->
             <div class="col-12 center ">
                 <div class="row">
-                    <div class="col-12 center">
-                        <table class="col-12 cartTemplateInsertPoint cartInfoTable cartStyling">
+                    <div class="col-12 center cartTemplateInsertPoint">
+                        <!-- <table class="col-12 cartedShoesTemplateInsertPoint cartInfoTable cartStyling">
 
-                        </table>
+                        </table> -->
                     </div>
                 </div>
 
