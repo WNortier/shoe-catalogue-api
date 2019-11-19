@@ -62,12 +62,17 @@ app.get('/', shoesRoutes.homeRoute);
 app.post('/shoes', shoesRoutes.addRoute);
 app.post('/shoes/brand', shoesRoutes.filterRoute);
 app.post('/shoes/cart', shoesRoutes.cartRoute)
+app.post('/shoes/checkout', shoesRoutes.checkoutRoute)
+app.post('/shoes/cancel', shoesRoutes.cancelRoute)
+
 
 //app.post('/aPostRoute', shoesRoutes.aPostRoute);
 
 //API Routes
 //list all shoes
 app.get('/api/shoes', shoesAPI.allShoes);
+//add a new shoe to stock
+app.post('/api/shoes', shoesAPI.addShoe);
 //list all shoes for a given brand
 app.get('/api/shoes/brand/:brand', shoesAPI.filterShoes);
 //list all shoes for a given size
@@ -77,10 +82,11 @@ app.get('/api/shoes/color/:color', shoesAPI.filterShoes);
 //list all shoes for a given brand, size and color
 app.get('/api/shoes/brand/:brand/size/:size/color/:color', shoesAPI.filterShoes);
 //update stock levels when a shoe or shoes are checked out
-app.post('/api/shoes/sold/:id');
-
-//add a new shoe to stock
-app.post('/api/shoes', shoesAPI.addShoe);
+app.get('/api/shoes/cart/brand/:brand/size/:size/color/:color', shoesAPI.cartShoes);
+//checkout stock
+app.post('/api/shoes/checkout', shoesAPI.checkoutShoes)
+//cancel stock
+app.post('/api/shoes/cancel', shoesAPI.cancelShoes)
 
 let PORT = process.env.PORT || 4009;
 

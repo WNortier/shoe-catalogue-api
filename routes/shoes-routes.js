@@ -7,7 +7,7 @@ module.exports = function ShoesRoutes(shoeService) {
     async function homeRoute(req, res, next) {
         try {
             res.render('home', {
-                shoesEntry: await shoeService.all()
+                shoesEntry: await shoeService.allStock()
             });
         } catch (err) {
             next(err);
@@ -16,7 +16,6 @@ module.exports = function ShoesRoutes(shoeService) {
 
     async function addRoute(req, res, next) {
         try {
-            console.log(req.body)
             await shoeService.add(req.body)
             res.redirect("/");
         } catch (err) {
@@ -32,22 +31,22 @@ module.exports = function ShoesRoutes(shoeService) {
             if (brand && !color && !size) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterBrand(brand),
-                    shoesEntry: await shoeService.all()
+                    shoesEntry: await shoeService.allStock()
                 });
             } else if (color && !brand && !size) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterColor(color),
-                    shoesEntry: await shoeService.all()
+                    shoesEntry: await shoeService.allStock()
                 });
             } else if (size && !color && !brand) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterSize(size),
-                    shoesEntry: await shoeService.all()
+                    shoesEntry: await shoeService.allStock()
                 });
             } else if (brand && color && size) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterBrandColorSize(brand, color, size),
-                    shoesEntry: await shoeService.all()
+                    shoesEntry: await shoeService.allStock()
                 });
             }
         } catch (err) {
@@ -60,9 +59,6 @@ module.exports = function ShoesRoutes(shoeService) {
             let brand = req.body.brand
             let color = req.body.color
             let size = req.body.size
-            console.log(brand)
-            console.log(color)
-            console.log(size)
 
             if (brand && !color && !size) {
                 return false
@@ -73,9 +69,27 @@ module.exports = function ShoesRoutes(shoeService) {
             } else if (brand && color && size) {
                 res.render("home", {
                     cartedShoes: await shoeService.cart(brand, color, size),
-                    shoesEntry: await shoeService.all()
+                    shoesEntry: await shoeService.allStock()
                 });
             }
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async function checkoutRoute(req, res, next) {
+        try {
+            await shoeService.checkout()
+            res.redirect("/");
+        } catch (err) {
+            next(err);
+        }
+    }
+
+    async function cancelRoute(req, res, next) {
+        try {
+            await shoeService.cancel();
+            res.redirect("/")
         } catch (err) {
             next(err);
         }
@@ -85,6 +99,8 @@ module.exports = function ShoesRoutes(shoeService) {
         homeRoute,
         addRoute,
         filterRoute,
-        cartRoute
+        cartRoute,
+        checkoutRoute,
+        cancelRoute
     }
 }

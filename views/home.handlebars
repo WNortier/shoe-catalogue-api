@@ -33,24 +33,24 @@
                     <div class="purchaseDropdown">
                         <select name="brand" class="selectPurchaseBrand">
                             <option class="inner" value="">Select a brand</option>
-                            <option class="inner" value="Zonverse">Zonverse</option>
-                            <option class="inner" value="Yuma">Yuma</option>
-                            <option class="inner" value="Kucci">Kucci</option>
-                            <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
+                            <option class="inner" value="1">Zonverse</option>
+                            <option class="inner" value="2">Yuma</option>
+                            <option class="inner" value="3">Kucci</option>
+                            <option class="inner" value="4">Jimmy Woo</option>
                         </select>
                         <select name="color" class="selectPurchaseColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="Black">Black</option>
-                            <option class="inner" value="Pink">Pink</option>
-                            <option class="inner" value="Red">Red</option>
-                            <option class="inner" value="Metallic">Metallic</option>
+                            <option class="inner" value="1">Black</option>
+                            <option class="inner" value="2">Pink</option>
+                            <option class="inner" value="3">Red</option>
+                            <option class="inner" value="4">Metallic</option>
                         </select>
                         <select name="size" class="selectPurchaseSize">
                             <option class="inner" value="">Select a size</option>
-                            <option class="inner" value="9">9</option>
-                            <option class="inner" value="8">8</option>
-                            <option class="inner" value="7">7</option>
-                            <option class="inner" value="6">6</option>
+                            <option class="inner" value="1">6</option>
+                            <option class="inner" value="2">7</option>
+                            <option class="inner" value="3">8</option>
+                            <option class="inner" value="4">9</option>
                         </select>
                     </div>
                 </form>
@@ -119,24 +119,24 @@
                     <div class="addDropdown">
                         <select name="brand" class="selectAddBrand">
                             <option class="inner" value="">Select a brand</option>
-                            <option class="inner" value="Zonverse">Zonverse</option>
-                            <option class="inner" value="Yuma">Yuma</option>
-                            <option class="inner" value="Kucci">Kucci</option>
-                            <option class="inner" value="Jimmy Woo">Jimmy Woo</option>
+                            <option class="inner" value="1">Zonverse</option>
+                            <option class="inner" value="2">Yuma</option>
+                            <option class="inner" value="3">Kucci</option>
+                            <option class="inner" value="4">Jimmy Woo</option>
                         </select>
                         <select name="color" class="selectAddColor">
                             <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="Black">Black</option>
-                            <option class="inner" value="Pink">Pink</option>
-                            <option class="inner" value="Red">Red</option>
-                            <option class="inner" value="Metallic">Metallic</option>
+                            <option class="inner" value="1">Black</option>
+                            <option class="inner" value="2">Pink</option>
+                            <option class="inner" value="3">Red</option>
+                            <option class="inner" value="4">Metallic</option>
                         </select>
                         <select name="size" class="selectAddSize">
                             <option class="inner" value="">Select a size</option>
-                            <option class="inner" value="9">9</option>
-                            <option class="inner" value="8">8</option>
-                            <option class="inner" value="7">7</option>
-                            <option class="inner" value="6">6</option>
+                            <option class="inner" value="1">6</option>
+                            <option class="inner" value="2">7</option>
+                            <option class="inner" value="3">8</option>
+                            <option class="inner" value="4">9</option>
                         </select>
                     </div>
 
@@ -226,9 +226,7 @@
                         <tr>
                             <td></td>
                             <td></td>
-                            {{#cartedShoes}}
-                            <td>CART TOTAL: {{result}}</td>
-                            {{/cartedShoes}}
+                            <td>CART TOTAL:{{#cartedShoes}}{{total}}{{/cartedShoes}}</td>
                         </tr>
                     </table>
                 </div>
@@ -242,8 +240,10 @@
     <div class="center">
         <div class="col-9"></div>
         <div class="col-3 cartButtons">
-            <button class="checkoutBtn">Checkout</button>
-            <button class="cancelBtn">Cancel</button>
+            <form method="POST" action="/shoes/checkout">
+                <button type="submit" class="checkoutBtn">Checkout</button>
+                <button formaction="/shoes/cancel" class="cancelBtn">Cancel</button>
+            </form>
         </div>
     </div>
 </div>

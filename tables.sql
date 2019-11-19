@@ -7,17 +7,6 @@ create table shoes(
     quantity int not null
 );
 
-create table cart(
-    id serial not null primary key,
-    brand text not null,
-    color text not null,
-    size int not null,
-    price int not null,
-    quantity int not null,
-	shoes_id int,
-	foreign key (shoes_id) references shoes(id)
-);
-
 create table brands(
     id serial not null primary key,
     brand text not null
@@ -30,7 +19,7 @@ create table colors(
 
 create table sizes(
     id serial not null primary key,
-    sizes text not null
+    size text not null
 );
 
 create table stock(
@@ -43,6 +32,17 @@ create table stock(
     foreign key (brand_id) references brands(id),
     foreign key (color_id) references colors(id),
     foreign key (size_id) references sizes(id)
+);
+
+create table cart(
+    id serial not null primary key,
+    brand int not null,
+    color int not null,
+    size int not null,
+    price int not null,
+    quantity int not null,
+	stock_id int,
+	foreign key (stock_id) references stock(id)
 );
 
 
