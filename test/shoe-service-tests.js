@@ -3,7 +3,7 @@ const ShoeServiceTesting = require("../services/shoes-service");
 
 const pg = require("pg");
 const Pool = pg.Pool;
-const connectionString = process.env.DATABASE_URL || 'postgresql://warwick:pg123@localhost:5432/shoecatalogue';
+const connectionString = process.env.DATABASE_URL || 'postgresql://warwick:pg123@localhost:5432/shoecatalogue_test';
 
 let useSSL = false;
 let local = process.env.LOCAL || false;
@@ -25,8 +25,8 @@ describe('all function', async () => {
         await pool.query(`delete from sizes`);
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
-        await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
         await pool.query(`insert into brands (id, brand) values (3, 'Kucci')`);
+        await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
         await pool.query(`insert into brands (id, brand) values (4, 'Jimmy Woo')`);
 
         await pool.query(`insert into colors (id, color) values (1, 'Black')`);
@@ -39,7 +39,6 @@ describe('all function', async () => {
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
-        //INSERTING FOUR SHOES INTO DATABASE
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
