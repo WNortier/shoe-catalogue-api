@@ -1,12 +1,3 @@
-create table shoes(
-    id serial not null primary key,
-    brand text not null,
-    color text not null,
-    size int not null,
-    price int not null,
-    quantity int not null
-);
-
 create table brands(
     id serial not null primary key,
     brand text not null
@@ -45,7 +36,6 @@ create table cart(
 	foreign key (stock_id) references stock(id)
 );
 
-
 insert into brands (id, brand) values (1, 'Zonverse');
 insert into brands (id, brand) values (2, 'Yuma');
 insert into brands (id, brand) values (3, 'Kucci');
@@ -60,8 +50,3 @@ insert into sizes (id, size) values (1, 6);
 insert into sizes (id, size) values (2, 7);
 insert into sizes (id, size) values (3, 8);
 insert into sizes (id, size) values (4, 9);
-
-insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3);
-insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3);
-insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3);
-insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 4, 4, 999, 3);
