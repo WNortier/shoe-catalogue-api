@@ -1,0 +1,25 @@
+.body {
+    margin: 5px;
+}
+
+.my-container {
+    border: 1px solid green;
+}
+
+.my-row {
+    border: 3px solid red;
+    height: 250px;
+}
+
+.cart-row {
+    border: 3px solid red;
+    height: 250px;
+}
+
+.my-col {
+    border: 3px dotted blue;
+}
+
+.header-col {
+height: 200px;
+}
