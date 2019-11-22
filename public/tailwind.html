@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="tailwind/tailwindstyle.css">
+</head>
+
+<body class="bg-gray-600">
+
+    <header class="bg-gray-400 text-gray-700 py-2 px-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl font-bold">ShoeCatalogueAPI</h1>
+        </div>
+    </header>
+
+    <div class="container mx-auto sm:flex md:flex">
+
+        <div class="container mx-auto flex-wrap">
+            <div class="container mx-auto px-5 py-5">
+                <div class="flex flex-col bg-gray-200">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        <h3 class="font-bold">Filter Stock Settings</h3>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 in">
+                        <button class="bg-teal-700 font-bold text-white py-2 px-4 rounded">Filter</button>
+                        <button class="bg-teal-700 font-bold text-white py-2 px-4 rounded">Cart</button>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        <select class="selectFilterBrand">
+                            <option value="">Select a brand</option>
+                            <option value="1">Zonverse</option>
+                            <option value="2">Yuma</option>
+                            <option value="3">Kucci</option>
+                            <option value="4">Jimmy Woo</option>
+                        </select>
+                        <select class="selectFilterColor">
+                            <option value="">Select a color</option>
+                            <option value="1">Black</option>
+                            <option value="2">Pink</option>
+                            <option value="3">Red</option>
+                            <option value="4">Metallic</option>
+                        </select>
+                        <select class="selectFilterSize">
+                            <option value="">Select a size</option>
+                            <option value="1">6</option>
+                            <option value="2">7</option>
+                            <option value="3">8</option>
+                            <option value="4">9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-5 py-5">
+                <div class="flex flex-col bg-gray-200">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        <h3 class="font-bold">Add Stock Settings</h3>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        <button class="bg-teal-700 font-bold text-white py-2 px-4 rounded">Add</button>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        <select class="selectAddBrand">
+                            <option class="inner" value="">Select a brand</option>
+                            <option class="inner" value="1">Zonverse</option>
+                            <option class="inner" value="2">Yuma</option>
+                            <option class="inner" value="3">Kucci</option>
+                            <option class="inner" value="4">Jimmy Woo</option>
+                        </select>
+                        <select class="selectAddColor">
+                            <option class="inner" value="">Select a color</option>
+                            <option class="inner" value="1">Black</option>
+                            <option class="inner" value="2">Pink</option>
+                            <option class="inner" value="3">Red</option>
+                            <option class="inner" value="4">Metallic</option>
+                        </select>
+                        <select class="selectAddSize">
+                            <option class="inner" value="">Select a size</option>
+                            <option class="inner" value="1">6</option>
+                            <option class="inner" value="2">7</option>
+                            <option class="inner" value="3">8</option>
+                            <option class="inner" value="4">9</option>
+                        </select>
+                        <input class="addPrice m-2" placeholder="Enter price"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            type="number" maxlength="7">
+                        <input class="addQuantity m-2" placeholder="Enter quantity"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            type="number" maxlength="2">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container mx-auto flex-wrap">
+
+            <div class="container mx-auto px-5 py-5">
+                <div class="flex flex-col bg-gray-200">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        <h3 class="font-bold">Filter Dashboard</h3>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto">
+                        <table class="table-fixed px-4 py-2">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="w-1/2 px-4 py-2">Color</th>
+                                    <th class="w-1/2 px-4 py-2">Brand</th>
+                                    <th class="w-1/2 px-4 py-2">Size</th>
+                                    <th class="w-1/2 px-4 py-2">Price</th>
+                                    <th class="w-1/2 px-4 py-2">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tr class="bg-gray-100">
+                                <td class="border px-4 py-2">Zonverse</td>
+                                <td class="border px-4 py-2">Red</td>
+                                <td class="border px-4 py-2">9</td>
+                                <td class="border px-4 py-2">499</td>
+                                <td class="border px-4 py-2">5</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">3</div>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-5 py-5">
+                <div class="flex flex-col bg-gray-200">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        <h3 class="font-bold">Stock Dashboard</h3>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto">
+                        <table class="table-fixed px-4 py-2">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="w-1/2 px-4 py-2">Color</th>
+                                    <th class="w-1/2 px-4 py-2">Brand</th>
+                                    <th class="w-1/2 px-4 py-2">Size</th>
+                                    <th class="w-1/2 px-4 py-2">Price</th>
+                                    <th class="w-1/2 px-4 py-2">Quantity</th>
+                                </tr>
+                            </thead>
+                            <tr class="bg-gray-100">
+                                <td class="border px-4 py-2">Zonverse</td>
+                                <td class="border px-4 py-2">Red</td>
+                                <td class="border px-4 py-2">9</td>
+                                <td class="border px-4 py-2">499</td>
+                                <td class="border px-4 py-2">5</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">3</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="container mx-auto px-5 py-5 flex-wrap">
+            <div class="flex flex-col bg-gray-200">
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                    <h3 class="font-bold">Cart</h3>
+                </div>
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto">
+                    <table class="table-fixed px-4 py-2">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="w-1/2 px-4 py-2">Color</th>
+                                <th class="w-1/2 px-4 py-2">Brand</th>
+                                <th class="w-1/2 px-4 py-2">Size</th>
+                                <th class="w-1/2 px-4 py-2">Price</th>
+                                <th class="w-1/2 px-4 py-2">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tr class="bg-gray-100">
+                            <td class="border px-4 py-2">Zonverse</td>
+                            <td class="border px-4 py-2">Red</td>
+                            <td class="border px-4 py-2">9</td>
+                            <td class="border px-4 py-2">499</td>
+                            <td class="border px-4 py-2">5</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">3</div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,40 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="bootstrap/bootstrap.css">
-    <link rel="stylesheet" href="bootstrap/custom.css">
+    <link rel="stylesheet" href="tailwind/tailwindstyle.css">
 </head>
-<body>
-    <div class="container my-container">
-        <div class="row">
-            <div class="col-12 my-col">
-                <h2>ShoeCatalogueAPI</h2>
-            </div>
+
+<body class="bg-gray-600">
+
+    <header class="bg-gray-400 text-gray-700 py-2 px-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl">ShoeCatalogueAPI</h1>
         </div>
-        <div class="row">
-            <div class="col-9">
-                <div class="row my-row">
-                    <div class="col-md-6 my-col justify-content-between">
-                        <h2>Row 1 Col 1</h2>
-                        <select class="selectFilterBrand">
+    </header>
+
+    <div class="container mx-auto flex TOTALCONTAINER">
+
+        <div class="container mx-auto FIRSTCONTAINER">
+            <div class="container mx-auto px-5 py-5">
+                <div class="flex flex-col bg-gray-200">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 justify-center">
+                        <button class="bg-blue-500 font-bold text-white py-2 px-4 rounded">Filter</button>
+                        <button class="bg-blue-500 font-bold text-white py-2 px-4 rounded">Cart</button>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 flex">
+                        <select class="selectFilterBrand mx-2">
                             <option value="">Select a brand</option>
                             <option value="1">Zonverse</option>
                             <option value="2">Yuma</option>
                             <option value="3">Kucci</option>
                             <option value="4">Jimmy Woo</option>
                         </select>
-                        <select class="selectFilterColor">
+                        <select class="selectFilterColor mx-2">
                             <option value="">Select a color</option>
                             <option value="1">Black</option>
                             <option value="2">Pink</option>
                             <option value="3">Red</option>
                             <option value="4">Metallic</option>
                         </select>
-                        <select class="selectFilterSize">
+                        <select class="selectFilterSize mx-2">
                             <option value="">Select a size</option>
                             <option value="1">6</option>
                             <option value="2">7</option>
@@ -42,49 +49,58 @@
                             <option value="4">9</option>
                         </select>
                     </div>
-                    <div class="col-md-6 my-col">
-                        <h2>Row 1 Col 2</h2>
-                    </div>
-                </div>
-                <div class="row my-row">
-                    <div class="col-md-6 my-col">
-                        <h2>Row 2 Col 1</h2>
-                        <select class="selectAddBrand">
-                            <option class="inner" value="">Select a brand</option>
-                            <option class="inner" value="1">Zonverse</option>
-                            <option class="inner" value="2">Yuma</option>
-                            <option class="inner" value="3">Kucci</option>
-                            <option class="inner" value="4">Jimmy Woo</option>
-                        </select>
-                        <select class="selectAddColor">
-                            <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="1">Black</option>
-                            <option class="inner" value="2">Pink</option>
-                            <option class="inner" value="3">Red</option>
-                            <option class="inner" value="4">Metallic</option>
-                        </select>
-                        <select class="selectAddSize">
-                            <option class="inner" value="">Select a size</option>
-                            <option class="inner" value="1">6</option>
-                            <option class="inner" value="2">7</option>
-                            <option class="inner" value="3">8</option>
-                            <option class="inner" value="4">9</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 my-col">
-                        <h2>Row 2 Col 2</h2>
-                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">3</div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="row my-row">
-                    <div class="col-md-12 my-col">
-                        <h2>Row 1 Col 1</h2>
+
+            <div class="container mx-auto px-5 py-5">
+                <div class="flex flex-col bg-gray-200">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">1</div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">2</div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                        
                     </div>
                 </div>
             </div>
         </div>
+
+        <div class="container mx-auto px-5 py-5 SECONDCONTAINER flex-wrap">
+            <div class="flex flex-col bg-gray-200 flex-wrap">
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">
+                    <table class="table-fixed px-4 py-2">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="w-1/2 px-4 py-2">Color</th>
+                                <th class="w-1/2 px-4 py-2">Brand</th>
+                                <th class="w-1/2 px-4 py-2">Size</th>
+                                <th class="w-1/2 px-4 py-2">Price</th>
+                                <th class="w-1/2 px-4 py-2">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tr class="bg-gray-100">
+                            <td class="border px-4 py-2">Zonverse</td>
+                            <td class="border px-4 py-2">Red</td>
+                            <td class="border px-4 py-2">9</td>
+                            <td class="border px-4 py-2">499</td>
+                            <td class="border px-4 py-2">5</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">2</div>
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">3</div>
+            </div>
+        </div>
+
+        <div class="container mx-auto px-5 py-5 THIRDCONTAINER flex-wrap">
+            <div class="flex flex-col bg-gray-200 flex-wrap">
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">1</div>
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">2</div>
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2">3</div>
+            </div>
+        </div>
+
     </div>
+
 </body>
-<script src="/public/bootstrap/bootstrap.js"></script>
+
 </html>
