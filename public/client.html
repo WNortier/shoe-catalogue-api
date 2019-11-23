@@ -10,7 +10,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="/style.css">
 
-    <script type="text/x-template" class="shoesListTemplate">
+    <script type="text/x-handlebars-template" class="shoesListTemplate">
         <table class="center">
         <tr>
             <th>Brand</th>
@@ -33,7 +33,7 @@
     </table>
     </script>
 
-    <script type="text/x-template" class="filteredShoesListTemplate">
+    <script type="text/x-handlebars-template" class="filteredShoesListTemplate">
         <table class="center">
         <tr>
             <th>Brand</th>
@@ -56,7 +56,7 @@
         </table>
     </script>
 
-    <script type="text/x-template" class="cartedShoesTemplate">
+    <script type="text/x-handlebars-template" class="cartedShoesTemplate">
         <table class="col-12 cartInfoTable cartStyling">
             <caption>Cart Summary</caption>
             {{#each cartedShoes}}

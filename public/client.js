@@ -1,28 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
 
-    let shoesListTemplate = document.querySelector('.shoesListTemplate')
-    let getShoesTemplateInsertPoint = document.querySelector('.getShoesTemplateInsertPoint');
-    let shoesListTemplateInstance = Handlebars.compile(shoesListTemplate.innerHTML);
+    let stockTemplate = document.querySelector('.stockTemplate')
+    let stockTemplateInsertPoint = document.querySelector('.stockTemplateInsertPoint');
+    let stockTemplateInstance = Handlebars.compile(stockTemplate.innerHTML);
 
-    let filteredShoesListTemplate = document.querySelector('.filteredShoesListTemplate');
-    let filteredShoesListTemplateInsertPoint = document.querySelector('.getFilteredShoesListTemplateInsertPoint');
-    let filteredShoesListTemplateInstance = Handlebars.compile(filteredShoesListTemplate.innerHTML);
+    let filteredStockTemplate = document.querySelector('.filteredStockTemplate');
+    let filteredStockTemplateInsertPoint = document.querySelector('.filteredStockTemplateInsertPoint');
+    let filteredStockTemplateInstance = Handlebars.compile(filteredStockTemplate.innerHTML);
 
-    let cartedShoesTemplate = document.querySelector('.cartedShoesTemplate');
-    let cartedShoesTemplateInsertPoint = document.querySelector(".cartTemplateInsertPoint")
-    let cartedShoesTemplateInstance = Handlebars.compile(cartedShoesTemplate.innerHTML)
+    let cartedStockTemplate = document.querySelector('.cartedStockTemplate');
+    let cartedStockTemplateInsertPoint = document.querySelector(".cartedStockTemplateInsertPoint")
+    let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
 
     //ADD BUTTON 
-    var addBtn = document.querySelector(".addBtn");
+    var updateBtn = document.querySelector(".updateBtn");
     //ADD DROPDOWN MENU 
     var selectAddBrand = document.querySelector(".selectAddBrand");
-    var selectAddSize = document.querySelector(".selectAddSize");
     var selectAddColor = document.querySelector(".selectAddColor");
+    var selectAddSize = document.querySelector(".selectAddSize");
     //ADD INPUT FIELDS 
     var addPrice = document.querySelector(".addPrice");
     var addQuantity = document.querySelector(".addQuantity");
     //FILTER BUTTON
-    var infoBtn = document.querySelector(".infoBtn");
+    var filterBtn = document.querySelector(".filterBtn");
     var cartBtn = document.querySelector(".cartBtn");
     //FILTER DROPDOWN MENU 
     var selectFilterBrand = document.querySelector(".selectFilterBrand");
@@ -91,31 +91,31 @@ document.addEventListener('DOMContentLoaded', function () {
                 let response = results.data;
                 let data = response.data;
                 //console.log(data)
-                let html = shoesListTemplateInstance({
+                let html = stockTemplateInstance({
                     shoesEntry: data
                 });
-                let shoesTableHTML = html;
-                getShoesTemplateInsertPoint.innerHTML = shoesTableHTML;
+                let stockTableHTML = html;
+                stockTemplateInsertPoint.innerHTML = stockTableHTML;
             });
     }
 
-    infoBtn.addEventListener('click', function () {
+    filterBtn.addEventListener('click', function () {
 
         let brand = selectFilterBrand.value
         let color = selectFilterColor.value
         let size = selectFilterSize.value
 
-        if (brand) {
+        if (brand && !color && !size) {
             shoesService
                 .getFilterBrand(brand)
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
-                    let html = filteredShoesListTemplateInstance({
+                    let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
                     let filteredShoesTableHTML = html;
-                    filteredShoesListTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                    filteredStockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -125,11 +125,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
-                    let html = filteredShoesListTemplateInstance({
+                    let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
-                    let filteredShoesTableHTML = html;
-                    filteredShoesListTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                    let filteredStockTableHTML = html;
+                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -139,11 +139,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
-                    let html = filteredShoesListTemplateInstance({
+                    let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
-                    let filteredShoesTableHTML = html;
-                    filteredShoesListTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                    let filteredStockTableHTML = html;
+                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -153,11 +153,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
-                    let html = filteredShoesListTemplateInstance({
+                    let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
-                    let filteredShoesTableHTML = html;
-                    filteredShoesListTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                    let filteredStockTableHTML = html;
+                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -168,16 +168,20 @@ document.addEventListener('DOMContentLoaded', function () {
         let brand = Number(selectFilterBrand.value)
         let color = Number(selectFilterColor.value)
         let size = Number(selectFilterSize.value)
+        console.log(brand)
+        console.log(color)
+        console.log(size)
         shoesService.getCart(brand, color, size)
 
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                let html = cartedShoesTemplateInstance({
+
+                let html = cartedStockTemplateInstance({
                     cartedShoes: data
                 });
-                let cartedShoesTableHtml = html;
-                cartedShoesTemplateInsertPoint.innerHTML = cartedShoesTableHtml;
+                let cartedTableHtml = html;
+                cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
             }).catch(function (err) {
                 alert(err);
             });
@@ -189,14 +193,14 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (results) {
             let response = results.data;
             let data = response.data;
-            let html = cartedShoesTemplateInstance({
+            let html = cartedStockTemplateInstance({
                 cartedShoes: data
             });
-            let cartedShoesTableHtml = html;
-            cartedShoesTemplateInsertPoint.innerHTML = cartedShoesTableHtml;
+            let cartedTableHtml = html;
+            cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
         }).then(function () {
             showShoes();
-            cartedShoesTemplateInsertPoint.innerHTML = "";
+            cartedStockTemplateInsertPoint.innerHTML = "";
             //clearFields();
         }).catch(function (err) {
             alert(err);
@@ -208,14 +212,14 @@ document.addEventListener('DOMContentLoaded', function () {
         .then(function (results) {
             let response = results.data;
             let data = response.data;
-            let html = cartedShoesTemplateInstance({
+            let html = cartedStockTemplateInstance({
                 cartedShoes: data
             });
-            let cartedShoesTableHtml = html;
-            cartedShoesTemplateInsertPoint.innerHTML = cartedShoesTableHtml;
+            let cartedTableHtml = html;
+            cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
         }).then(function () {
             showShoes();
-            cartedShoesTemplateInsertPoint.innerHTML = "";
+            cartedStockTemplateInsertPoint.innerHTML = "";
             //clearFields();
         }).catch(function (err) {
             alert(err);
@@ -223,7 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     });
 
-    addBtn.addEventListener('click', function () {
+    updateBtn.addEventListener('click', function () {
 
         let brand = selectAddBrand.value
         let color = selectAddColor.value
