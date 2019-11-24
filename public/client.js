@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
-
+    
+    //QUERYSELECTORS
     let stockTemplate = document.querySelector('.stockTemplate')
     let stockTemplateInsertPoint = document.querySelector('.stockTemplateInsertPoint');
     let stockTemplateInstance = Handlebars.compile(stockTemplate.innerHTML);
@@ -12,25 +13,23 @@ document.addEventListener('DOMContentLoaded', function () {
     let cartedStockTemplateInsertPoint = document.querySelector(".cartedStockTemplateInsertPoint")
     let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
 
-    //ADD BUTTON 
+    //BUTTONS
     var updateBtn = document.querySelector(".updateBtn");
+    var filterBtn = document.querySelector(".filterBtn");
+    var cartBtn = document.querySelector(".cartBtn");
+    var checkoutBtn = document.querySelector(".checkoutBtn")
+    var cancelBtn = document.querySelector(".cancelBtn")
+    //FILTER DROPDOWN MENU 
+    var selectFilterBrand = document.querySelector(".selectFilterBrand");
+    var selectFilterColor = document.querySelector(".selectFilterColor");
+    var selectFilterSize = document.querySelector(".selectFilterSize");
     //ADD DROPDOWN MENU 
     var selectAddBrand = document.querySelector(".selectAddBrand");
     var selectAddColor = document.querySelector(".selectAddColor");
     var selectAddSize = document.querySelector(".selectAddSize");
     //ADD INPUT FIELDS 
     var addPrice = document.querySelector(".addPrice");
-    var addQuantity = document.querySelector(".addQuantity");
-    //FILTER BUTTON
-    var filterBtn = document.querySelector(".filterBtn");
-    var cartBtn = document.querySelector(".cartBtn");
-    //FILTER DROPDOWN MENU 
-    var selectFilterBrand = document.querySelector(".selectFilterBrand");
-    var selectFilterColor = document.querySelector(".selectFilterColor");
-    var selectFilterSize = document.querySelector(".selectFilterSize");
-    //CHECKOUT BUTTON & CANCEL BUTTON
-    var checkoutBtn = document.querySelector(".checkoutBtn")
-    var cancelBtn = document.querySelector(".cancelBtn")
+    var addQuantity = document.querySelector(".addQuantity"); 
 
     function ShoesService() {
         function postShoes(data) {
@@ -61,11 +60,11 @@ document.addEventListener('DOMContentLoaded', function () {
             return axios.get('/api/shoes/cart/brand/' + brand + '/size/' + size + '/color/' + color)
         }
 
-        function postCheckout(){
+        function postCheckout() {
             return axios.post('/api/shoes/checkout')
         }
 
-        function postCancel(){
+        function postCancel() {
             return axios.post('/api/shoes/cancel')
         }
 
@@ -81,6 +80,52 @@ document.addEventListener('DOMContentLoaded', function () {
             postCancel
         }
     }
+
+    function tableHeadersPlaceholder() {
+        if (document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length == 0) {
+            let table = document.createElement("table");
+            table.setAttribute("class", "table-fixed px-4 py-2 headerPlaceHolder")
+            let head = document.createElement("thead")
+            table.appendChild(head)
+            let row = document.createElement("tr")
+            row.setAttribute("class", "bg-gray-100")
+            head.appendChild(row)
+
+            let headerOne = document.createElement("th")
+            headerOne.setAttribute("class", "w-1/2 px-4 py-2")
+            let headerOneText = document.createTextNode("Brand");
+            headerOne.appendChild(headerOneText)
+            row.appendChild(headerOne)
+
+            let headerTwo = document.createElement("th")
+            headerTwo.setAttribute("class", "w-1/2 px-4 py-2")
+            let headerTwoText = document.createTextNode("Color");
+            headerTwo.appendChild(headerTwoText)
+            row.appendChild(headerTwo)
+
+            let headerThree = document.createElement("th")
+            headerThree.setAttribute("class", "w-1/2 px-4 py-2")
+            let headerThreeText = document.createTextNode("Size");
+            headerThree.appendChild(headerThreeText)
+            row.appendChild(headerThree)
+
+            let headerFour = document.createElement("th")
+            headerFour.setAttribute("class", "w-1/2 px-4 py-2")
+            let headerFourText = document.createTextNode("Price");
+            headerFour.appendChild(headerFourText)
+            row.appendChild(headerFour)
+
+            let headerFive = document.createElement("th")
+            headerFive.setAttribute("class", "w-1/2 px-4 py-2")
+            let headerFiveText = document.createTextNode("Quantity");
+            headerFive.appendChild(headerFiveText)
+            row.appendChild(headerFive)
+            document.querySelector(".filteredStockTemplateInsertPoint").appendChild(table)
+            var headerPlaceHolder = document.querySelector(".headerPlaceHolder")
+        } else(headerPlaceHolder.parentNode.removeChild(headerPlaceHolder))
+    }
+
+    tableHeadersPlaceholder()
 
     let shoesService = ShoesService();
 
@@ -168,11 +213,8 @@ document.addEventListener('DOMContentLoaded', function () {
         let brand = Number(selectFilterBrand.value)
         let color = Number(selectFilterColor.value)
         let size = Number(selectFilterSize.value)
-        console.log(brand)
-        console.log(color)
-        console.log(size)
-        shoesService.getCart(brand, color, size)
 
+        shoesService.getCart(brand, color, size)
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
@@ -187,43 +229,43 @@ document.addEventListener('DOMContentLoaded', function () {
             });
     });
 
-    checkoutBtn.addEventListener('click', function() {
-        
+    checkoutBtn.addEventListener('click', function () {
+
         shoesService.postCheckout()
-        .then(function (results) {
-            let response = results.data;
-            let data = response.data;
-            let html = cartedStockTemplateInstance({
-                cartedShoes: data
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                let html = cartedStockTemplateInstance({
+                    cartedShoes: data
+                });
+                let cartedTableHtml = html;
+                cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
+            }).then(function () {
+                showShoes();
+                cartedStockTemplateInsertPoint.innerHTML = "";
+                //clearFields();
+            }).catch(function (err) {
+                alert(err);
             });
-            let cartedTableHtml = html;
-            cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
-        }).then(function () {
-            showShoes();
-            cartedStockTemplateInsertPoint.innerHTML = "";
-            //clearFields();
-        }).catch(function (err) {
-            alert(err);
-        });
     });
 
-    cancelBtn.addEventListener('click', function(){
+    cancelBtn.addEventListener('click', function () {
         shoesService.postCancel()
-        .then(function (results) {
-            let response = results.data;
-            let data = response.data;
-            let html = cartedStockTemplateInstance({
-                cartedShoes: data
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                let html = cartedStockTemplateInstance({
+                    cartedShoes: data
+                });
+                let cartedTableHtml = html;
+                cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
+            }).then(function () {
+                showShoes();
+                cartedStockTemplateInsertPoint.innerHTML = "";
+                //clearFields();
+            }).catch(function (err) {
+                alert(err);
             });
-            let cartedTableHtml = html;
-            cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
-        }).then(function () {
-            showShoes();
-            cartedStockTemplateInsertPoint.innerHTML = "";
-            //clearFields();
-        }).catch(function (err) {
-            alert(err);
-        });
 
     });
 
@@ -258,29 +300,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // if (errors.length === 0) {
         //     errorsElem.innerHTML = '';
-        shoesService.postShoes({
-                brand,
-                color,
-                size,
-                price,
-                quantity
-            })
-            .then(function () {
-                showShoes();
-                //clearFields();
-            })
-            .catch(function (err) {
-                alert(err);
-            });
+        if (brand && color && size && price && quantity) {
+            shoesService.postShoes({
+                    brand,
+                    color,
+                    size,
+                    price,
+                    quantity
+                })
+
+                .then(function () {
+                    showShoes();
+                    //clearFields();
+                })
+                .catch(function (err) {
+                    alert(err);
+                });
+        }
         // }
         // else {
         //     errorsElem.innerHTML = errorsTemplateInstance({errors});
         // }
 
     });
-
-
-
     showShoes();
-
 });

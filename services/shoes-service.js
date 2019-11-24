@@ -1,14 +1,6 @@
 module.exports = function ShoeService(pool) {
 
     async function add(shoe) {
-
-        // const duplicateShoesCheck = await pool.query(`select stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
-        // from stock 
-        // inner join brands on stock.brand_id = brands.id 
-        // inner join colors on stock.color_id = colors.id 
-        // inner join sizes on stock.size_id = sizes.id;`)
-        //console.log(typeof shoe.brand)
-
         const duplicateShoesCheck = await pool.query(`SELECT * FROM stock 
         WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [shoe.brand, shoe.color, shoe.size]);
         const result = duplicateShoesCheck.rowCount;
@@ -16,7 +8,7 @@ module.exports = function ShoeService(pool) {
             const shoeToAddQuantityAndPrice = await pool.query(`SELECT quantity, price 
             FROM stock 
             WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [shoe.brand, shoe.color, shoe.size]);
-            let newShoesQuantity = shoeToAddQuantityAndPrice.rows[0].quantity + shoe.quantity;
+            let newShoesQuantity = shoeToAddQuantityAndPrice.rows[0].quantity + Number(shoe.quantity);
             let shoesPrice = shoeToAddQuantityAndPrice.rows[0].price = shoe.price;
             await pool.query('UPDATE stock SET quantity = $1, price = $2 WHERE brand_id = $3 AND color_id = $4 AND size_id = $5', [newShoesQuantity, shoesPrice, shoe.brand, shoe.color, shoe.size]);
         } else {
@@ -114,9 +106,17 @@ module.exports = function ShoeService(pool) {
             if (cartUpdate.quantity < cartedShoe.quantity) {
                 cartUpdate.quantity++
                 await pool.query(`UPDATE cart SET quantity = $1 WHERE stock_id = $2`, [cartUpdate.quantity, cartedShoe.id]);
-                //if they are the same prevent carting
+                //if they are the same simply return what is currently in the cart
             } else if (cartUpdate.quantity == cartedShoe.quantity) {
-                return false
+                let cartItemsExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
+                from cart 
+                inner join brands on cart.brand = brands.id 
+                inner join colors on cart.color = colors.id 
+                inner join sizes on cart.size = sizes.id`);
+                let cartItems = cartItemsExtraction.rows
+                let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
+                let cartTotal = cartTotalExtraction.rows[0].totalprice
+                cartItems[0].total = cartTotal
             }
         }
         let cartItemsExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
@@ -128,7 +128,6 @@ module.exports = function ShoeService(pool) {
         let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
         let cartTotal = cartTotalExtraction.rows[0].totalprice
         cartItems[0].total = cartTotal
-        //console.log(cartItems)
         return cartItems
     }
 

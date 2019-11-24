@@ -61,9 +61,9 @@ app.use(bodyParser.json())
 app.get('/', shoesRoutes.homeRoute);
 app.post('/shoes', shoesRoutes.addRoute);
 app.post('/shoes/brand', shoesRoutes.filterRoute);
-app.post('/shoes/cart', shoesRoutes.cartRoute)
-app.post('/shoes/checkout', shoesRoutes.checkoutRoute)
-app.post('/shoes/cancel', shoesRoutes.cancelRoute)
+app.post('/shoes/cart', shoesRoutes.cartRoute);
+app.post('/shoes/checkout', shoesRoutes.checkoutRoute);
+app.post('/shoes/cancel', shoesRoutes.cancelRoute);
 
 
 //app.post('/aPostRoute', shoesRoutes.aPostRoute);
@@ -84,9 +84,9 @@ app.get('/api/shoes/brand/:brand/size/:size/color/:color', shoesAPI.filterShoes)
 //update stock levels when a shoe or shoes are checked out
 app.get('/api/shoes/cart/brand/:brand/size/:size/color/:color', shoesAPI.cartShoes);
 //checkout stock
-app.post('/api/shoes/checkout', shoesAPI.checkoutShoes)
+app.post('/api/shoes/checkout', shoesAPI.checkoutShoes);
 //cancel stock
-app.post('/api/shoes/cancel', shoesAPI.cancelShoes)
+app.post('/api/shoes/cancel', shoesAPI.cancelShoes);
 
 let PORT = process.env.PORT || 4009;
 

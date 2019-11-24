@@ -1,9 +1,5 @@
 module.exports = function ShoesRoutes(shoeService) {
 
-    // function sendRoute(req, res, err) {
-    //     res.send("Basic ExpressJS Server Template");
-    // }
-
     async function homeRoute(req, res, next) {
         try {
             res.render('home', {
@@ -16,8 +12,18 @@ module.exports = function ShoesRoutes(shoeService) {
 
     async function addRoute(req, res, next) {
         try {
+            let brand = req.body.brand
+            let color = req.body.color 
+            let size = Number(req.body.size)
+            let price = Number(req.body.price)
+            let quantity = Number(req.body.quantity)
+
+            if (brand && color && size && price && quantity){
             await shoeService.add(req.body)
             res.redirect("/");
+        } else {
+            res.redirect("/")
+        }
         } catch (err) {
             next(err);
         }
@@ -28,6 +34,7 @@ module.exports = function ShoesRoutes(shoeService) {
             let brand = req.body.brand
             let color = req.body.color
             let size = req.body.size
+            
             if (brand && !color && !size) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterBrand(brand),
