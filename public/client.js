@@ -1,17 +1,28 @@
 document.addEventListener('DOMContentLoaded', function () {
     
+    function compileTemplate(selector) {
+        let template = document.querySelector(selector);
+        let templateInstance = Handlebars.compile(template.innerHTML);
+        return templateInstance;
+    }
+
     //QUERYSELECTORS
-    let stockTemplate = document.querySelector('.stockTemplate')
     let stockTemplateInsertPoint = document.querySelector('.stockTemplateInsertPoint');
-    let stockTemplateInstance = Handlebars.compile(stockTemplate.innerHTML);
+    let stockTemplateInstance = compileTemplate('.stockTemplate')
+    // let stockTemplate = document.querySelector('.stockTemplate')
+    // let stockTemplateInstance = Handlebars.compile(stockTemplate.innerHTML);
 
-    let filteredStockTemplate = document.querySelector('.filteredStockTemplate');
     let filteredStockTemplateInsertPoint = document.querySelector('.filteredStockTemplateInsertPoint');
-    let filteredStockTemplateInstance = Handlebars.compile(filteredStockTemplate.innerHTML);
-
-    let cartedStockTemplate = document.querySelector('.cartedStockTemplate');
+    let filteredStockTemplateInstance = compileTemplate('.filteredStockTemplate')
+    // let filteredStockTemplate = document.querySelector('.filteredStockTemplate');
+    // let filteredStockTemplateInstance = Handlebars.compile(filteredStockTemplate.innerHTML);
+    
     let cartedStockTemplateInsertPoint = document.querySelector(".cartedStockTemplateInsertPoint")
-    let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
+    let cartedStockTemplateInstance = compileTemplate('.cartedStockTemplate')
+    // let cartedStockTemplate = document.querySelector('.cartedStockTemplate');
+    // let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
+    let errorsElem = document.querySelector('.errors')
+    let errorsTemplateInstance = compileTemplate('.errorsTemplate');
 
     //BUTTONS
     var updateBtn = document.querySelector(".updateBtn");
@@ -31,58 +42,12 @@ document.addEventListener('DOMContentLoaded', function () {
     var addPrice = document.querySelector(".addPrice");
     var addQuantity = document.querySelector(".addQuantity"); 
 
-    function ShoesService() {
-        function postShoes(data) {
-            return axios.post('/api/shoes', data)
-        }
+    const shoesService = ShoesService();
 
-        function getShoes() {
-            return axios.get('/api/shoes')
-        }
-
-        function getFilterBrand(brand) {
-            return axios.get('/api/shoes/brand/' + brand)
-        }
-
-        function getFilterColor(color) {
-            return axios.get('/api/shoes/color/' + color)
-        }
-
-        function getFilterSize(size) {
-            return axios.get('/api/shoes/size/' + size)
-        }
-
-        function getFilterBrandColorSize(brand, color, size) {
-            return axios.get('/api/shoes/brand/' + brand + "/size/" + color + "/color/" + size)
-        }
-
-        function getCart(brand, color, size) {
-            return axios.get('/api/shoes/cart/brand/' + brand + '/size/' + size + '/color/' + color)
-        }
-
-        function postCheckout() {
-            return axios.post('/api/shoes/checkout')
-        }
-
-        function postCancel() {
-            return axios.post('/api/shoes/cancel')
-        }
-
-        return {
-            postShoes,
-            getShoes,
-            getFilterBrand,
-            getFilterColor,
-            getFilterSize,
-            getFilterBrandColorSize,
-            getCart,
-            postCheckout,
-            postCancel
-        }
-    }
-
+    //This code keeps table headers in place if there are no row entries
     function tableHeadersPlaceholder() {
-        if (document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length == 0) {
+        console.log(document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length)
+        if (document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length < 50) {
             let table = document.createElement("table");
             table.setAttribute("class", "table-fixed px-4 py-2 headerPlaceHolder")
             let head = document.createElement("thead")
@@ -126,8 +91,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     tableHeadersPlaceholder()
-
-    let shoesService = ShoesService();
 
     function showShoes() {
         shoesService
@@ -276,30 +239,10 @@ document.addEventListener('DOMContentLoaded', function () {
         let size = Number(selectAddSize.value)
         let price = Number(addPrice.value)
         let quantity = Number(addQuantity.value)
-
-        // let description = productNameElem.value;
-        // let category_id = categoryIdElem.value;
-        // let price = priceElem.value;
-
-        // let errors = [];
-        // if (!brand) {
-        //     errors.push('Select a brand!');
-        // }
-        // if (!style) {
-        //     errors.push('Select a style!');
-        // }
-        // if (!color) {
-        //     errors.push('Select a color!');
-        // }
-        // if (!price){
-        //     errors.push('Enter a price!')
-        // }
-        // if (!quantity){
-        //     errors.push('Enter a quantity!')
-        // }
-
-        // if (errors.length === 0) {
-        //     errorsElem.innerHTML = '';
+        let error = [];
+        if (!brand || !color || !size || !price || !quantity){
+        error.push('Please complete all inputs!')
+        }
         if (brand && color && size && price && quantity) {
             shoesService.postShoes({
                     brand,
@@ -317,10 +260,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert(err);
                 });
         }
-        // }
-        // else {
-        //     errorsElem.innerHTML = errorsTemplateInstance({errors});
-        // }
+        else {
+            errorsElem.innerHTML = errorsTemplateInstance({error});
+        }
 
     });
     showShoes();

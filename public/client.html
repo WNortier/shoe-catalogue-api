@@ -5,271 +5,281 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Shoe Catalogue</title>
+    <title>ShoeCatalogueAPI</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="tailwind/tailwindstyle.css">
 
-    <script type="text/x-handlebars-template" class="shoesListTemplate">
-        <table class="center">
-        <tr>
-            <th>Brand</th>
-            <th>Color</th>
-            <th>Style</th>
-            <th>Size</th>
-            <th>Price</th>
-            <th>Quantity</th>
+    <script type="text/x-handlebars-template" class="stockTemplate">
+        <table class="table-fixed px-4 py-2">
+        <thead>
+        <tr class="bg-gray-100">
+            <th class="w-1/2 px-4 py-2">Brand</th>
+            <th class="w-1/2 px-4 py-2">Color</th>
+            <th class="w-1/2 px-4 py-2">Size</th>
+            <th class="w-1/2 px-4 py-2">Price</th>
+            <th class="w-1/2 px-4 py-2">Quantity</th>
         </tr>
+        </thead>
         {{#each shoesEntry}}
-        <tr>
-            <td>{{brand}}</td>
-            <td>{{color}}</td>
-            <td>{{style}}</td>
-            <td>{{size}}</td>
-            <td>{{price}}</td>
-            <td>{{quantity}}</td>
-        </tr>
-        {{/each}}
-    </table>
-    </script>
-
-    <script type="text/x-handlebars-template" class="filteredShoesListTemplate">
-        <table class="center">
-        <tr>
-            <th>Brand</th>
-            <th>Color</th>
-            <th>Style</th>
-            <th>Size</th>
-            <th>Price</th>
-            <th>Quantity</th>
-        </tr>
-        {{#each filteredShoes}}
-        <tr>
-            <td>{{brand}}</td>
-            <td>{{color}}</td>
-            <td>{{style}}</td>
-            <td>{{size}}</td>
-            <td>{{price}}</td>
-            <td>{{quantity}}</td>
+        <tr class="bg-gray-100">
+            <td class="border px-4 py-2">{{brand}}</td>
+            <td class="border px-4 py-2">{{color}}</td>
+            <td class="border px-4 py-2">{{size}}</td>
+            <td class="border px-4 py-2">{{price}}</td>
+            <td class="border px-4 py-2">{{quantity}}</td>
         </tr>
         {{/each}}
         </table>
     </script>
 
-    <script type="text/x-handlebars-template" class="cartedShoesTemplate">
-        <table class="col-12 cartInfoTable cartStyling">
-            <caption>Cart Summary</caption>
-            {{#each cartedShoes}}
-            <tr>
-                <th>Product Info</th>
-                <th>Price</th>
-                <th>Quantity</th>
-            </tr>
+    <script type="text/x-handlebars-template" class="filteredStockTemplate">
+        <table class="table-fixed px-4 py-2">
+        <thead>
+        <tr class="bg-gray-100">
+            <th class="w-1/2 px-4 py-2">Brand</th>
+            <th class="w-1/2 px-4 py-2">Color</th>
+            <th class="w-1/2 px-4 py-2">Size</th>
+            <th class="w-1/2 px-4 py-2">Price</th>
+            <th class="w-1/2 px-4 py-2">Quantity</th>
+        </tr>
+        </thead>
+        {{#each filteredShoes}}
+        <tr class="bg-gray-100">
+            <td class="border px-4 py-2">{{brand}}</td>
+            <td class="border px-4 py-2">{{color}}</td>
+            <td class="border px-4 py-2">{{size}}</td>
+            <td class="border px-4 py-2">{{price}}</td>
+            <td class="border px-4 py-2">{{quantity}}</td>
+        </tr>
+        {{/each}}
+        </table>
+    </script>
 
-            <tr>
-                <td>{{brand}}</td>
-                <td>{{price}}</td>
-                <td>{{quantity}}</td>
+    <script type="text/x-handlebars-template" class="cartedStockTemplate">
+        <table class="table-fixed px-4 py-2">
+            <!-- <caption>Cart Summary</caption> -->
+            {{#each cartedShoes}}
+            <thead>
+            <tr class="bg-gray-100">
+                <th class="w-1/2 px-4 py-2">Info</th>
+                <th class="w-1/2 px-4 py-2">Price</th>
+                <th class="w-1/2 px-4 py-2">Quantity</th>
             </tr>
-            <tr>
-                <td>{{size}}</td>
-                <td></td>
-                <td></td>
+            </thead>
+            <tr class="bg-gray-100">
+                <td class="border px-4 py-2">{{brand}}</td>
+                <td class="border px-4 py-2">{{price}}</td>
+                <td class="border px-4 py-2">{{quantity}}</td>
+            </tr>
+            <tr class="bg-gray-100">
+                <td class="border px-4 py-2">{{size}}</td>
+                <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2"></td>
                 <!-- <td><button>del</button></td> -->
             </tr>
-            <tr>
-                <td>{{color}}</td>
+            <tr class="bg-gray-100">
+                <td class="border px-4 py-2">{{color}}</td>
+                <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2"></td>
             </tr>
             {{/each}}
-            <tr>
-                <td></td>
-                <td></td>
-                <td>CART TOTAL:{{#cartedShoes}}{{total}}{{/cartedShoes}}</td>
+            <tr class="bg-gray-100">
+                <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2">TOTAL: R{{#cartedShoes}}{{total}}{{/cartedShoes}}.00</td>
             </tr>
         </table>
     </script>
+
+    <!-- <script type="text/x-template" class="errorsTemplate">
+        <ul>
+            {{#each errors}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </script> -->
+
+    <!-- <script type="text/x-template" class="errorsTemplate">
+        <ul>
+            {{#each errors}}
+                <li>{{this}}</li>
+            {{/each}}
+        </ul>
+    </script> -->
+
+    <script type="text/x-template" class="errorsTemplate">
+        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 items-center" role="alert">
+        <strong class="font-bold">Error</strong>
+        <span class="block sm:inline items-center">{{error}}</span>
+       </div>
+    </script>
+
 </head>
 
-<body>
-    <div class="row header center">
-        <div class="col-3" class="#" id="#">
-            <h1>Shoe Catalogue</h1>
-        </div>
-        <div class="col-4" class="#" id="#">
-        </div>
-        <div class="col-4" class="#" id="#">
-        </div>
-    </div>
-    <!-- ▉▉▉▉▉▉ PURHCASE-SETTINGS ▉▉▉▉▉▉ -->
-    <div class="row">
-        <div class="col-9">
+<body class="bg-gray-600">
 
-            <div class="row">
-                <div class="col-6 center purchaseSettings">
-                    <div class="settingsSpacer"></div>
-                    <div class="row">
-                        <div class="center">
-                            <div class="col-4 right">
-                                <button class="infoBtn">Info</button>
-                                <button class="cartBtn">Cart</button>
-                            </div>
-                            <div class="col-4"></div>
-                            <div class="col-4"></div>
+    <header class="bg-gray-400 text-gray-700 py-2 px-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-2xl font-bold">ShoeCatalogueAPI</h1>
+        </div>
+    </header>
 
-                        </div>
+    <div class="container-fluid mx-auto lg:flex">
+
+        <div class="container mx-auto flex-wrap">
+            <div class="container mx-auto px-5 py-5 flex-wrap">
+
+
+                <div class="flex flex-col bg-gray-200 rounded">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                        <h3 class="font-bold">Filter Stock Settings</h3>
                     </div>
-                    <div class="settingsSpacerSecond"></div>
-                    <div class="purchaseDropdown">
-                        <select class="selectFilterBrand">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn">Filter</button>
+                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button>
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 flex flex-wrap rounded">
+                        <select class="selectFilterBrand h-10 px-2 py-2 m-2 rounded">
+                            <option class="" value="">Select a brand</option>
+                            <option value="1">Zonverse</option>
+                            <option value="2">Yuma</option>
+                            <option value="3">Kucci</option>
+                            <option value="4">Jimmy Woo</option>
+                        </select>
+                        <select class="selectFilterColor h-10 px-2 py-2 m-2 rounded">
+                            <option value="">Select a color</option>
+                            <option value="1">Black</option>
+                            <option value="2">Pink</option>
+                            <option value="3">Red</option>
+                            <option value="4">Metallic</option>
+                        </select>
+                        <select class="selectFilterSize h-10 px-2 py-2 m-2 rounded">
+                            <option value="">Select a size</option>
+                            <option value="1">6</option>
+                            <option value="2">7</option>
+                            <option value="3">8</option>
+                            <option value="4">9</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-5 py-5 flex-wrap">
+
+                <div class="flex flex-col bg-gray-200 rounded">
+
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                        <h3 class="font-bold">Update Stock Settings</h3>
+                    </div>
+
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded updateBtn">Update</button>
+                    </div>
+                    <div class="errors">
+                    </div>
+
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 flex flex-wrap rounded">
+                        <select class="selectAddBrand h-10 px-2 py-2 m-2">
                             <option class="inner" value="">Select a brand</option>
                             <option class="inner" value="1">Zonverse</option>
                             <option class="inner" value="2">Yuma</option>
                             <option class="inner" value="3">Kucci</option>
                             <option class="inner" value="4">Jimmy Woo</option>
                         </select>
-                        <select class="selectFilterColor">
+                        <select class="selectAddColor h-10 px-2 py-2 m-2">
                             <option class="inner" value="">Select a color</option>
                             <option class="inner" value="1">Black</option>
                             <option class="inner" value="2">Pink</option>
                             <option class="inner" value="3">Red</option>
                             <option class="inner" value="4">Metallic</option>
                         </select>
-                        <select class="selectFilterSize">
+                        <select class="selectAddSize h-10 px-2 py-2 m-2">
                             <option class="inner" value="">Select a size</option>
                             <option class="inner" value="1">6</option>
                             <option class="inner" value="2">7</option>
                             <option class="inner" value="3">8</option>
                             <option class="inner" value="4">9</option>
                         </select>
-                    </div>
-                </div>
-                <!-- ▉▉▉▉▉▉ INFO/STATUS DASHBOARDS ▉▉▉▉▉▉ -->
-                <div class="col-6 center" class="#" id="#">
-                    <div class="shoeData">
-                        <h2>Stock Info</h2>
-                        <div class="settingsSpacerSecond"></div>
-                        <div class="row">
-                            <div
-                                class="center infoTemplateInsertPoint infoDivs getFilteredShoesListTemplateInsertPoint">
-                                <!-- <div class="col-12 shoeDataInfo">Info displayed here</div> -->|
-                            </div>
-                        </div>
-                    </div>
-                    <div class="error">
-                        <h2>Status</h2>
-                        <!-- <div class="settingsSpacerSecond"></div> -->
-                        <div class="row">
-                            <div class="center">
-                                <div class="col-12 shoeDataError">...</div>
 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- ▉▉▉▉▉▉ ADD-STOCK SETTINGS ▉▉▉▉▉▉ -->
-            <div class="row">
-                <div class="col-6 center addSettings" class="#" id="#">
-                    <h2>Update Stock Settings</h2>
-                    <div class="settingsSpacer addSpacerRemover"></div>
-                    <div class="row">
-                        <div class="center ">
-                            <div class="col-4 right">
-                                <button class="addBtn">Update</button>
-                                <button style="visibility: hidden;">fake</button>
-                            </div>
-                            <div class="col-4"></div>
-                            <div class="col-4"></div>
-                        </div>
                     </div>
 
-                    <div class="settingsSpacerSecond addSpacerRemover"></div>
-                    <div class="addDropdown">
-                        <select class="selectAddBrand">
-                            <option class="inner" value="">Select a brand</option>
-                            <option class="inner" value="1">Zonverse</option>
-                            <option class="inner" value="2">Yuma</option>
-                            <option class="inner" value="3">Kucci</option>
-                            <option class="inner" value="4">Jimmy Woo</option>
-                        </select>
-                        <select class="selectAddColor">
-                            <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="1">Black</option>
-                            <option class="inner" value="2">Pink</option>
-                            <option class="inner" value="3">Red</option>
-                            <option class="inner" value="4">Metallic</option>
-                        </select>
-                        <select class="selectAddSize">
-                            <option class="inner" value="">Select a size</option>
-                            <option class="inner" value="1">6</option>
-                            <option class="inner" value="2">7</option>
-                            <option class="inner" value="3">8</option>
-                            <option class="inner" value="4">9</option>
-                        </select>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 md:flex lg:flex xl:flex rounded">
+
+                        <input class="addPrice h-10 px-2 py-2 m-2 sm:flex-wrap" placeholder="Enter price" 
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            type="number" maxlength="7">
+                        <input class="addQuantity h-10 px-2 py-2 m-2 flex-wrap" placeholder="Enter quantity"
+                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                            type="number" maxlength="2">
+
                     </div>
 
-                    <div class="settingsSpacerThird addSpacerRemover"></div>
-                    <div class="row">
-                        <div class="center">
-                            <div class="col-10"><input class="addPrice" placeholder="Enter price"
-                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                    type="number" maxlength="7">
-                                <input class="addQuantity" placeholder="Enter quantity"
-                                    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                    type="number" maxlength="2"></div>
-                            <div class="col-2"></div>
-                        </div>
-                    </div>
                 </div>
-                <div class="col-6 center button buttonZone">
-                    <button class="stockListBtn">Stock list</button>
-                </div>
-                <div class="scrollable stockListDiv center getShoesTemplateInsertPoint">
-                    <!-- style="display:none;" -->
-                    <!-- <table class="col-12 center getShoesTemplateInsertPoint"> -->
-                    <!-- <h2>Stock List</h2>
-                                <div class="settingsSpacerSecond"></div>
-                                <div class="row">
-                                    <div class="center stockListTemplateInsertPoint stockListDivs">
-                                    </div>
-                                </div> -->
-                    <!-- </table> -->
-                </div>
+
             </div>
         </div>
-        <!-- ▉▉▉▉▉▉ CART SETTINGS ▉▉▉▉▉▉ -->
-        <div class="col-12 center cart" class="#" id="#">
-            <div class="row">
-                <div class="col-12 center">
-                    <div class="col-12 center myHeader">
-                        <h2>Shopping Basket</h2>
-                    </div>
+
+        <div class="container mx-auto flex-wrap">
+
+            <div class="container mx-auto px-5 py-5">
+                <div class="flex flex-col bg-gray-200 rounded">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                        <h3 class="font-bold">Filter Dashboard</h3></div>
+                    <div
+                        class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto filteredStockTemplateInsertPoint rounded"></div>
                 </div>
             </div>
-            <!-- <div class="cartSpacer"></div> -->
-            <div class="col-12 center ">
-                <div class="row">
-                    <div class="col-12 center cartTemplateInsertPoint">
-                        <!-- <table class="col-12 cartedShoesTemplateInsertPoint cartInfoTable cartStyling">
 
-                        </table> -->
+            <div class="container mx-auto px-5 py-5 rounded-lg">
+                <div class="flex flex-col bg-gray-200 rounded-lg">
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                        <h3 class="font-bold">Stock Dashboard</h3>
                     </div>
+                    <div
+                        class="text-gray-700 text-center bg-gray-400 px-4 py-8 m-2 overflow-x-auto rounded-lg stockTemplateInsertPoint">
+                    </div>
+                    <!-- <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded-lg">3</div> -->
                 </div>
-
             </div>
 
         </div>
-    </div>
-    <div class="row">
-        <div class="center">
-            <div class="col-9"></div>
-            <div class="col-3 cartButtons">
-                <button class="checkoutBtn">Checkout</button>
-                <button class="cancelBtn">Cancel</button>
+
+        <div class="container mx-auto px-5 py-5 flex-wrap">
+            <div class="flex flex-col bg-gray-200 rounded">
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                    <h3 class="font-bold">Cart</h3>
+                </div>
+                <div
+                    class="text-gray-700 text-center px-4 py-2 m-2 overflow-x-auto cartedStockTemplateInsertPoint rounded">
+                    <!-- <table class="table-fixed px-4 py-2">
+                        <thead>
+                            <tr class="bg-gray-100">
+                                <th class="w-1/2 px-4 py-2">Color</th>
+                                <th class="w-1/2 px-4 py-2">Brand</th>
+                                <th class="w-1/2 px-4 py-2">Size</th>
+                                <th class="w-1/2 px-4 py-2">Price</th>
+                                <th class="w-1/2 px-4 py-2">Quantity</th>
+                            </tr>
+                        </thead>
+                        <tr class="bg-gray-100">
+                            <td class="border px-4 py-2">Zonverse</td>
+                            <td class="border px-4 py-2">Red</td>
+                            <td class="border px-4 py-2">9</td>
+                            <td class="border px-4 py-2">499</td>
+                            <td class="border px-4 py-2">5</td>
+                        </tr>
+                    </table> -->
+                </div>
+                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                    <button class="bg-teal-700 font-light text-white py-2 px-4 rounded checkoutBtn">Checkout</button>
+                    <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cancelBtn">Cancel</button>
+                </div>
             </div>
         </div>
     </div>
 </body>
+<script src="api-routes.js"></script>
 <script src="client.js"></script>
 
 </html>
