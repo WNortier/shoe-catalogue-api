@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
+
     function compileTemplate(selector) {
         let template = document.querySelector(selector);
         let templateInstance = Handlebars.compile(template.innerHTML);
@@ -16,12 +16,13 @@ document.addEventListener('DOMContentLoaded', function () {
     let filteredStockTemplateInstance = compileTemplate('.filteredStockTemplate')
     // let filteredStockTemplate = document.querySelector('.filteredStockTemplate');
     // let filteredStockTemplateInstance = Handlebars.compile(filteredStockTemplate.innerHTML);
-    
+
     let cartedStockTemplateInsertPoint = document.querySelector(".cartedStockTemplateInsertPoint")
     let cartedStockTemplateInstance = compileTemplate('.cartedStockTemplate')
     // let cartedStockTemplate = document.querySelector('.cartedStockTemplate');
     // let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
-    let errorsElem = document.querySelector('.errors')
+    let updateErrorElem = document.querySelector('.updateError')
+    let filterErrorElem = document.querySelector('.filterError')
     let errorsTemplateInstance = compileTemplate('.errorsTemplate');
 
     //BUTTONS
@@ -40,13 +41,24 @@ document.addEventListener('DOMContentLoaded', function () {
     var selectAddSize = document.querySelector(".selectAddSize");
     //ADD INPUT FIELDS 
     var addPrice = document.querySelector(".addPrice");
-    var addQuantity = document.querySelector(".addQuantity"); 
+    var addQuantity = document.querySelector(".addQuantity");
 
     const shoesService = ShoesService();
 
-    //This code keeps table headers in place if there are no row entries
+    function clearFields() {
+        addPrice.value = "";
+        addQuantity.value = "";
+        updateErrorElem.innerHTML = "";
+        filterErrorElem.innerHTML = "";
+        let dropdowns = document.querySelectorAll('.dropdowns');
+        for (var i = 0, l = dropdowns.length; i < l; i++) {
+            dropdowns[i].selected = dropdowns[i].defaultSelected;
+        }
+    }
+
+    //This code keeps the filter stock table header in place if there is currently no table data
     function tableHeadersPlaceholder() {
-        console.log(document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length)
+        //less than 50 to account for whitespaces in the markup
         if (document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length < 50) {
             let table = document.createElement("table");
             table.setAttribute("class", "table-fixed px-4 py-2 headerPlaceHolder")
@@ -92,13 +104,30 @@ document.addEventListener('DOMContentLoaded', function () {
 
     tableHeadersPlaceholder()
 
+    document.addEventListener('DOMContentLoaded', function () {
+        let filterError = document.querySelector('.filterError');
+        if (filterError.innerHTML !== '') {
+            setTimeout(function () {
+                filterError.innerHTML = '';
+            }, 3000)
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        let updateError = document.querySelector('.updateError');
+        if (updateError.innerHTML !== '') {
+            setTimeout(function () {
+                updateError.innerHTML = '';
+            }, 3000)
+        }
+    });
+
     function showShoes() {
         shoesService
             .getShoes()
             .then(function (results) {
                 let response = results.data;
                 let data = response.data;
-                //console.log(data)
                 let html = stockTemplateInstance({
                     shoesEntry: data
                 });
@@ -111,7 +140,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
         let brand = selectFilterBrand.value
         let color = selectFilterColor.value
-        let size = selectFilterSize.value
+        let size = Number(selectFilterSize.value)
+
+        let error = [];
+        error.length = 0;
+        if (!brand && !color && !size) {
+            error.push('Please complete all inputs!')
+        } else if (!size || !brand) {
+            error.push('Invalid search combination!')
+        }
 
         if (brand && !color && !size) {
             shoesService
@@ -124,6 +161,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     let filteredShoesTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                    clearFields();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -138,6 +176,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    clearFields();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -152,6 +191,22 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    clearFields();
+                }).catch(function (err) {
+                    alert(err);
+                });
+        } else if (brand && size && !color) {
+            shoesService
+                .getFilterBrandSize(brand, size)
+                .then(function (results) {
+                    let response = results.data;
+                    let data = response.data;
+                    let html = filteredStockTemplateInstance({
+                        filteredShoes: data
+                    });
+                    let filteredStockTableHTML = html;
+                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    clearFields();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -166,34 +221,51 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    clearFields();
                 }).catch(function (err) {
                     alert(err);
                 });
+        } else {
+            filterErrorElem.innerHTML = errorsTemplateInstance({
+                error
+            });
         }
     })
 
     cartBtn.addEventListener('click', function () {
-        let brand = Number(selectFilterBrand.value)
-        let color = Number(selectFilterColor.value)
+        let brand = selectFilterBrand.value
+        let color = selectFilterColor.value
         let size = Number(selectFilterSize.value)
 
-        shoesService.getCart(brand, color, size)
-            .then(function (results) {
-                let response = results.data;
-                let data = response.data;
+        let error = [];
+        error.length = 0;
+        if (!brand || !color || !size) {
+            error.push('Please complete all inputs!')
+        }
 
-                let html = cartedStockTemplateInstance({
-                    cartedShoes: data
-                });
-                let cartedTableHtml = html;
-                cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
-            }).catch(function (err) {
-                alert(err);
+        if (brand && color && size) {
+            shoesService.getCart(brand, color, size)
+                .then(function (results) {
+                    let response = results.data;
+                    let data = response.data;
+
+                    let html = cartedStockTemplateInstance({
+                        cartedShoes: data
+                    });
+                    let cartedTableHtml = html;
+                    cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
+                    clearFields();
+                }).catch(function (err) {
+                    alert(err);
+                })
+        } else {
+            filterErrorElem.innerHTML = errorsTemplateInstance({
+                error
             });
+        }
     });
 
     checkoutBtn.addEventListener('click', function () {
-
         shoesService.postCheckout()
             .then(function (results) {
                 let response = results.data;
@@ -205,8 +277,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
             }).then(function () {
                 showShoes();
+                clearFields();
                 cartedStockTemplateInsertPoint.innerHTML = "";
-                //clearFields();
             }).catch(function (err) {
                 alert(err);
             });
@@ -225,7 +297,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then(function () {
                 showShoes();
                 cartedStockTemplateInsertPoint.innerHTML = "";
-                //clearFields();
             }).catch(function (err) {
                 alert(err);
             });
@@ -240,8 +311,9 @@ document.addEventListener('DOMContentLoaded', function () {
         let price = Number(addPrice.value)
         let quantity = Number(addQuantity.value)
         let error = [];
-        if (!brand || !color || !size || !price || !quantity){
-        error.push('Please complete all inputs!')
+
+        if (!brand || !color || !size || !price || !quantity) {
+            error.push('Please complete all inputs!')
         }
         if (brand && color && size && price && quantity) {
             shoesService.postShoes({
@@ -254,14 +326,15 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 .then(function () {
                     showShoes();
-                    //clearFields();
+                    clearFields();
                 })
                 .catch(function (err) {
                     alert(err);
                 });
-        }
-        else {
-            errorsElem.innerHTML = errorsTemplateInstance({error});
+        } else {
+            updateErrorElem.innerHTML = errorsTemplateInstance({
+                error
+            });
         }
 
     });

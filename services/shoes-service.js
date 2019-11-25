@@ -64,6 +64,17 @@ module.exports = function ShoeService(pool) {
         return sizeFilter
     }
 
+    async function filterBrandSize(brand, size){
+        const brandSizeFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        FROM stock 
+        INNER JOIN brands ON stock.brand_id = brands.id 
+        INNER JOIN colors ON stock.color_id = colors.id 
+        INNER JOIN sizes ON stock.size_id = sizes.id
+        WHERE stock.brand_id = $1 AND stock.size_id = $2`, [brand, size]);
+        let brandSizeFilter = brandSizeFilterExtraction.rows
+        return brandSizeFilter
+    }
+
     async function filterBrandColorSize(brand, color, size) {
         const brandColorSizeFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
         FROM stock 
@@ -172,6 +183,7 @@ module.exports = function ShoeService(pool) {
         filterBrand,
         filterColor,
         filterSize,
+        filterBrandSize,
         filterBrandColorSize,
         cart,
         showCart,

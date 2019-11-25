@@ -31,7 +31,7 @@ module.exports = function (shoeService) {
             let brand = req.params.brand
             let color = req.params.color
             let size = req.params.size
-            //console.log(brand)
+            
             if (brand && !color && !size) {
                 var filteredData = await shoeService.filterBrand(brand);
             }
@@ -40,6 +40,9 @@ module.exports = function (shoeService) {
             }
             if (size && !brand && !color) {
                 var filteredData = await shoeService.filterSize(size);
+            }
+            if (brand && size) {
+                var filteredData = await shoeService.filterBrandSize(brand, size);
             }
             if (brand && color && size) {
                 var filteredData = await shoeService.filterBrandColorSize(brand, color, size);

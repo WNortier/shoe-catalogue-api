@@ -109,9 +109,9 @@
     </script> -->
 
     <script type="text/x-template" class="errorsTemplate">
-        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 items-center" role="alert">
+        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3  text-center" role="alert">
         <strong class="font-bold">Error</strong>
-        <span class="block sm:inline items-center">{{error}}</span>
+        <span class="block sm:inline items-center text-center">{{error}}</span>
        </div>
     </script>
 
@@ -120,7 +120,7 @@
 <body class="bg-gray-600">
 
     <header class="bg-gray-400 text-gray-700 py-2 px-4">
-        <div class="container mx-auto px-4">
+        <div class="container mx-auto px-4 border-gray-700">
             <h1 class="text-2xl font-bold">ShoeCatalogueAPI</h1>
         </div>
     </header>
@@ -139,27 +139,29 @@
                         <button class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn">Filter</button>
                         <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button>
                     </div>
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 flex flex-wrap rounded">
+                    <div class="filterError">
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 content-between rounded">
                         <select class="selectFilterBrand h-10 px-2 py-2 m-2 rounded">
                             <option class="" value="">Select a brand</option>
-                            <option value="1">Zonverse</option>
-                            <option value="2">Yuma</option>
-                            <option value="3">Kucci</option>
-                            <option value="4">Jimmy Woo</option>
+                            <option class="dropdowns" value="1">Zonverse</option>
+                            <option class="dropdowns" value="2">Yuma</option>
+                            <option class="dropdowns" value="3">Kucci</option>
+                            <option class="dropdowns" value="4">Jimmy Woo</option>
                         </select>
                         <select class="selectFilterColor h-10 px-2 py-2 m-2 rounded">
-                            <option value="">Select a color</option>
-                            <option value="1">Black</option>
-                            <option value="2">Pink</option>
-                            <option value="3">Red</option>
-                            <option value="4">Metallic</option>
+                            <option class="dropdowns" value="">Select a color</option>
+                            <option class="dropdowns" value="1">Black</option>
+                            <option class="dropdowns" value="2">Pink</option>
+                            <option class="dropdowns" value="3">Red</option>
+                            <option class="dropdowns" value="4">Metallic</option>
                         </select>
                         <select class="selectFilterSize h-10 px-2 py-2 m-2 rounded">
-                            <option value="">Select a size</option>
-                            <option value="1">6</option>
-                            <option value="2">7</option>
-                            <option value="3">8</option>
-                            <option value="4">9</option>
+                            <option class="dropdowns" value="">Select a size</option>
+                            <option class="dropdowns" value="1">6</option>
+                            <option class="dropdowns" value="2">7</option>
+                            <option class="dropdowns" value="3">8</option>
+                            <option class="dropdowns" value="4">9</option>
                         </select>
                     </div>
                 </div>
@@ -176,30 +178,30 @@
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
                         <button class="bg-teal-700 font-light text-white py-2 px-4 rounded updateBtn">Update</button>
                     </div>
-                    <div class="errors">
+                    <div class="updateError">
                     </div>
-
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 flex flex-wrap rounded">
-                        <select class="selectAddBrand h-10 px-2 py-2 m-2">
-                            <option class="inner" value="">Select a brand</option>
-                            <option class="inner" value="1">Zonverse</option>
-                            <option class="inner" value="2">Yuma</option>
-                            <option class="inner" value="3">Kucci</option>
-                            <option class="inner" value="4">Jimmy Woo</option>
+                    
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 content-between rounded">
+                        <select class="selectAddBrand h-10 px-2 py-2 m-2 rounded dropdowns">
+                            <option class="dropdowns" value="">Select a brand</option>
+                            <option class="dropdowns" value="1">Zonverse</option>
+                            <option class="dropdowns" value="2">Yuma</option>
+                            <option class="dropdowns" value="3">Kucci</option>
+                            <option class="dropdowns" value="4">Jimmy Woo</option>
                         </select>
-                        <select class="selectAddColor h-10 px-2 py-2 m-2">
-                            <option class="inner" value="">Select a color</option>
-                            <option class="inner" value="1">Black</option>
-                            <option class="inner" value="2">Pink</option>
-                            <option class="inner" value="3">Red</option>
-                            <option class="inner" value="4">Metallic</option>
+                        <select class="selectAddColor h-10 px-2 py-2 m-2 rounded dropdowns">
+                            <option class="dropdowns" value="">Select a color</option>
+                            <option class="dropdowns" value="1">Black</option>
+                            <option class="dropdowns" value="2">Pink</option>
+                            <option class="dropdowns" value="3">Red</option>
+                            <option class="dropdowns" value="4">Metallic</option>
                         </select>
-                        <select class="selectAddSize h-10 px-2 py-2 m-2">
-                            <option class="inner" value="">Select a size</option>
-                            <option class="inner" value="1">6</option>
-                            <option class="inner" value="2">7</option>
-                            <option class="inner" value="3">8</option>
-                            <option class="inner" value="4">9</option>
+                        <select class="selectAddSize h-10 px-2 py-2 m-2 rounded dropdowns">
+                            <option class="dropdowns" value="">Select a size</option>
+                            <option class="dropdowns" value="1">6</option>
+                            <option class="dropdowns" value="2">7</option>
+                            <option class="dropdowns" value="3">8</option>
+                            <option class="dropdowns" value="4">9</option>
                         </select>
 
                     </div>
@@ -279,7 +281,8 @@
         </div>
     </div>
 </body>
-<script src="api-routes.js"></script>
-<script src="client.js"></script>
 
+<script src="api-routes.js"></script>
+<script src="app.js"></script>
+<script src="client.js"></script>
 </html>

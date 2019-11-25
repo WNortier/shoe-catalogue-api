@@ -230,27 +230,39 @@ describe('search function', async () => {
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 4, 999, 3)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 1, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 1, 999, 3)`);
     });
     it('should return all shoes of a specific brand', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         let result = await shoeServiceTesting.filterBrand(4);
-        assert.equal(2, result.length);
+        assert.equal(3, result.length);
         assert.equal('Jimmy Woo', result[0].brand);
         assert.equal('Jimmy Woo', result[1].brand);
+        assert.equal('Jimmy Woo', result[2].brand);
     });
     it('should return all shoes of a specific color', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         let result = await shoeServiceTesting.filterColor(1);
-        assert.equal(3, result.length)
+        assert.equal(4, result.length)
         assert.equal('Black', result[0].color);
         assert.equal('Black', result[1].color);
         assert.equal('Black', result[2].color);
+        assert.equal('Black', result[3].color);
     });
     it('should return all shoes of a specific size', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
         let result = await shoeServiceTesting.filterSize(3);
         assert.equal(1, result.length);
         assert.equal(8, result[0].size);
+    });
+    it('should return all shoes of a specific brand and size', async () => {
+        const shoeServiceTesting = ShoeServiceTesting(pool);
+        let result = await shoeServiceTesting.filterBrandSize(4, 1);
+        assert.equal(2, result.length);
+        assert.equal('Jimmy Woo', result[0].brand);
+        assert.equal(6, result[0].size);
+        assert.equal('Jimmy Woo', result[1].brand);
+        assert.equal(6, result[1].size);
     });
     it('should return all shoes of a specific brand, color and size', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -342,7 +354,6 @@ describe('cart function', async () => {
         await shoeServiceTesting.cart(1, 1, 1);
         let result = await shoeServiceTesting.cart(1, 1, 1);
         let attemptingToCartMoreThanInStock = await shoeServiceTesting.cart(1, 1, 1);
-        assert.equal(false, attemptingToCartMoreThanInStock)
         let cartItems = await shoeServiceTesting.showCart();
         //console.log(cartItems)
         assert.equal(2, cartItems.length)
