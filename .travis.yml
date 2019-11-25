@@ -2,7 +2,7 @@ language: node_js
 env:
   - DATABASE_URL=postgresql://postgres@localhost:5432/shoecatalogue_test
 node_js:  
-  - "10.15.2"
+  - "8.10.0"
 before_script:
   - psql -c 'create database shoecatalogue_test;' -U postgres
   - psql -U postgres -d shoecatalogue_test -a -f tables.sql
