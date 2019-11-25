@@ -9,6 +9,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.4.2/handlebars.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="tailwind/tailwindstyle.css">
+    <link rel="stylesheet" href="tailwind/custom.css">
 
     <script type="text/x-handlebars-template" class="stockTemplate">
         <table class="table-fixed px-4 py-2">
@@ -92,7 +93,7 @@
         </table>
     </script>
     <script type="text/x-template" class="errorsTemplate">
-        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3  text-center" role="alert">
+        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 text-center" role="alert">
         <strong class="font-bold">Error</strong>
         <span class="block sm:inline items-center text-center">{{error}}</span>
        </div>
@@ -150,8 +151,20 @@
                 </div>
             </div>
 
-            <div class="container mx-auto px-5 py-5 flex-wrap">
+            <div class="container mx-auto flex-wrap">
 
+                <!-- <div class="container mx-auto px-5 py-5"> -->
+                    <!-- <div class="flex flex-col bg-gray-200"> -->
+                        <div class="text-gray-700 text-center px-4 py-2 m-2">
+                            <button
+                                class="bg-teal-700 font-light text-white py-2 px-4 rounded revealBtn">Add Stock</button>
+                        </div>
+                    <!-- </div> -->
+                <!-- </div> -->
+
+            </div>
+
+            <div class="container mx-auto px-5 py-5 flex-wrap updateStockContainer" style="display:none">
                 <div class="flex flex-col bg-gray-200 rounded">
 
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
@@ -163,7 +176,7 @@
                     </div>
                     <div class="updateError">
                     </div>
-                    
+
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 content-between rounded">
                         <select class="selectAddBrand h-10 px-2 py-2 m-2 rounded dropdowns">
                             <option class="dropdowns" value="">Select a brand</option>
@@ -190,7 +203,7 @@
                     </div>
 
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 md:flex lg:flex xl:flex rounded">
-                        <input class="addPrice h-10 px-2 py-2 m-2 sm:flex-wrap" placeholder="Enter price" 
+                        <input class="addPrice h-10 px-2 py-2 m-2 sm:flex-wrap" placeholder="Enter price"
                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                             type="number" maxlength="7">
                         <input class="addQuantity h-10 px-2 py-2 m-2 flex-wrap" placeholder="Enter quantity"
@@ -206,9 +219,11 @@
             <div class="container mx-auto px-5 py-5">
                 <div class="flex flex-col bg-gray-200 rounded">
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <h3 class="font-bold">Filter Dashboard</h3></div>
+                        <h3 class="font-bold">Filter Dashboard</h3>
+                    </div>
                     <div
-                        class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto filteredStockTemplateInsertPoint rounded"></div>
+                        class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto filteredStockTemplateInsertPoint rounded">
+                    </div>
                 </div>
             </div>
 
@@ -219,6 +234,10 @@
                     </div>
                     <div
                         class="text-gray-700 text-center bg-gray-400 px-4 py-8 m-2 overflow-x-auto rounded-lg stockTemplateInsertPoint">
+                    </div>
+                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn">Filter</button>
+                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button>
                     </div>
                     <!-- <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded-lg">3</div> -->
                 </div>
@@ -246,4 +265,5 @@
 <script src="api-routes.js"></script>
 <script src="app.js"></script>
 <script src="client.js"></script>
+
 </html>

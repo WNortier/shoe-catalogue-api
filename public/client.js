@@ -21,6 +21,8 @@ document.addEventListener('DOMContentLoaded', function () {
     let cartedStockTemplateInstance = compileTemplate('.cartedStockTemplate')
     // let cartedStockTemplate = document.querySelector('.cartedStockTemplate');
     // let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
+    let updateStockContainer = document.querySelector(".updateStockContainer")
+
     let updateErrorElem = document.querySelector('.updateError')
     let filterErrorElem = document.querySelector('.filterError')
     let errorsTemplateInstance = compileTemplate('.errorsTemplate');
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
     var cartBtn = document.querySelector(".cartBtn");
     var checkoutBtn = document.querySelector(".checkoutBtn")
     var cancelBtn = document.querySelector(".cancelBtn")
+    var revealBtn = document.querySelector(".revealBtn")
     //FILTER DROPDOWN MENU 
     var selectFilterBrand = document.querySelector(".selectFilterBrand");
     var selectFilterColor = document.querySelector(".selectFilterColor");
@@ -55,6 +58,10 @@ document.addEventListener('DOMContentLoaded', function () {
             dropdowns[i].selected = dropdowns[i].defaultSelected;
         }
     }
+
+   revealBtn.addEventListener('click', function(){
+    updateStockContainer.style.display = (updateStockContainer.style.display !== "none") ? "none" : "block";
+   })
 
     //This code keeps the filter stock table header in place if there is currently no table data
     function tableHeadersPlaceholder() {
@@ -103,24 +110,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     tableHeadersPlaceholder()
-
-    document.addEventListener('DOMContentLoaded', function () {
-        let filterError = document.querySelector('.filterError');
-        if (filterError.innerHTML !== '') {
-            setTimeout(function () {
-                filterError.innerHTML = '';
-            }, 3000)
-        }
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        let updateError = document.querySelector('.updateError');
-        if (updateError.innerHTML !== '') {
-            setTimeout(function () {
-                updateError.innerHTML = '';
-            }, 3000)
-        }
-    });
 
     function showShoes() {
         shoesService
