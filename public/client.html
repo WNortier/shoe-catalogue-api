@@ -91,23 +91,6 @@
             </tr>
         </table>
     </script>
-
-    <!-- <script type="text/x-template" class="errorsTemplate">
-        <ul>
-            {{#each errors}}
-                <li>{{this}}</li>
-            {{/each}}
-        </ul>
-    </script> -->
-
-    <!-- <script type="text/x-template" class="errorsTemplate">
-        <ul>
-            {{#each errors}}
-                <li>{{this}}</li>
-            {{/each}}
-        </ul>
-    </script> -->
-
     <script type="text/x-template" class="errorsTemplate">
         <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3  text-center" role="alert">
         <strong class="font-bold">Error</strong>
@@ -207,18 +190,14 @@
                     </div>
 
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 md:flex lg:flex xl:flex rounded">
-
                         <input class="addPrice h-10 px-2 py-2 m-2 sm:flex-wrap" placeholder="Enter price" 
                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                             type="number" maxlength="7">
                         <input class="addQuantity h-10 px-2 py-2 m-2 flex-wrap" placeholder="Enter quantity"
                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                             type="number" maxlength="2">
-
                     </div>
-
                 </div>
-
             </div>
         </div>
 
@@ -254,24 +233,6 @@
                 </div>
                 <div
                     class="text-gray-700 text-center px-4 py-2 m-2 overflow-x-auto cartedStockTemplateInsertPoint rounded">
-                    <!-- <table class="table-fixed px-4 py-2">
-                        <thead>
-                            <tr class="bg-gray-100">
-                                <th class="w-1/2 px-4 py-2">Color</th>
-                                <th class="w-1/2 px-4 py-2">Brand</th>
-                                <th class="w-1/2 px-4 py-2">Size</th>
-                                <th class="w-1/2 px-4 py-2">Price</th>
-                                <th class="w-1/2 px-4 py-2">Quantity</th>
-                            </tr>
-                        </thead>
-                        <tr class="bg-gray-100">
-                            <td class="border px-4 py-2">Zonverse</td>
-                            <td class="border px-4 py-2">Red</td>
-                            <td class="border px-4 py-2">9</td>
-                            <td class="border px-4 py-2">499</td>
-                            <td class="border px-4 py-2">5</td>
-                        </tr>
-                    </table> -->
                 </div>
                 <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
                     <button class="bg-teal-700 font-light text-white py-2 px-4 rounded checkoutBtn">Checkout</button>

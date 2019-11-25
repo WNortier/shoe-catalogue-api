@@ -336,7 +336,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             });
         }
-
     });
     showShoes();
 });
