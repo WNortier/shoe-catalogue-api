@@ -84,7 +84,7 @@ app.get('/api/shoes/brand/:brand/size/:size', shoesAPI.filterShoes);
 //list all shoes for a given brand, size and color
 app.get('/api/shoes/brand/:brand/size/:size/color/:color', shoesAPI.filterShoes);
 //update stock levels when a shoe or shoes are checked out
-app.get('/api/shoes/cart/brand/:brand/size/:size/color/:color', shoesAPI.cartShoes);
+app.get('/api/shoes/cart/:id', shoesAPI.cartShoes);
 //checkout stock
 app.post('/api/shoes/checkout', shoesAPI.checkoutShoes);
 //cancel stock

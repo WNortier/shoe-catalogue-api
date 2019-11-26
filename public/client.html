@@ -66,9 +66,10 @@
             <td class="border px-4 py-2">{{size}}</td>
             <td class="border px-4 py-2">{{price}}</td>
             <td class="border px-4 py-2">{{quantity}}</td>
-            <td class="border px-4 py-2"><button dataid={{id}} onclick="find(this)" class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button></td>
+            <td class="border px-4 py-2"><button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button></td>
         </tr>
         {{/each}}
+        <!-- onclick="find(this)" -->
         </table>
     </script>
 

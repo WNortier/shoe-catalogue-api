@@ -3,7 +3,7 @@ const ShoeServiceTesting = require("../services/shoes-service");
 
 const pg = require("pg");
 const Pool = pg.Pool;
-const connectionString = process.env.DATABASE_URL || 'postgresql://warwick:pg123@localhost:5432/shoecatalogue_test';
+const connectionString = process.env.DATABASE_URL || 'postgresql://warwick:pg123@localhost:5432/shoecatalogue';
 
 let useSSL = false;
 let local = process.env.LOCAL || false;
@@ -307,7 +307,8 @@ describe('cart function', async () => {
     });
     it('should return the carted shoe for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        let result = await shoeServiceTesting.cart(4, 1, 4);
+        let allStock = await shoeServiceTesting.all()
+        let result = await shoeServiceTesting.cart(allStock[3].id);
         assert.equal('Jimmy Woo', result[0].brand);
         assert.equal('Black', result[0].color);
         assert.equal(9, result[0].size);
@@ -317,8 +318,9 @@ describe('cart function', async () => {
     });
     it('should add to the quantity if the shoe has already been carted and return the carted shoe for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart(2, 2, 2)
-        let result = await shoeServiceTesting.cart(2, 2, 2)
+        let allStock = await shoeServiceTesting.all()
+        await shoeServiceTesting.cart(allStock[1].id)
+        let result = await shoeServiceTesting.cart(allStock[1].id)
         assert.equal(1, result.length)
         assert.equal('Yuma', result[0].brand)
         assert.equal('Pink', result[0].color)
@@ -329,12 +331,13 @@ describe('cart function', async () => {
     });
     it('should return multiple carted shoes for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(2, 2, 2)
-        await shoeServiceTesting.cart(2, 2, 2)
-        let result = await shoeServiceTesting.cart(4, 1, 1)
+        let allStock = await shoeServiceTesting.all()
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[1].id)
+        await shoeServiceTesting.cart(allStock[1].id)
+        let result = await shoeServiceTesting.cart(allStock[4].id)
         let firstCartedShoe = result[0]
         let secondCartedShoe = result[1]
         let thirdCartedShoe = result[2]
@@ -349,13 +352,13 @@ describe('cart function', async () => {
     });
     it('should prevent cart quantity from incrementing if it is equal to that of the shoes stock', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart(2, 2, 2);
-        await shoeServiceTesting.cart(1, 1, 1);
-        await shoeServiceTesting.cart(1, 1, 1);
-        let result = await shoeServiceTesting.cart(1, 1, 1);
-        let attemptingToCartMoreThanInStock = await shoeServiceTesting.cart(1, 1, 1);
+        let allStock = await shoeServiceTesting.all()
+        await shoeServiceTesting.cart(allStock[1].id);
+        await shoeServiceTesting.cart(allStock[0].id);
+        await shoeServiceTesting.cart(allStock[0].id);
+        let result = await shoeServiceTesting.cart(allStock[0].id);
+        let attemptingToCartMoreThanInStock = await shoeServiceTesting.cart(allStock[0].id);
         let cartItems = await shoeServiceTesting.showCart();
-        //console.log(cartItems)
         assert.equal(2, cartItems.length)
         assert.equal('Yuma', cartItems[0].brand)
         assert.equal(1, cartItems[0].quantity)
@@ -397,8 +400,9 @@ describe('checkout function', async () => {
     });
     it('should clear the cart table of a single shoe carted and decrement the quantities of the corresponding items in the stock table', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(1, 1, 1)
+        let allStock = await shoeServiceTesting.all()
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[0].id)
         await shoeServiceTesting.checkout()
         let result = await shoeServiceTesting.all()
         let cartItems = await shoeServiceTesting.showCart();
@@ -408,11 +412,12 @@ describe('checkout function', async () => {
     });
     it('should clear the cart table of multiple shoes carted and decrement the quantities of the corresponding items in the stock table, deleting entries that have a quantity of 0', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(4, 1, 4)
-        await shoeServiceTesting.cart(4, 1, 4)
-        await shoeServiceTesting.cart(4, 1, 1)
+        let allStock = await shoeServiceTesting.all()
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[3].id)
+        await shoeServiceTesting.cart(allStock[3].id)
+        await shoeServiceTesting.cart(allStock[4].id)
         await shoeServiceTesting.checkout()
         let result = await shoeServiceTesting.all()
         let cartItems = await shoeServiceTesting.showCart();
@@ -438,16 +443,18 @@ describe('checkout function', async () => {
     });
     it('should clear the cart table of multiple shoes carted and decrement the quantities of the corresponding items in the stock table, deleting entries that have a quantity of 0', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(4, 1, 4)
-        await shoeServiceTesting.cart(4, 1, 4)
-        await shoeServiceTesting.cart(4, 1, 4)
-        await shoeServiceTesting.cart(4, 1, 1)
+        let allStock = await shoeServiceTesting.all()
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[3].id)
+        await shoeServiceTesting.cart(allStock[3].id)
+        await shoeServiceTesting.cart(allStock[3].id)
+        await shoeServiceTesting.cart(allStock[4].id)
         await shoeServiceTesting.checkout()
         let result = await shoeServiceTesting.all()
         let cartItems = await shoeServiceTesting.showCart();
+        //console.log(cartItems)
         assert.equal(0, cartItems.length)
         //Two shoes were purchased completely and so the stock length decreased to 3
         assert.equal(3, result.length)
@@ -458,7 +465,6 @@ describe('checkout function', async () => {
         assert.equal(2, result[2].quantity)
     });
 });
-
 describe('cancel function', async () => {
     beforeEach(async () => {
         await pool.query(`delete from cart`)
@@ -491,12 +497,14 @@ describe('cancel function', async () => {
     });
     it('should clear the cart table', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
-        await shoeServiceTesting.cart(1, 1, 1)
-        await shoeServiceTesting.cart(1, 1, 1)
+        let allStock = await shoeServiceTesting.all()
+        await shoeServiceTesting.cart(allStock[0].id)
+        await shoeServiceTesting.cart(allStock[0].id)
         let cancelResult = await shoeServiceTesting.cancel()
         assert.equal(0, cancelResult.length)
     });
-    after(function () {
-        pool.end();
-    })
+
 });
+after(function () {
+    pool.end();
+})

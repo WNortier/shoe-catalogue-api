@@ -39,12 +39,11 @@ module.exports = function ShoeService(pool) {
         INNER JOIN sizes ON stock.size_id = sizes.id
         WHERE stock.brand_id = $1`, [brand]);
         let brandFilter = brandFilterExtraction.rows
-        console.log(brandFilter)
         return brandFilter
     }
 
     async function filterColor(color) {
-        const colorFilterExtraction = await pool.query(`SELECT brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        const colorFilterExtraction = await pool.query(`SELECT stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
         FROM stock 
         INNER JOIN brands ON stock.brand_id = brands.id 
         INNER JOIN colors ON stock.color_id = colors.id 
@@ -55,7 +54,7 @@ module.exports = function ShoeService(pool) {
     }
 
     async function filterSize(size) {
-        const sizeFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        const sizeFilterExtraction = await pool.query(`select stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
         from stock 
         INNER JOIN brands ON stock.brand_id = brands.id 
         INNER JOIN colors ON stock.color_id = colors.id 
@@ -66,7 +65,7 @@ module.exports = function ShoeService(pool) {
     }
 
     async function filterBrandSize(brand, size){
-        const brandSizeFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        const brandSizeFilterExtraction = await pool.query(`select stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
         FROM stock 
         INNER JOIN brands ON stock.brand_id = brands.id 
         INNER JOIN colors ON stock.color_id = colors.id 
@@ -77,7 +76,7 @@ module.exports = function ShoeService(pool) {
     }
 
     async function filterBrandColorSize(brand, color, size) {
-        const brandColorSizeFilterExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        const brandColorSizeFilterExtraction = await pool.query(`select stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
         FROM stock 
         INNER JOIN brands ON stock.brand_id = brands.id 
         INNER JOIN colors ON stock.color_id = colors.id 
@@ -97,9 +96,10 @@ module.exports = function ShoeService(pool) {
     }
 
     //CART PARAMETERS ARE NOT COMING IN AS AN OBJECT 
-    async function cart(brand, color, size) {
+    async function cart(id) {
         //Obtaining the data of the shoe I want to cart from the shoes table
-        const cartedShoeExtraction = await pool.query(`SELECT * FROM stock WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [brand, color, size]);
+        // const cartedShoeExtraction = await pool.query(`SELECT * FROM stock WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [brand, color, size]);
+        const cartedShoeExtraction = await pool.query(`SELECT * FROM stock where id = $1`, [id])
         let cartedShoe = cartedShoeExtraction.rows[0];
         //Checking if the shoe has been carted before
         let alreadyCartedCheck = await pool.query(`SELECT * FROM cart where brand = $1 AND color = $2 AND size = $3`, [cartedShoe.brand_id, cartedShoe.color_id, cartedShoe.size_id])

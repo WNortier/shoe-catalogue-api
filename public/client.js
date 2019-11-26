@@ -254,33 +254,26 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })    
 
-   
+    let dynamicCarting = document.querySelector("#dynamicCarting")
 
-    cartBtns.addEventListener('click', function () {
-    
-        //console.log(results)
-        let brand = selectFilterBrand.value
-        let color = selectFilterColor.value
-        let size = Number(selectFilterSize.value)
+    dynamicCarting.addEventListener("click",function(event){
+        
+        console.log(event.target.id)
+        // console.log(event.target.dataid)
 
-        // let brand = results[0]
-        // let color = results[1]
-        // let size = results[2]
-        // console.log(brand)
-        // console.log(color)
-        // console.log(size)
+        
+        // let error = [];
+        // error.length = 0;
+        // if (!brand || !color || !size) {
+        //     error.push('Please complete all inputs!')
+        // }
 
-        let error = [];
-        error.length = 0;
-        if (!brand || !color || !size) {
-            error.push('Please complete all inputs!')
-        }
-
-        if (brand && color && size) {
-            shoesService.getCart(brand, color, size)
+        if (event.target.id) {
+            shoesService.getCart(event.target.id)
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+                    console.log(data)
 
                     let html = cartedStockTemplateInstance({
                         cartedShoes: data
@@ -291,12 +284,49 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).catch(function (err) {
                     alert(err);
                 })
-        } else {
-            filterErrorElem.innerHTML = errorsTemplateInstance({
-                error
-            });
+        } 
+        else {
+            // filterErrorElem.innerHTML = errorsTemplateInstance({
+            //     error
+            // });
+            alert("nope")
         }
     })
+
+   
+
+    // cartBtns.addEventListener('click', function () {
+
+    //     let color = selectFilterColor.value
+    //     let size = Number(selectFilterSize.value)
+
+    //     let error = [];
+    //     error.length = 0;
+    //     if (!brand || !color || !size) {
+    //         error.push('Please complete all inputs!')
+    //     }
+
+    //     if (brand && color && size) {
+    //         shoesService.getCart(brand, color, size)
+    //             .then(function (results) {
+    //                 let response = results.data;
+    //                 let data = response.data;
+
+    //                 let html = cartedStockTemplateInstance({
+    //                     cartedShoes: data
+    //                 });
+    //                 let cartedTableHtml = html;
+    //                 cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
+    //                 clearFields();
+    //             }).catch(function (err) {
+    //                 alert(err);
+    //             })
+    //     } else {
+    //         filterErrorElem.innerHTML = errorsTemplateInstance({
+    //             error
+    //         });
+    //     }
+    // })
 
     checkoutBtn.addEventListener('click', function () {
         shoesService.postCheckout()
