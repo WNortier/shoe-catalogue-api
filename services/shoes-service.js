@@ -32,13 +32,14 @@ module.exports = function ShoeService(pool) {
     }
 
     async function filterBrand(brand) {
-        const brandFilterExtraction = await pool.query(`SELECT brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        const brandFilterExtraction = await pool.query(`SELECT stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
         FROM stock 
         INNER JOIN brands ON stock.brand_id = brands.id 
         INNER JOIN colors ON stock.color_id = colors.id 
         INNER JOIN sizes ON stock.size_id = sizes.id
         WHERE stock.brand_id = $1`, [brand]);
         let brandFilter = brandFilterExtraction.rows
+        console.log(brandFilter)
         return brandFilter
     }
 

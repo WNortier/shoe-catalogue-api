@@ -30,7 +30,8 @@ document.addEventListener('DOMContentLoaded', function () {
     //BUTTONS
     var updateBtn = document.querySelector(".updateBtn");
     var filterBtn = document.querySelector(".filterBtn");
-    var cartBtn = document.querySelector(".cartBtn");
+    var cartBtns = document.querySelector(".cartBtn");
+    
     var checkoutBtn = document.querySelector(".checkoutBtn")
     var cancelBtn = document.querySelector(".cancelBtn")
     var revealBtn = document.querySelector(".revealBtn")
@@ -47,6 +48,33 @@ document.addEventListener('DOMContentLoaded', function () {
     var addQuantity = document.querySelector(".addQuantity");
 
     const shoesService = ShoesService();
+    //const onClickFactory = OnClickFactory();
+
+
+    // window.addEventListener('load', function() {
+    //     cartBtns = document.querySelectorAll(".cartBtn");
+    //     console.log(cartBtns)
+    // })
+
+    // document.addEventListener('DOMContentLoaded', function () {
+    // function find( element ) {
+    //    alert(element)
+    //     alert(element.parentNode.parentNode.cells[0].innerHTML);
+    // }
+    // var newBtns;
+    // function cartButtonGrabber(){
+    //     console.log("test")
+    //     newBtns = document.querySelectorAll(".newBtn")
+    // }
+
+
+// if (newBtns !== undefined){
+//     newBtns.addEventListener('click', function(){
+//         console.log("hi")
+//     })
+// }
+    
+
 
     function clearFields() {
         addPrice.value = "";
@@ -59,9 +87,9 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-   revealBtn.addEventListener('click', function(){
-    updateStockContainer.style.display = (updateStockContainer.style.display !== "none") ? "none" : "block";
-   })
+    revealBtn.addEventListener('click', function () {
+        updateStockContainer.style.display = (updateStockContainer.style.display !== "none") ? "none" : "block";
+    })
 
     //This code keeps the filter stock table header in place if there is currently no table data
     function tableHeadersPlaceholder() {
@@ -151,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredShoesTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
                     clearFields();
+                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -166,6 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -181,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -196,6 +227,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -211,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -219,12 +252,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             });
         }
-    })
+    })    
 
-    cartBtn.addEventListener('click', function () {
+   
+
+    cartBtns.addEventListener('click', function () {
+    
+        //console.log(results)
         let brand = selectFilterBrand.value
         let color = selectFilterColor.value
         let size = Number(selectFilterSize.value)
+
+        // let brand = results[0]
+        // let color = results[1]
+        // let size = results[2]
+        // console.log(brand)
+        // console.log(color)
+        // console.log(size)
 
         let error = [];
         error.length = 0;
@@ -252,7 +296,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 error
             });
         }
-    });
+    })
 
     checkoutBtn.addEventListener('click', function () {
         shoesService.postCheckout()
