@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // let cartedStockTemplate = document.querySelector('.cartedStockTemplate');
     // let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
     let updateStockContainer = document.querySelector(".updateStockContainer")
+    let dynamicCarting = document.querySelector("#dynamicCarting")
 
     let updateErrorElem = document.querySelector('.updateError')
     let filterErrorElem = document.querySelector('.filterError')
@@ -150,14 +151,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
                 let stockTableHTML = html;
                 stockTemplateInsertPoint.innerHTML = stockTableHTML;
+                //localStorage.clear()
             });
     }
 
     filterBtn.addEventListener('click', function () {
+        
 
-        let brand = selectFilterBrand.value
-        let color = selectFilterColor.value
-        let size = Number(selectFilterSize.value)
+        let brand = selectFilterBrand.value 
+        || localStorage.getItem("brand")
+        let color = selectFilterColor.value 
+        || localStorage.getItem("color")
+        let size = selectFilterSize.value
+         || localStorage.getItem("size")
+
+        console.log(brand)
+        console.log(color)
+        console.log(size)
 
         let error = [];
         error.length = 0;
@@ -168,6 +178,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         if (brand && !color && !size) {
+            localStorage.setItem("brand", brand);
             shoesService
                 .getFilterBrand(brand)
                 .then(function (results) {
@@ -179,11 +190,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredShoesTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
                     clearFields();
-                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
         } else if (color && !brand && !size) {
+            localStorage.setItem("color", color)
             shoesService
                 .getFilterColor(color)
                 .then(function (results) {
@@ -195,11 +206,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
-                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
         } else if (size && !color && !brand) {
+            localStorage.setItem("size", size)
             shoesService
                 .getFilterSize(size)
                 .then(function (results) {
@@ -211,11 +222,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
-                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
         } else if (brand && size && !color) {
+            localStorage.setItem("brand", brand)
+            localStorage.setItem("size", size)
             shoesService
                 .getFilterBrandSize(brand, size)
                 .then(function (results) {
@@ -227,11 +239,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
-                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
         } else if (brand && color && size) {
+            localStorage.setItem("brand", brand)
+            localStorage.setItem("color", color)
+            localStorage.setItem("size", size)
             shoesService
                 .getFilterBrandColorSize(brand, color, size)
                 .then(function (results) {
@@ -243,18 +257,18 @@ document.addEventListener('DOMContentLoaded', function () {
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
-                    cartButtonGrabber();
                 }).catch(function (err) {
                     alert(err);
                 });
         } else {
+            localStorage.clear()
             filterErrorElem.innerHTML = errorsTemplateInstance({
                 error
             });
         }
     })    
 
-    let dynamicCarting = document.querySelector("#dynamicCarting")
+
 
     dynamicCarting.addEventListener("click",function(event){
         
@@ -342,6 +356,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 showShoes();
                 clearFields();
                 cartedStockTemplateInsertPoint.innerHTML = "";
+                let event = new Event("click", {bubbles:true});
+                filterBtn.dispatchEvent(event)
+                localStorage.clear()
             }).catch(function (err) {
                 alert(err);
             });
