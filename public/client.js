@@ -165,10 +165,6 @@ document.addEventListener('DOMContentLoaded', function () {
         let size = selectFilterSize.value
          || localStorage.getItem("size")
 
-        console.log(brand)
-        console.log(color)
-        console.log(size)
-
         let error = [];
         error.length = 0;
         if (!brand && !color && !size) {
