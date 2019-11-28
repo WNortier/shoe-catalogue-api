@@ -61,20 +61,20 @@ module.exports = function (shoeService) {
 
         async function cartShoes(req, res) {
             try {
-                let id = Number(req.params.id);
+                let id = Number(req.params.id)
                 // let color = req.params.color
                 // let size = req.params.size
                 // if (brand && !color && !size) {
-                    if (!id) {
-                        return false
-                    } 
+                    // if (!id) {
+                    //     return false
+                    // } 
                     // else if (color && !brand && !size) {
                     //     return false
                     // } else if (size && !color && !brand) {
                     //     return false
-                    else if (id) {
+                   // else if (id) {
                         var cartData = await shoeService.cart(id)
-                    }
+                   // }
                     res.json({
                         status: "success",
                         data: cartData

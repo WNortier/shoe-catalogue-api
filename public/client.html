@@ -11,15 +11,8 @@
     <link rel="stylesheet" href="tailwind/tailwindstyle.css">
     <link rel="stylesheet" href="tailwind/custom.css">
 
-
-    <!-- <script>
-             
-    </script> -->
-
-
     <script type="text/x-handlebars-template" class="stockTemplate">
-
-        <table class="table-fixed px-4 py-2">
+        <table class="table-fixed px-4 py-2 w-50">
         <thead>
         <tr class="bg-gray-100">
             <th class="w-1/2 px-4 py-2">Brand</th>
@@ -42,14 +35,8 @@
         {{/each}}
         </table>
     </script>
-    <!-- <button id='{{brand}}-{{color}}-{{size}}' class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button> -->
-
     <script type="text/x-handlebars-template" class="filteredStockTemplate">
-
-
-
-
-        <table class="table-fixed px-4 py-2">
+        <table class="table-fixed px-4 py-2 w-128">
         <thead>
         <tr class="bg-gray-100">
             <th class="w-1/2 px-4 py-2">Brand</th>
@@ -70,14 +57,13 @@
             <td class="border px-4 py-2"><button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button></td>
         </tr>
         {{/each}}
-        <!-- onclick="find(this)" -->
         </table>
     </script>
 
 
     <script type="text/x-handlebars-template" class="cartedStockTemplate">
-        <table class="table-fixed px-4 py-2">
-            <!-- <caption>Cart Summary</caption> -->
+        <table class="table-fixed px-2 py-2">
+            {{#if cartedShoes}}
             {{#each cartedShoes}}
             <thead>
             <tr class="bg-gray-100">
@@ -88,7 +74,7 @@
             </thead>
             <tr class="bg-gray-100">
                 <td class="border px-4 py-2">{{brand}}</td>
-                <td class="border px-4 py-2">{{price}}</td>
+                <td class="border px-4 py-2">R{{price}}.00</td>
                 <td class="border px-4 py-2">{{quantity}}</td>
             </tr>
             <tr class="bg-gray-100">
@@ -103,98 +89,64 @@
                 <td class="border px-4 py-2"></td>
             </tr>
             {{/each}}
-            <tr class="bg-gray-100">
-                <td class="border px-4 py-2"></td>
-                <td class="border px-4 py-2"></td>
-                <td class="border px-4 py-2">TOTAL: R{{#cartedShoes}}{{total}}{{/cartedShoes}}.00</td>
-            </tr>
+            <!-- <tr class="bg-gray-100">
+                    
+                    <td class="border px-4 py-2"></td>
+                    <td class="border px-4 py-2 m-2 text-right"><strong>TOTAL: R{{#cartedShoes}}{{total}}{{/cartedShoes}}.00</strong></td>
+                </tr>
+        </table> -->
+        <table class="w-full">
+                <thead>
+                        <tr class="bg-gray-100">
+                            <!-- <th class="w-1/2 px-4 py-2"></th>
+                            <td class="border px-4 py-2"></td> -->
+                             <td class="border px-4 py-2 m-2 text-right"><strong>TOTAL: R{{#cartedShoes}}{{total}}{{/cartedShoes}}.00</strong></td>
+                        </tr>
+                        </thead>
+
         </table>
+        {{/if}}
     </script>
-    <!-- <script type="text/x-template" class="errorsTemplate">
-        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 text-center" role="alert">
+
+    <script type="text/x-template" class="errorsTemplate">
+        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 text-center opacity-50 content-between" role="alert">
         <strong class="font-bold">Error</strong>
         <span class="block sm:inline items-center text-center">{{error}}</span>
        </div>
-    </script> -->
+    </script>
 
 </head>
 
-<body class="bg-gray-600">
+<body class="font-mono text-base">
 
-    <header class="bg-gray-400 text-gray-700 py-2 px-4">
-        <div class="container mx-auto px-4 border-gray-700">
-            <h1 class="text-2xl font-bold">ShoeCatalogueAPI</h1>
+    <header class="text-gray-700 py-2 px-4">
+        <div class="container px-4 border-gray-700">
+            <h1 class="text-2xl font-bold" style="color: rgb(176, 173, 167);">ShoeCatalogueAPI</h1>
         </div>
     </header>
 
-    <div class="container-fluid mx-auto lg:flex">
+    <div class="container mx-auto lg:flex">
 
         <div class="container mx-auto flex-wrap">
-            <div class="container mx-auto px-5 py-5 flex-wrap">
-
-
-                <div class="flex flex-col bg-gray-200 rounded">
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <!-- <h3 class="font-bold">Filter Stock Settings</h3>
-                    </div>
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn">Filter</button>
-                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button>
-                    </div>
-                    <div class="filterError">
-                    </div>
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 content-between rounded">
-                        <select class="selectFilterBrand h-10 px-2 py-2 m-2 rounded">
-                            <option class="" value="">Select a brand</option>
-                            <option class="dropdowns" value="1">Zonverse</option>
-                            <option class="dropdowns" value="2">Yuma</option>
-                            <option class="dropdowns" value="3">Kucci</option>
-                            <option class="dropdowns" value="4">Jimmy Woo</option>
-                        </select>
-                        <select class="selectFilterColor h-10 px-2 py-2 m-2 rounded">
-                            <option class="dropdowns" value="">Select a color</option>
-                            <option class="dropdowns" value="1">Black</option>
-                            <option class="dropdowns" value="2">Pink</option>
-                            <option class="dropdowns" value="3">Red</option>
-                            <option class="dropdowns" value="4">Metallic</option>
-                        </select>
-                        <select class="selectFilterSize h-10 px-2 py-2 m-2 rounded">
-                            <option class="dropdowns" value="">Select a size</option>
-                            <option class="dropdowns" value="1">6</option>
-                            <option class="dropdowns" value="2">7</option>
-                            <option class="dropdowns" value="3">8</option>
-                            <option class="dropdowns" value="4">9</option>
-                        </select> -->
-                    </div>
-                </div>
-            </div>
-
             <div class="container mx-auto flex-wrap">
 
-                <!-- <div class="container mx-auto px-5 py-5"> -->
-                <!-- <div class="flex flex-col bg-gray-200"> -->
                 <div class="text-gray-700 text-center px-4 py-2 m-2">
-                    <button class="bg-teal-700 font-light text-white py-2 px-4 rounded revealBtn">Add Stock</button>
+                    <button class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded revealBtn">Add Stock</button>
                 </div>
-                <!-- </div> -->
-                <!-- </div> -->
 
             </div>
 
             <div class="container mx-auto px-5 py-5 flex-wrap updateStockContainer" style="display:none">
-                <div class="flex flex-col bg-gray-200 rounded">
+                <div class="flex flex-col settingsContainers rounded">
 
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <h3 class="font-bold">Add Stock</h3>
+                    <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
+                        <h3 class="font-bold" style="color: rgb(176, 173, 167)">Update Dashboard</h3>
                     </div>
 
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <button class="bg-teal-700 font-light text-white py-2 px-4 rounded updateBtn">Update</button>
-                    </div>
                     <div class="updateError">
                     </div>
 
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 content-between rounded">
+                    <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 content-between rounded">
                         <select class="selectAddBrand h-10 px-2 py-2 m-2 rounded dropdowns">
                             <option class="dropdowns" value="">Select a brand</option>
                             <option class="dropdowns" value="1">Zonverse</option>
@@ -219,38 +171,29 @@
 
                     </div>
 
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 md:flex lg:flex xl:flex rounded">
-                        <input class="addPrice h-10 px-2 py-2 m-2 sm:flex-wrap" placeholder="Enter price"
+                    <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 md:flex justify-center rounded">
+                        <input class="addPrice h-10 px-2 py-2 m-2 w-48 sm:flex-wrap" placeholder="Enter price"
                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                             type="number" maxlength="7">
-                        <input class="addQuantity h-10 px-2 py-2 m-2 flex-wrap" placeholder="Enter quantity"
+                        <input class="addQuantity h-10 px-2 py-2 m-2 w-48 flex-wrap" placeholder="Enter quantity"
                             oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
                             type="number" maxlength="2">
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <div class="container mx-auto flex-wrap">
-
-            <div class="container mx-auto px-5 py-5">
-                <div class="flex flex-col bg-gray-200 rounded">
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <h3 class="font-bold">Filter Dashboard</h3>
-                    </div>
-                    <div
-                        class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto filteredStockTemplateInsertPoint rounded">
+                    <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
+                        <button
+                            class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded updateBtn">Update</button>
                     </div>
                 </div>
             </div>
 
-            <div class="container mx-auto px-5 py-5 rounded-lg">
-                <div class="flex flex-col bg-gray-200 rounded-lg">
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <h3 class="font-bold">Stock Dashboard</h3>
+            <div class="container mx-auto px-5 py-5 rounded m2">
+                <div class="flex flex-col settingsContainers rounded-lg w-128">
+                    <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
+                        <h3 class="font-bold" style="color: rgb(176, 173, 167)">Stock Dashboard</h3>
                     </div>
 
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
+                    <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded block sm:flex">
                         <select class="selectFilterBrand h-10 px-2 py-2 m-2 rounded dropdowns">
                             <option class="dropdowns" value="">Select a brand</option>
                             <option class="dropdowns" value="all">All Brands</option>
@@ -276,32 +219,40 @@
                             <option class="dropdowns" value="4">9</option>
                         </select>
                         <div class="justify-between">
-                            <button class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn text-center">Filter</button>
+                            <button
+                                class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded filterBtn text-center">Filter</button>
                         </div>
                     </div>
                     <div id="dynamicCarting"
-                        class="text-gray-700 text-center bg-gray-400 px-4 py-8 m-2 overflow-x-auto rounded-lg stockTemplateInsertPoint">
+                        class="text-gray-700 text-center divContainers px-4 py-8 m-2 overflow-x-auto rounded-lg stockTemplateInsertPoint">
                     </div>
-                    <!-- <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">3</div> -->
+                    <!-- <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">3</div> -->
                 </div>
             </div>
-
         </div>
 
-        <div class="container mx-auto px-5 py-5 flex-wrap">
-            <div class="flex flex-col bg-gray-200 rounded">
-                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                    <h3 class="font-bold">Cart</h3>
+        <div class="container mx-auto flex-wrap px-5 py-4">
+            <div class="flex flex-col settingsContainers rounded">
+                <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
+                    <h3 class="font-bold" style="color: rgb(176, 173, 167)">Cart</h3>
                 </div>
                 <div
                     class="text-gray-700 text-center px-4 py-2 m-2 overflow-x-auto cartedStockTemplateInsertPoint rounded">
                 </div>
-                <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                    <button class="bg-teal-700 font-light text-white py-2 px-4 rounded checkoutBtn">Checkout</button>
-                    <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cancelBtn">Cancel</button>
+                <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
+                    <button
+                        class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded checkoutBtn">Checkout</button>
+                    <button class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded cancelBtn">Cancel</button>
                 </div>
             </div>
+
+
+
         </div>
+        <!-- 
+        <div class="container mx-auto px-5 py-5 flex-wrap">
+            
+        </div> -->
     </div>
 </body>
 

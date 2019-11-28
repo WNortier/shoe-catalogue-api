@@ -1,0 +1,38 @@
+body {
+    background-color: rgb(79, 84, 93);
+}
+header {
+    background-color: rgb(66, 67, 68);
+}
+
+table, th, td {
+    background-color:  rgb(59, 60, 61);
+    color: #B0ADA7;
+}
+
+.settingsContainers {
+    /* background-color: rgb(59, 60, 61); */
+    background-color: rgb(59, 60, 61);
+}
+
+.divContainers {
+background-color: rgb(66, 67, 68);
+}
+
+select {
+    background-color: #373839;
+    color: #B0ADA7;
+}
+
+input {
+    background-color: #373839;
+    color: #B0ADA7;
+    
+}
+
+*, ::before, ::after {
+    border-top-color: rgb(68, 81, 97);
+    border-right-color: rgb(68, 81, 97);
+    border-bottom-color: rgb(68, 81, 97);
+    border-left-color: rgb(68, 81, 97);
+}

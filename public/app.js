@@ -7,14 +7,14 @@
 //     }
 // });
 
-// document.addEventListener('DOMContentLoaded', function () {
-//     let updateError = document.querySelector('.updateError');
-//     if (updateError.innerHTML !== ''){
-//         setTimeout(function(){
-//             updateError.innerHTML = '';
-//         }, 3000)
-//     }
-// });
+document.addEventListener('DOMContentLoaded', function () {
+    let updateError = document.querySelector('.updateError');
+    if (updateError.innerHTML !== ''){
+        setTimeout(function(){
+            updateError.innerHTML = '';
+        }, 3000)
+    }
+});
 
 
 

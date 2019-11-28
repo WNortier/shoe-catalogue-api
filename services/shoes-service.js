@@ -93,11 +93,16 @@ module.exports = function ShoeService(pool) {
         inner join brands on cart.brand = brands.id 
         inner join colors on cart.color = colors.id 
         inner join sizes on cart.size = sizes.id`)
-        return allCart.rows
+        let cartItems = allCart.rows
+        let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
+        let cartTotal = cartTotalExtraction.rows[0].totalprice
+        cartItems[0].total = cartTotal
+        return cartItems
     }
 
     //CART PARAMETERS ARE NOT COMING IN AS AN OBJECT 
     async function cart(id) {
+        if (id){
         //Obtaining the data of the shoe I want to cart from the shoes table
         // const cartedShoeExtraction = await pool.query(`SELECT * FROM stock WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [brand, color, size]);
         const cartedShoeExtraction = await pool.query(`SELECT * FROM stock where id = $1`, [id])
@@ -142,6 +147,8 @@ module.exports = function ShoeService(pool) {
         let cartTotal = cartTotalExtraction.rows[0].totalprice
         cartItems[0].total = cartTotal
         return cartItems
+    } else 
+        return await showCart();
     }
 
     async function cancel() {

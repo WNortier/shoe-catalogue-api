@@ -24,9 +24,9 @@ document.addEventListener('DOMContentLoaded', function () {
     let updateStockContainer = document.querySelector(".updateStockContainer")
     let dynamicCarting = document.querySelector("#dynamicCarting")
 
-    // let updateErrorElem = document.querySelector('.updateError')
+    let updateErrorElem = document.querySelector('.updateError')
     // let filterErrorElem = document.querySelector('.filterError')
-    // let errorsTemplateInstance = compileTemplate('.errorsTemplate');
+    let errorsTemplateInstance = compileTemplate('.errorsTemplate');
 
     //BUTTONS
     var updateBtn = document.querySelector(".updateBtn");
@@ -68,52 +68,52 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     //This code keeps the filter stock table header in place if there is currently no table data
-    function tableHeadersPlaceholder() {
-        //less than 50 to account for whitespaces in the markup
-        if (document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length < 50) {
-            let table = document.createElement("table");
-            table.setAttribute("class", "table-fixed px-4 py-2 headerPlaceHolder")
-            let head = document.createElement("thead")
-            table.appendChild(head)
-            let row = document.createElement("tr")
-            row.setAttribute("class", "bg-gray-100")
-            head.appendChild(row)
+    // function tableHeadersPlaceholder() {
+    //     //less than 50 to account for whitespaces in the markup
+    //     if (document.querySelector(".filteredStockTemplateInsertPoint").innerHTML.length < 50) {
+    //         let table = document.createElement("table");
+    //         table.setAttribute("class", "table-fixed px-4 py-2 headerPlaceHolder")
+    //         let head = document.createElement("thead")
+    //         table.appendChild(head)
+    //         let row = document.createElement("tr")
+    //         row.setAttribute("class", "bg-gray-100")
+    //         head.appendChild(row)
 
-            let headerOne = document.createElement("th")
-            headerOne.setAttribute("class", "w-1/2 px-4 py-2")
-            let headerOneText = document.createTextNode("Brand");
-            headerOne.appendChild(headerOneText)
-            row.appendChild(headerOne)
+    //         let headerOne = document.createElement("th")
+    //         headerOne.setAttribute("class", "w-1/2 px-4 py-2")
+    //         let headerOneText = document.createTextNode("Brand");
+    //         headerOne.appendChild(headerOneText)
+    //         row.appendChild(headerOne)
 
-            let headerTwo = document.createElement("th")
-            headerTwo.setAttribute("class", "w-1/2 px-4 py-2")
-            let headerTwoText = document.createTextNode("Color");
-            headerTwo.appendChild(headerTwoText)
-            row.appendChild(headerTwo)
+    //         let headerTwo = document.createElement("th")
+    //         headerTwo.setAttribute("class", "w-1/2 px-4 py-2")
+    //         let headerTwoText = document.createTextNode("Color");
+    //         headerTwo.appendChild(headerTwoText)
+    //         row.appendChild(headerTwo)
 
-            let headerThree = document.createElement("th")
-            headerThree.setAttribute("class", "w-1/2 px-4 py-2")
-            let headerThreeText = document.createTextNode("Size");
-            headerThree.appendChild(headerThreeText)
-            row.appendChild(headerThree)
+    //         let headerThree = document.createElement("th")
+    //         headerThree.setAttribute("class", "w-1/2 px-4 py-2")
+    //         let headerThreeText = document.createTextNode("Size");
+    //         headerThree.appendChild(headerThreeText)
+    //         row.appendChild(headerThree)
 
-            let headerFour = document.createElement("th")
-            headerFour.setAttribute("class", "w-1/2 px-4 py-2")
-            let headerFourText = document.createTextNode("Price");
-            headerFour.appendChild(headerFourText)
-            row.appendChild(headerFour)
+    //         let headerFour = document.createElement("th")
+    //         headerFour.setAttribute("class", "w-1/2 px-4 py-2")
+    //         let headerFourText = document.createTextNode("Price");
+    //         headerFour.appendChild(headerFourText)
+    //         row.appendChild(headerFour)
 
-            let headerFive = document.createElement("th")
-            headerFive.setAttribute("class", "w-1/2 px-4 py-2")
-            let headerFiveText = document.createTextNode("Quantity");
-            headerFive.appendChild(headerFiveText)
-            row.appendChild(headerFive)
-            document.querySelector(".filteredStockTemplateInsertPoint").appendChild(table)
-            var headerPlaceHolder = document.querySelector(".headerPlaceHolder")
-        } else(headerPlaceHolder.parentNode.removeChild(headerPlaceHolder))
-    }
+    //         let headerFive = document.createElement("th")
+    //         headerFive.setAttribute("class", "w-1/2 px-4 py-2")
+    //         let headerFiveText = document.createTextNode("Quantity");
+    //         headerFive.appendChild(headerFiveText)
+    //         row.appendChild(headerFive)
+    //         document.querySelector(".filteredStockTemplateInsertPoint").appendChild(table)
+    //         var headerPlaceHolder = document.querySelector(".headerPlaceHolder")
+    //     } else(headerPlaceHolder.parentNode.removeChild(headerPlaceHolder))
+    // }
 
-    tableHeadersPlaceholder()
+    // tableHeadersPlaceholder()
 
     function showShoes() {
         shoesService
@@ -124,16 +124,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 let html = stockTemplateInstance({
                     shoesEntry: data
                 });
+                console.log(localStorage.length)
                 let stockTableHTML = html;
                 stockTemplateInsertPoint.innerHTML = stockTableHTML;
-                //localStorage.clear()
+
             });
     }
 
-    filterBtn.addEventListener('click', function () {
+    function showCart() {
+        console.log("hi")
+        shoesService.getCart()
+            .then(function (results) {
+                let response = results.data;
+                let data = response.data;
+                console.log(data)
 
+
+                let html = cartedStockTemplateInstance({
+                    cartedShoes: data
+                });
+                let cartedTableHtml = html;
+                cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
+                //clearFields();
+            }).catch(function (err) {
+                alert(err);
+            })
+    }
+    showCart();
+
+    filterBtn.addEventListener('click', function () {
+        console.log("works?")
         if (selectFilterBrand.value || selectFilterColor.value || selectFilterSize.value) {
-            brand = selectFilterBrand.value   
+            brand = selectFilterBrand.value
             color = selectFilterColor.value
             size = selectFilterSize.value
             localStorage.clear()
@@ -143,9 +165,9 @@ document.addEventListener('DOMContentLoaded', function () {
             size = localStorage.getItem("size")
         }
 
-        // console.log(brand)
-        // console.log(color)
-        // console.log(size)
+        console.log(brand)
+        console.log(color)
+        console.log(size)
 
         let error = [];
         error.length = 0;
@@ -167,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredShoesTableHTML = html;
-                     stockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                    stockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -184,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
-                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -201,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
-                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -219,7 +241,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
-                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -239,13 +261,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     //console.log(response.data)
                     let filteredStockTableHTML = html;
-                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
                 });
-        } 
-        else if (brand == "all" || color == "all" || size == "all") {
+        } else if (brand == "all" || color == "all" || size == "all") {
             console.log("all")
             localStorage.setItem("brand", brand)
             localStorage.setItem("color", color)
@@ -259,15 +280,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         shoesEntry: data
                     });
                     let stockTableHTML = html;
-                     stockTemplateInsertPoint.innerHTML = stockTableHTML;
+                    stockTemplateInsertPoint.innerHTML = stockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
                 });
-        } 
-        else {
-            //localStorage.clear()
-            //filterErrorElem.innerHTML = errorsTemplateInstance({
+        } else {
+            // localStorage.clear()
+            // filterErrorElem.innerHTML = errorsTemplateInstance({
             //     error
             // });
             return false
@@ -278,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     dynamicCarting.addEventListener("click", function (event) {
 
-        console.log(event.target.id)
+        //console.log(event.target.id)
         // console.log(event.target.dataid)
 
 
@@ -293,7 +313,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
-                    console.log(data)
+                    //console.log(data)
 
                     let html = cartedStockTemplateInstance({
                         cartedShoes: data
@@ -358,13 +378,17 @@ document.addEventListener('DOMContentLoaded', function () {
                 let cartedTableHtml = html;
                 cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
             }).then(function () {
-                showShoes();
+                //showShoes();
                 clearFields();
                 cartedStockTemplateInsertPoint.innerHTML = "";
-                let event = new Event("click", {
-                    bubbles: true
-                });
-                filterBtn.dispatchEvent(event)
+                if (localStorage.length > 0) {
+                    let event = new Event("click", {
+                        bubbles: true
+                    });
+                    filterBtn.dispatchEvent(event)
+                } else {
+                    showShoes();
+                }
             }).catch(function (err) {
                 alert(err);
             });
@@ -397,6 +421,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let size = Number(selectAddSize.value)
         let price = Number(addPrice.value)
         let quantity = Number(addQuantity.value)
+
         let error = [];
 
         if (!brand || !color || !size || !price || !quantity) {
@@ -412,17 +437,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
 
                 .then(function () {
-                    showShoes();
                     clearFields();
+                    showShoes();
                 })
                 .catch(function (err) {
                     alert(err);
                 });
         } else {
-            // updateErrorElem.innerHTML = errorsTemplateInstance({
-            //     error
-            // });
+            updateErrorElem.innerHTML = errorsTemplateInstance({
+                error
+            });
         }
     });
     showShoes();
+
 });
