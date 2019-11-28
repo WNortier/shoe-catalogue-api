@@ -157,13 +157,27 @@ document.addEventListener('DOMContentLoaded', function () {
 
     filterBtn.addEventListener('click', function () {
         
-
-        let brand = selectFilterBrand.value 
-        || localStorage.getItem("brand")
-        let color = selectFilterColor.value 
-        || localStorage.getItem("color")
-        let size = selectFilterSize.value
-         || localStorage.getItem("size")
+        if (selectFilterBrand.value){
+            brand = selectFilterBrand.value
+        } else {
+            brand = localStorage.getItem("brand")
+        }
+        if (selectFilterColor.value){
+            color = selectFilterColor.value
+        } else {
+            color = localStorage.getItem("color")
+        }
+        if (selectFilterSize.value){
+            size = selectFilterSize.value
+        } else {
+            size = localStorage.getItem("size")
+        }
+        // let brand = selectFilterBrand.value 
+        // || localStorage.getItem("brand")
+        // let color = selectFilterColor.value 
+        // || localStorage.getItem("color")
+        // let size = selectFilterSize.value
+        //  || localStorage.getItem("size")
 
         let error = [];
         error.length = 0;
@@ -250,6 +264,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
+                    console.log(response.data)
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
@@ -354,7 +369,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 cartedStockTemplateInsertPoint.innerHTML = "";
                 let event = new Event("click", {bubbles:true});
                 filterBtn.dispatchEvent(event)
-                localStorage.clear()
             }).catch(function (err) {
                 alert(err);
             });

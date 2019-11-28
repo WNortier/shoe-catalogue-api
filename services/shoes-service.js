@@ -83,6 +83,7 @@ module.exports = function ShoeService(pool) {
         INNER JOIN sizes ON stock.size_id = sizes.id
         WHERE stock.brand_id = $1 AND stock.color_id = $2 AND stock.size_id = $3`, [brand, color, size]);
         let brandColorSizeFilter = brandColorSizeFilterExtraction.rows
+        console.log(brandColorSizeFilter)
         return brandColorSizeFilter
     }
 
