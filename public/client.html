@@ -27,6 +27,7 @@
             <th class="w-1/2 px-4 py-2">Size</th>
             <th class="w-1/2 px-4 py-2">Price</th>
             <th class="w-1/2 px-4 py-2">Quantity</th>
+            <th class="w-1/2 px-4 py-2"></th>
         </tr>
         </thead>
         {{#each shoesEntry}}
@@ -36,6 +37,7 @@
             <td class="border px-4 py-2">{{size}}</td>
             <td class="border px-4 py-2">{{price}}</td>
             <td class="border px-4 py-2">{{quantity}}</td>
+            <td class="border px-4 py-2"><button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button></td>
         </tr>
         {{/each}}
         </table>
@@ -183,7 +185,7 @@
                 <div class="flex flex-col bg-gray-200 rounded">
 
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <h3 class="font-bold">Update Stock Settings</h3>
+                        <h3 class="font-bold">Add Stock</h3>
                     </div>
 
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
@@ -236,8 +238,8 @@
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
                         <h3 class="font-bold">Filter Dashboard</h3>
                     </div>
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto filteredStockTemplateInsertPoint rounded"
-                        id="dynamicCarting">
+                    <div
+                        class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 overflow-x-auto filteredStockTemplateInsertPoint rounded">
                     </div>
                 </div>
             </div>
@@ -249,10 +251,6 @@
                     </div>
 
                     <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                       
-
-
-
                         <select class="selectFilterBrand h-10 px-2 py-2 m-2 rounded dropdowns">
                             <option class="dropdowns" value="">Select a brand</option>
                             <option class="dropdowns" value="all">All Brands</option>
@@ -278,21 +276,13 @@
                             <option class="dropdowns" value="4">9</option>
                         </select>
                         <div class="justify-between">
-                            <button
-                                class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn">Filter</button>
+                            <button class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn text-center">Filter</button>
                         </div>
-
-                        <!-- <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button> -->
                     </div>
-
-                    <div
+                    <div id="dynamicCarting"
                         class="text-gray-700 text-center bg-gray-400 px-4 py-8 m-2 overflow-x-auto rounded-lg stockTemplateInsertPoint">
                     </div>
-                    <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">
-                        <!-- <button class="bg-teal-700 font-light text-white py-2 px-4 rounded filterBtn">Filter</button> -->
-                        <!-- <button class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button> -->
-                    </div>
-                    <!-- <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded-lg">3</div> -->
+                    <!-- <div class="text-gray-700 text-center bg-gray-400 px-4 py-2 m-2 rounded">3</div> -->
                 </div>
             </div>
 

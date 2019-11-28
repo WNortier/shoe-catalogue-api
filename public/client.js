@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredShoesTableHTML = html;
-                    filteredStockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                     stockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
-                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
-                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
-                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -239,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                     //console.log(response.data)
                     let filteredStockTableHTML = html;
-                    filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         shoesEntry: data
                     });
                     let stockTableHTML = html;
-                    filteredStockTemplateInsertPoint.innerHTML = stockTableHTML;
+                     stockTemplateInsertPoint.innerHTML = stockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
