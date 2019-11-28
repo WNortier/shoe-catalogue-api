@@ -23,11 +23,11 @@ module.exports = function ShoeService(pool) {
     }
 
     async function allStock() {
-        const allStock = await pool.query(`select brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
-        from stock 
-        inner join brands on stock.brand_id = brands.id 
-        inner join colors on stock.color_id = colors.id 
-        inner join sizes on stock.size_id = sizes.id`)
+        const allStock = await pool.query(`SELECT stock.id, brands.brand, colors.color, sizes.size, stock.price, stock.quantity 
+        FROM stock 
+        INNER JOIN brands ON stock.brand_id = brands.id 
+        INNER JOIN colors ON stock.color_id = colors.id 
+        INNER JOIN sizes ON stock.size_id = sizes.id`)
         return allStock.rows
     }
 
@@ -83,9 +83,9 @@ module.exports = function ShoeService(pool) {
         INNER JOIN sizes ON stock.size_id = sizes.id
         WHERE stock.brand_id = $1 AND stock.color_id = $2 AND stock.size_id = $3`, [brand, color, size]);
         let brandColorSizeFilter = brandColorSizeFilterExtraction.rows
-        console.log(brandColorSizeFilter)
         return brandColorSizeFilter
     }
+
 
     async function showCart() {
         const allCart = await pool.query(`select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 

@@ -24,15 +24,15 @@ document.addEventListener('DOMContentLoaded', function () {
     let updateStockContainer = document.querySelector(".updateStockContainer")
     let dynamicCarting = document.querySelector("#dynamicCarting")
 
-    let updateErrorElem = document.querySelector('.updateError')
-    let filterErrorElem = document.querySelector('.filterError')
-    let errorsTemplateInstance = compileTemplate('.errorsTemplate');
+    // let updateErrorElem = document.querySelector('.updateError')
+    // let filterErrorElem = document.querySelector('.filterError')
+    // let errorsTemplateInstance = compileTemplate('.errorsTemplate');
 
     //BUTTONS
     var updateBtn = document.querySelector(".updateBtn");
     var filterBtn = document.querySelector(".filterBtn");
     var cartBtns = document.querySelector(".cartBtn");
-    
+
     var checkoutBtn = document.querySelector(".checkoutBtn")
     var cancelBtn = document.querySelector(".cancelBtn")
     var revealBtn = document.querySelector(".revealBtn")
@@ -49,39 +49,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var addQuantity = document.querySelector(".addQuantity");
 
     const shoesService = ShoesService();
-    //const onClickFactory = OnClickFactory();
-
-
-    // window.addEventListener('load', function() {
-    //     cartBtns = document.querySelectorAll(".cartBtn");
-    //     console.log(cartBtns)
-    // })
-
-    // document.addEventListener('DOMContentLoaded', function () {
-    // function find( element ) {
-    //    alert(element)
-    //     alert(element.parentNode.parentNode.cells[0].innerHTML);
-    // }
-    // var newBtns;
-    // function cartButtonGrabber(){
-    //     console.log("test")
-    //     newBtns = document.querySelectorAll(".newBtn")
-    // }
-
-
-// if (newBtns !== undefined){
-//     newBtns.addEventListener('click', function(){
-//         console.log("hi")
-//     })
-// }
-    
+    //const onClickFactory = OnClickFactory(); 
 
 
     function clearFields() {
         addPrice.value = "";
         addQuantity.value = "";
-        updateErrorElem.innerHTML = "";
-        filterErrorElem.innerHTML = "";
+        // updateErrorElem.innerHTML = "";
+        // filterErrorElem.innerHTML = "";
         let dropdowns = document.querySelectorAll('.dropdowns');
         for (var i = 0, l = dropdowns.length; i < l; i++) {
             dropdowns[i].selected = dropdowns[i].defaultSelected;
@@ -156,28 +131,21 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     filterBtn.addEventListener('click', function () {
-        
-        if (selectFilterBrand.value){
-            brand = selectFilterBrand.value
+
+        if (selectFilterBrand.value || selectFilterColor.value || selectFilterSize.value) {
+            brand = selectFilterBrand.value   
+            color = selectFilterColor.value
+            size = selectFilterSize.value
+            localStorage.clear()
         } else {
             brand = localStorage.getItem("brand")
-        }
-        if (selectFilterColor.value){
-            color = selectFilterColor.value
-        } else {
             color = localStorage.getItem("color")
-        }
-        if (selectFilterSize.value){
-            size = selectFilterSize.value
-        } else {
             size = localStorage.getItem("size")
         }
-        // let brand = selectFilterBrand.value 
-        // || localStorage.getItem("brand")
-        // let color = selectFilterColor.value 
-        // || localStorage.getItem("color")
-        // let size = selectFilterSize.value
-        //  || localStorage.getItem("size")
+
+        // console.log(brand)
+        // console.log(color)
+        // console.log(size)
 
         let error = [];
         error.length = 0;
@@ -187,7 +155,8 @@ document.addEventListener('DOMContentLoaded', function () {
             error.push('Invalid search combination!')
         }
 
-        if (brand && !color && !size) {
+        if (brand && brand !== "all" && !color && !size) {
+            console.log("brand")
             localStorage.setItem("brand", brand);
             shoesService
                 .getFilterBrand(brand)
@@ -203,7 +172,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).catch(function (err) {
                     alert(err);
                 });
-        } else if (color && !brand && !size) {
+        } else if (color && color !== "all" && !brand && !size) {
+            console.log("color")
             localStorage.setItem("color", color)
             shoesService
                 .getFilterColor(color)
@@ -219,7 +189,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).catch(function (err) {
                     alert(err);
                 });
-        } else if (size && !color && !brand) {
+        } else if (size && size !== "all" && !color && !brand) {
+            console.log("size")
             localStorage.setItem("size", size)
             shoesService
                 .getFilterSize(size)
@@ -235,7 +206,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).catch(function (err) {
                     alert(err);
                 });
-        } else if (brand && size && !color) {
+        } else if (brand && brand !== "all" && size && size !== "all" && !color) {
+            console.log("brandsize")
             localStorage.setItem("brand", brand)
             localStorage.setItem("size", size)
             shoesService
@@ -252,7 +224,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).catch(function (err) {
                     alert(err);
                 });
-        } else if (brand && color && size) {
+        } else if (brand && brand !== "all" && color && color !== "all" && size && size !== "all") {
+            console.log("brandcolorsize")
             localStorage.setItem("brand", brand)
             localStorage.setItem("color", color)
             localStorage.setItem("size", size)
@@ -264,29 +237,51 @@ document.addEventListener('DOMContentLoaded', function () {
                     let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
-                    console.log(response.data)
+                    //console.log(response.data)
                     let filteredStockTableHTML = html;
                     filteredStockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
                 }).catch(function (err) {
                     alert(err);
                 });
-        } else {
-            localStorage.clear()
-            filterErrorElem.innerHTML = errorsTemplateInstance({
-                error
-            });
+        } 
+        else if (brand == "all" || color == "all" || size == "all") {
+            console.log("all")
+            localStorage.setItem("brand", brand)
+            localStorage.setItem("color", color)
+            localStorage.setItem("size", size)
+            shoesService
+                .getShoes()
+                .then(function (results) {
+                    let response = results.data;
+                    let data = response.data;
+                    let html = stockTemplateInstance({
+                        shoesEntry: data
+                    });
+                    let stockTableHTML = html;
+                    filteredStockTemplateInsertPoint.innerHTML = stockTableHTML;
+                    clearFields();
+                }).catch(function (err) {
+                    alert(err);
+                });
+        } 
+        else {
+            //localStorage.clear()
+            //filterErrorElem.innerHTML = errorsTemplateInstance({
+            //     error
+            // });
+            return false
         }
-    })    
+    })
 
 
 
-    dynamicCarting.addEventListener("click",function(event){
-        
+    dynamicCarting.addEventListener("click", function (event) {
+
         console.log(event.target.id)
         // console.log(event.target.dataid)
 
-        
+
         // let error = [];
         // error.length = 0;
         // if (!brand || !color || !size) {
@@ -309,8 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).catch(function (err) {
                     alert(err);
                 })
-        } 
-        else {
+        } else {
             // filterErrorElem.innerHTML = errorsTemplateInstance({
             //     error
             // });
@@ -318,7 +312,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
-   
+
 
     // cartBtns.addEventListener('click', function () {
 
@@ -367,7 +361,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 showShoes();
                 clearFields();
                 cartedStockTemplateInsertPoint.innerHTML = "";
-                let event = new Event("click", {bubbles:true});
+                let event = new Event("click", {
+                    bubbles: true
+                });
                 filterBtn.dispatchEvent(event)
             }).catch(function (err) {
                 alert(err);
@@ -387,6 +383,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }).then(function () {
                 showShoes();
                 cartedStockTemplateInsertPoint.innerHTML = "";
+                localStorage.clear()
             }).catch(function (err) {
                 alert(err);
             });
@@ -422,9 +419,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert(err);
                 });
         } else {
-            updateErrorElem.innerHTML = errorsTemplateInstance({
-                error
-            });
+            // updateErrorElem.innerHTML = errorsTemplateInstance({
+            //     error
+            // });
         }
     });
     showShoes();
