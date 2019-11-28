@@ -94,9 +94,9 @@ module.exports = function ShoeService(pool) {
         inner join colors on cart.color = colors.id 
         inner join sizes on cart.size = sizes.id`)
         let cartItems = allCart.rows
-        let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
-        let cartTotal = cartTotalExtraction.rows[0].totalprice
-        cartItems[0].total = cartTotal
+        // let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
+        // let cartTotal = cartTotalExtraction.rows[0].totalprice
+        // cartItems[0].total = cartTotal || 0
         return cartItems
     }
 
