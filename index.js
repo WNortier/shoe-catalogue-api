@@ -65,9 +65,6 @@ app.post('/shoes/cart', shoesRoutes.cartRoute);
 app.post('/shoes/checkout', shoesRoutes.checkoutRoute);
 app.post('/shoes/cancel', shoesRoutes.cancelRoute);
 
-
-//app.post('/aPostRoute', shoesRoutes.aPostRoute);
-
 //API Routes
 //list all shoes
 app.get('/api/shoes', shoesAPI.allShoes);

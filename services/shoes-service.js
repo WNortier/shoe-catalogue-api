@@ -86,25 +86,25 @@ module.exports = function ShoeService(pool) {
         return brandColorSizeFilter
     }
 
-
     async function showCart() {
         const allCart = await pool.query(`select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
         from cart 
         inner join brands on cart.brand = brands.id 
         inner join colors on cart.color = colors.id 
         inner join sizes on cart.size = sizes.id`)
+        if (allCart.rowCount > 0){
         let cartItems = allCart.rows
-        // let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
-        // let cartTotal = cartTotalExtraction.rows[0].totalprice
-        // cartItems[0].total = cartTotal || 0
+        let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
+        let cartTotal = cartTotalExtraction.rows[0].totalprice
+        cartItems[0].total = cartTotal || 0
         return cartItems
+    } else return allCart.rows
     }
 
     //CART PARAMETERS ARE NOT COMING IN AS AN OBJECT 
     async function cart(id) {
         if (id){
         //Obtaining the data of the shoe I want to cart from the shoes table
-        // const cartedShoeExtraction = await pool.query(`SELECT * FROM stock WHERE brand_id = $1 AND color_id = $2 AND size_id = $3`, [brand, color, size]);
         const cartedShoeExtraction = await pool.query(`SELECT * FROM stock where id = $1`, [id])
         let cartedShoe = cartedShoeExtraction.rows[0];
         //Checking if the shoe has been carted before

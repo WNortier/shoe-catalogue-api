@@ -27,10 +27,6 @@ function ShoesService() {
         return axios.get('/api/shoes/brand/' + brand + '/size/' + size + '/color/' + color)
     }
 
-    // function getCart(brand, color, size) {
-    //     return axios.get('/api/shoes/cart/brand/' + brand + '/size/' + size + '/color/' + color)
-    // }
-
     function getCart(id) {
         return axios.get('/api/shoes/cart/' + id)
     }

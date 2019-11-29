@@ -30,7 +30,9 @@
             <td class="border px-4 py-2">{{size}}</td>
             <td class="border px-4 py-2">{{price}}</td>
             <td class="border px-4 py-2">{{quantity}}</td>
-            <td class="border px-4 py-2"><button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button></td>
+            <td class="border px-4 py-2">
+                <button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button>
+            </td>
         </tr>
         {{/each}}
         </table>
@@ -54,7 +56,9 @@
             <td class="border px-4 py-2">{{size}}</td>
             <td class="border px-4 py-2">{{price}}</td>
             <td class="border px-4 py-2">{{quantity}}</td>
-            <td class="border px-4 py-2"><button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button></td>
+            <td class="border px-4 py-2">
+                <button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn">Cart</button>
+            </td>
         </tr>
         {{/each}}
         </table>
@@ -89,30 +93,24 @@
                 <td class="border px-4 py-2"></td>
             </tr>
             {{/each}}
-            <!-- <tr class="bg-gray-100">
-                    
-                    <td class="border px-4 py-2"></td>
-                    <td class="border px-4 py-2 m-2 text-right"><strong>TOTAL: R{{#cartedShoes}}{{total}}{{/cartedShoes}}.00</strong></td>
-                </tr>
-        </table> -->
         <table class="w-full">
-                <thead>
-                        <tr class="bg-gray-100">
-                            <!-- <th class="w-1/2 px-4 py-2"></th>
-                            <td class="border px-4 py-2"></td> -->
-                             <td class="border px-4 py-2 m-2 text-right"><strong>TOTAL: R{{#cartedShoes}}{{total}}{{/cartedShoes}}.00</strong></td>
-                        </tr>
-                        </thead>
-
+            <thead>
+            <tr class="bg-gray-100">
+            <td class="px-4 py-2 m-2 text-right">
+            <strong>TOTAL: R{{#cartedShoes}}{{total}}{{/cartedShoes}}.00</strong>
+            </td>
+            </tr>
+            </thead>
         </table>
         {{/if}}
     </script>
 
     <script type="text/x-template" class="errorsTemplate">
-        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 text-center opacity-50 content-between" role="alert">
+
+        <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 opacity-50" role="alert">
         <strong class="font-bold">Error</strong>
-        <span class="block sm:inline items-center text-center">{{error}}</span>
-       </div>
+        <span class="block sm:inline text-center">{{error}}</span>
+        </div>
     </script>
 
 </head>
@@ -143,7 +141,7 @@
                         <h3 class="font-bold" style="color: rgb(176, 173, 167)">Update Dashboard</h3>
                     </div>
 
-                    <div class="updateError">
+                    <div class="updateError flex justify-center w-full">
                     </div>
 
                     <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 content-between rounded">
@@ -191,6 +189,9 @@
                 <div class="flex flex-col settingsContainers rounded-lg w-128">
                     <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
                         <h3 class="font-bold" style="color: rgb(176, 173, 167)">Stock Dashboard</h3>
+                    </div>
+
+                    <div class="filterError flex justify-center w-full">
                     </div>
 
                     <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded block sm:flex">
@@ -249,16 +250,12 @@
 
 
         </div>
-        <!-- 
-        <div class="container mx-auto px-5 py-5 flex-wrap">
-            
-        </div> -->
     </div>
 </body>
 
 <script src="api-routes.js"></script>
 <script src="app.js"></script>
-<script src="onclick.js"></script>
+<!-- <script src="onclick.js"></script> -->
 <script src="client.js"></script>
 
 
