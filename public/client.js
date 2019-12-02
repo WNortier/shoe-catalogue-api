@@ -48,6 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
     //ADD INPUT FIELDS 
     var addPrice = document.querySelector(".addPrice");
     var addQuantity = document.querySelector(".addQuantity");
+    
 
     const shoesService = ShoesService();
 
@@ -208,11 +209,15 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     })
 
+
+    
     dynamicCarting.addEventListener("click", function (event) {
-        
         console.log(event.target.id)
-        
-        if (event.target.id) {
+        // console.log(event.target.classList)
+        var check = event.target.id.endsWith("png")
+        console.log(check)
+        var openmodal = document.querySelectorAll('.modal-open')
+        if (event.target.id.length < 5) {
             shoesService.getCart(event.target.id)
                 .then(function (results) {
                     let response = results.data;
@@ -224,10 +229,65 @@ document.addEventListener('DOMContentLoaded', function () {
                     cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
                     clearFields();
                 }).catch(function (err) {
-                    alert(err);
+                    reject(err);
                 })
+        } 
+        else if (check) {
+            
+            let modal = document.querySelector('.modal')
+            event.preventDefault()
+            //console.log("here")
+           // for (var i = 0; i < openmodal.length; i++) {
+                //console.log("here2")
+                // openmodal[i].addEventListener('click', function () {
+                //event.preventDefault()
+                modal.classList.toggle('opacity-0')
+                modal.classList.toggle('pointer-events-none')
+                body.classList.toggle('modal-active')
+                // })
+           // }
+
         }
     })
+
+    const body = document.querySelector('body')
+    const modal = document.querySelector('.modal')
+
+    const overlay = document.querySelector('.modal-overlay')
+    overlay.addEventListener('click', toggleModal)
+
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+        closemodal[i].addEventListener('click', toggleModal)
+    }
+
+    // document.onkeydown = function (evt) {
+    //     evt = evt || window.event
+    //     var isEscape = false
+    //     if ("key" in evt) {
+    //         isEscape = (evt.key === "Escape" || evt.key === "Esc")
+    //     } else {
+    //         isEscape = (evt.keyCode === 27)
+    //     }
+    //     if (isEscape && document.body.classList.contains('modal-active')) {
+    //         toggleModal()
+    //     }
+    // };
+
+    function toggleModal() {
+        let modal = document.querySelector('.modal')
+        // const body = document.querySelector('body')
+        // const modal = document.querySelector('.modal')
+        modal.classList.toggle('opacity-0')
+        modal.classList.toggle('pointer-events-none')
+        body.classList.toggle('modal-active')
+    }
+
+
+
+
+
+
 
     checkoutBtn.addEventListener('click', function () {
         shoesService.postCheckout()
@@ -300,41 +360,5 @@ document.addEventListener('DOMContentLoaded', function () {
     });
     showShoes();
 
-    var openmodal = document.querySelectorAll('.modal-open')
-    for (var i = 0; i < openmodal.length; i++) {
-        openmodal[i].addEventListener('click', function (event) {
-            event.preventDefault()
-            toggleModal()
-        })
-    }
 
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', toggleModal)
-    }
-
-    document.onkeydown = function (evt) {
-        evt = evt || window.event
-        var isEscape = false
-        if ("key" in evt) {
-            isEscape = (evt.key === "Escape" || evt.key === "Esc")
-        } else {
-            isEscape = (evt.keyCode === 27)
-        }
-        if (isEscape && document.body.classList.contains('modal-active')) {
-            toggleModal()
-        }
-    };
-
-
-    function toggleModal() {
-        const body = document.querySelector('body')
-        const modal = document.querySelector('.modal')
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
 })
