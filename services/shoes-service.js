@@ -201,7 +201,6 @@ module.exports = function ShoeService(pool) {
             let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
             let cartTotal = cartTotalExtraction.rows[0].totalprice
             cartItems[0].total = cartTotal
-            console.log(cartItems)
             return cartItems
         } else
             return await showCart();

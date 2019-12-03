@@ -34,16 +34,16 @@ document.addEventListener('DOMContentLoaded', function () {
     const selectFilterBrand = document.querySelector(".selectFilterBrand");
     const selectFilterColor = document.querySelector(".selectFilterColor");
     const selectFilterSize = document.querySelector(".selectFilterSize");
-    
+
     //ADD DROPDOWN MENU 
     const selectAddBrand = document.querySelector(".selectAddBrand");
     const selectAddColor = document.querySelector(".selectAddColor");
     const selectAddSize = document.querySelector(".selectAddSize");
-    
+
     //ADD INPUT FIELDS 
     const addPrice = document.querySelector(".addPrice");
     const addQuantity = document.querySelector(".addQuantity");
-    
+
     //FACTORYFUNCTION
     const shoesService = ShoesService();
 
@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.classList.toggle('pointer-events-none')
         body.classList.toggle('modal-active')
     }
-    
+
     //API CALLS 
     function showShoes() {
         shoesService
@@ -106,15 +106,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert(err);
             })
     }
-    
+
     filterBtn.addEventListener('click', function () {
 
         let brand = selectFilterBrand.value
         let color = selectFilterColor.value
         let size = selectFilterSize.value
 
-        let error = [];
-        error.length = 0;
+        var error = [];
         if (!brand && !color && !size) {
             error.push('Please complete all inputs!')
         } else if (!size || !brand) {
@@ -127,27 +126,44 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
-                    let html = filteredStockTemplateInstance({
-                        filteredShoes: data
-                    });
-                    let filteredShoesTableHTML = html;
-                    stockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
-                    clearFields();
+                    if (data.length == 0) {
+                        error = [];
+                        error.push('No entries found!')
+                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                            error
+                        });
+                    } else {
+                        let html = filteredStockTemplateInstance({
+                            filteredShoes: data
+                        });
+                        let filteredShoesTableHTML = html;
+                        stockTemplateInsertPoint.innerHTML = filteredShoesTableHTML;
+                        clearFields();
+                    }
                 }).catch(function (err) {
                     alert(err);
                 });
+
         } else if (color && color !== "all" && !brand && !size) {
             shoesService
                 .getFilterColor(color)
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+                    if (data.length == 0) {
+                        error = [];
+                        error.push('No entries found!')
+                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                            error
+                        });
+                    } else {
                     let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -157,12 +173,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+                    if (data.length == 0) {
+                        error = [];
+                        error.push('No entries found!')
+                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                            error
+                        });
+                    } else {
                     let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -172,12 +196,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+                    if (data.length == 0) {
+                        error = [];
+                        error.push('No entries found!')
+                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                            error
+                        });
+                    } else {
                     let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -187,12 +219,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+                    if (data.length == 0) {
+                        error = [];
+                        error.push('No entries found!')
+                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                            error
+                        });
+                    } else {
                     let html = filteredStockTemplateInstance({
                         filteredShoes: data
                     });
                     let filteredStockTableHTML = html;
                     stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
                     clearFields();
+                }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -202,12 +242,20 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+                    if (data.length == 0) {
+                        error = [];
+                        error.push('No entries found!')
+                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                            error
+                        });
+                    } else {
                     let html = stockTemplateInstance({
                         shoesEntry: data
                     });
                     let stockTableHTML = html;
                     stockTemplateInsertPoint.innerHTML = stockTableHTML;
                     clearFields();
+                }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -217,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     })
-    
+
     dynamicCarting.addEventListener("click", function (event) {
         var isModal = event.target.id.endsWith("png")
         var openmodal = document.querySelectorAll('.modal-open')
@@ -237,17 +285,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }).catch(function (err) {
                     reject(err);
                 })
-        } 
-        else if (isModal) {
-                let html = modalTemplateInstance({
-                    modalImage: event.target.id
-                })
-                let modalHtml = html
-                modalTemplateInsertPoint.innerHTML = modalHtml
-                event.preventDefault()
-                modal.classList.toggle('opacity-0')
-                modal.classList.toggle('pointer-events-none')
-                body.classList.toggle('modal-active')
+        } else if (isModal) {
+            let html = modalTemplateInstance({
+                modalImage: event.target.id
+            })
+            let modalHtml = html
+            modalTemplateInsertPoint.innerHTML = modalHtml
+            event.preventDefault()
+            modal.classList.toggle('opacity-0')
+            modal.classList.toggle('pointer-events-none')
+            body.classList.toggle('modal-active')
         }
     })
 
@@ -319,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
-    
+
     showShoes();
     showCart();
 })
