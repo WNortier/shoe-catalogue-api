@@ -23,6 +23,7 @@ describe('all function', async () => {
         await pool.query(`delete from brands`);
         await pool.query(`delete from colors`);
         await pool.query(`delete from sizes`);
+        await pool.query(`delete from stockimages`)
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
         await pool.query(`insert into brands (id, brand) values (3, 'Kucci')`);
@@ -79,6 +80,7 @@ describe('allStock function', async () => {
         await pool.query(`delete from brands`);
         await pool.query(`delete from colors`);
         await pool.query(`delete from sizes`);
+        await pool.query(`delete from stockimages`)
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
         await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
@@ -149,6 +151,7 @@ describe('add function', async () => {
         await pool.query(`delete from brands`);
         await pool.query(`delete from colors`);
         await pool.query(`delete from sizes`);
+        await pool.query(`delete from stockimages`)
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
         await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
@@ -166,10 +169,11 @@ describe('add function', async () => {
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
         //Zonverse images
-        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
         await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
-        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
         await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+
         //Yuma images
         await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
         await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
@@ -271,6 +275,7 @@ describe('search function', async () => {
         await pool.query(`delete from brands`);
         await pool.query(`delete from colors`);
         await pool.query(`delete from sizes`);
+        await pool.query(`delete from stockimages`)
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
         await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
@@ -366,6 +371,7 @@ describe('cart function', async () => {
         await pool.query(`delete from brands`);
         await pool.query(`delete from colors`);
         await pool.query(`delete from sizes`);
+        await pool.query(`delete from stockimages`)
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
         await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
@@ -480,6 +486,7 @@ describe('checkout function', async () => {
         await pool.query(`delete from brands`);
         await pool.query(`delete from colors`);
         await pool.query(`delete from sizes`);
+        await pool.query(`delete from stockimages`)
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
         await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
@@ -598,6 +605,7 @@ describe('cancel function', async () => {
         await pool.query(`delete from brands`);
         await pool.query(`delete from colors`);
         await pool.query(`delete from sizes`);
+        await pool.query(`delete from stockimages`)
 
         await pool.query(`insert into brands (id, brand) values (1, 'Zonverse')`);
         await pool.query(`insert into brands (id, brand) values (2, 'Yuma')`);
