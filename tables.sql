@@ -13,6 +13,11 @@ create table sizes(
     size text not null
 );
 
+create table stockimages(
+    id serial not null primary key,
+    image text not null
+);
+
 create table stock(
     id serial not null primary key,
     brand_id int not null,
@@ -39,10 +44,7 @@ create table cart(
 	foreign key (stock_id) references stock(id)
 );
 
-create table stockimages(
-    id serial not null primary key,
-    image text not null
-);
+
 
 
 
