@@ -39,10 +39,10 @@ describe('all function', async () => {
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 4, 4, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 4, 4, 999, 3, 16)`);
     });
     it('should return all shoes currently in my stock table', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -75,10 +75,10 @@ describe('allStock function', async () => {
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
         //INSERTING FOUR SHOES INTO DATABASE
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 4, 4, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 4, 4, 999, 3, 16)`);
     });
     it('should return all shoes currently in my stock table after performing an inner merge', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -124,10 +124,10 @@ describe('add function', async () => {
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
         //INSERTING FOUR SHOES INTO DATABASE
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 4, 4, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 4, 4, 999, 3, 16)`);
     });
     it('should UPDATE a shoes quantity in the stock table if it already exists', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -225,12 +225,12 @@ describe('search function', async () => {
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
         //INSERTING FOUR SHOES INTO DATABASE
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 4, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 1, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 4, 999, 3, 13)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 1, 999, 3, 13)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 1, 999, 3, 13)`);
     });
     it('should return all shoes of a specific brand', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -299,11 +299,11 @@ describe('cart function', async () => {
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
         //INSERTING FOUR SHOES INTO DATABASE
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 4, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 1, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 4, 999, 3, 13)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 1, 999, 3, 13)`);
     });
     it('should return the carted shoe for rendering', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -392,11 +392,11 @@ describe('checkout function', async () => {
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
         //INSERTING FOUR SHOES INTO DATABASE
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 4, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 1, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 4, 999, 3, 13)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 1, 999, 3, 13)`);
     });
     it('should clear the cart table of a single shoe carted and decrement the quantities of the corresponding items in the stock table', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);
@@ -489,11 +489,11 @@ describe('cancel function', async () => {
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
         //INSERTING FOUR SHOES INTO DATABASE
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (1, 1, 1, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (2, 2, 2, 799, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (3, 3, 3, 899, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 4, 999, 3)`);
-        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity) values (4, 1, 1, 999, 3)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 4, 999, 3, 13)`);
+        await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (4, 1, 1, 999, 3, 13)`);
     });
     it('should clear the cart table', async () => {
         const shoeServiceTesting = ShoeServiceTesting(pool);

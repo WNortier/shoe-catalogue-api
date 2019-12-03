@@ -34,8 +34,8 @@ create table cart(
     size int not null,
     price int not null,
     quantity int not null,
-    cart_image int not null,
 	stock_id int,
+    cart_image int not null,
 	foreign key (stock_id) references stock(id)
 );
 
