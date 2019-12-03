@@ -70,8 +70,6 @@ app.post('/shoes/cancel', shoesRoutes.cancelRoute);
 app.get('/api/shoes', shoesAPI.allShoes);
 //add a new shoe to stock
 app.post('/api/shoes', shoesAPI.addShoe);
-//filter for all shoes
-app.get('/api/shoes/all', shoesAPI.filterShoes)
 //list all shoes for a given brand
 app.get('/api/shoes/brand/:brand', shoesAPI.filterShoes);
 //list all shoes for a given size

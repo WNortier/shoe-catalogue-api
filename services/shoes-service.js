@@ -70,8 +70,7 @@ module.exports = function ShoeService(pool) {
         INNER JOIN brands ON stock.brand_id = brands.id 
         INNER JOIN colors ON stock.color_id = colors.id 
         INNER JOIN sizes ON stock.size_id = sizes.id
-        INNER JOIN stockImages on stock.image_id = stockImages.id        
-        `)
+        INNER JOIN stockImages on stock.image_id = stockImages.id`)
         return allStock.rows
     }
 
@@ -84,7 +83,7 @@ module.exports = function ShoeService(pool) {
         INNER JOIN stockImages on stock.image_id = stockImages.id
         WHERE stock.brand_id = $1`, [brand]);
         let brandFilter = brandFilterExtraction.rows
-        console.log(brandFilter)
+
         return brandFilter
     }
 
@@ -97,7 +96,6 @@ module.exports = function ShoeService(pool) {
         INNER JOIN stockImages on stock.image_id = stockImages.id
         WHERE stock.color_id = $1`, [color]);
         let colorFilter = colorFilterExtraction.rows
-        console.log(colorFilter)
         return colorFilter
     }
 
@@ -110,7 +108,6 @@ module.exports = function ShoeService(pool) {
         INNER JOIN stockImages on stock.image_id = stockImages.id
         WHERE stock.size_id = $1`, [size]);
         let sizeFilter = sizeFilterExtraction.rows
-        console.log(sizeFilter)
         return sizeFilter
     }
 
@@ -123,7 +120,6 @@ module.exports = function ShoeService(pool) {
         INNER JOIN stockImages on stock.image_id = stockImages.id
         WHERE stock.brand_id = $1 AND stock.size_id = $2`, [brand, size]);
         let brandSizeFilter = brandSizeFilterExtraction.rows
-        console.log(brandSizeFilter)
         return brandSizeFilter
     }
 
@@ -136,7 +132,6 @@ module.exports = function ShoeService(pool) {
         INNER JOIN stockImages ON stock.image_id = stockImages.id
         WHERE stock.brand_id = $1 AND stock.color_id = $2 AND stock.size_id = $3`, [brand, color, size]);
         let brandColorSizeFilter = brandColorSizeFilterExtraction.rows
-        console.log(brandColorSizeFilter)
         return brandColorSizeFilter
     }
 
