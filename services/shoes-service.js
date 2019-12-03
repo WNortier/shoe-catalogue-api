@@ -12,8 +12,8 @@ module.exports = function ShoeService(pool) {
             let shoesPrice = shoeToAddQuantityAndPrice.rows[0].price = shoe.price;
             await pool.query('UPDATE stock SET quantity = $1, price = $2 WHERE brand_id = $3 AND color_id = $4 AND size_id = $5', [newShoesQuantity, shoesPrice, shoe.brand, shoe.color, shoe.size]);
         } else {
-            //INSERTING NEW STOCK, BUT FIRST DETERMINING IMAGE TO ADD BASED ON COLOR AND BRAND SELECTED
-            //ZONVERSE IMAGES
+            //Inserting new stock, but first determining image to add based on color and brand selected
+            //Zonverse images
             if (shoe.brand == 1 && shoe.color == 1) {
                 var imageId = 1
             } else if (shoe.brand == 1 && shoe.color == 2) {
@@ -23,7 +23,7 @@ module.exports = function ShoeService(pool) {
             } else if (shoe.brand == 1 && shoe.color == 4) {
                 var imageId = 4;
             }
-            //YUMA IMAGES
+            //Yuma images
             else if (shoe.brand == 2 && shoe.color == 1) {
                 var imageId = 5
             } else if (shoe.brand == 2 && shoe.color == 2) {
@@ -33,7 +33,7 @@ module.exports = function ShoeService(pool) {
             } else if (shoe.brand == 2 && shoe.color == 4) {
                 var imageId = 8
             }
-            //KUCCI IMAGES
+            //Kucci images
             else if (shoe.brand == 3 && shoe.color == 1) {
                 var imageId = 9
             } else if (shoe.brand == 3 && shoe.color == 2) {
@@ -43,7 +43,7 @@ module.exports = function ShoeService(pool) {
             } else if (shoe.brand == 3 && shoe.color == 4) {
                 var imageId = 12
             }
-            //JIMMY-WOO IMAGES
+            //Jimmy-woo images
             else if (shoe.brand == 4 && shoe.color == 1) {
                 var imageId = 13
             } else if (shoe.brand == 4 && shoe.color == 2) {

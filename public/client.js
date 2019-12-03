@@ -17,6 +17,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const filterErrorElem = document.querySelector('.filterError')
     const errorsTemplateInstance = compileTemplate('.errorsTemplate');
     const updateStockContainer = document.querySelector(".updateStockContainer")
+    const modalTemplateInsertPoint = document.querySelector('.modalTemplateInsertPoint')
+    const modalTemplateInstance = compileTemplate('.modalTemplate')
     const body = document.querySelector('body')
     const modal = document.querySelector('.modal')
     const overlay = document.querySelector('.modal-overlay')
@@ -235,6 +237,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 })
         } 
         else if (isModal) {
+                let html = modalTemplateInstance({
+                    modalImage: event.target.id
+                })
+                let modalHtml = html
+                modalTemplateInsertPoint.innerHTML = modalHtml
                 event.preventDefault()
                 modal.classList.toggle('opacity-0')
                 modal.classList.toggle('pointer-events-none')

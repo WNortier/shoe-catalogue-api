@@ -38,22 +38,22 @@ module.exports = function ShoesRoutes(shoeService) {
             if (brand && !color && !size) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterBrand(brand),
-                    shoesEntry: await shoeService.allStock()
+                    // shoesEntry: await shoeService.allStock()
                 });
             } else if (color && !brand && !size) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterColor(color),
-                    shoesEntry: await shoeService.allStock()
+                    // shoesEntry: await shoeService.allStock()
                 });
             } else if (size && !color && !brand) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterSize(size),
-                    shoesEntry: await shoeService.allStock()
+                    // shoesEntry: await shoeService.allStock()
                 });
             } else if (brand && color && size) {
                 res.render("home", {
                     filteredShoes: await shoeService.filterBrandColorSize(brand, color, size),
-                    shoesEntry: await shoeService.allStock()
+                    // shoesEntry: await shoeService.allStock()
                 });
             }
         } catch (err) {

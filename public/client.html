@@ -65,8 +65,16 @@
             <td class="border px-4 py-2">{{price}}</td>
             <td class="border px-4 py-2">{{quantity}}</td>
             <td class="border px-4 py-2">
-                <button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn hover:bg-teal-500">Cart</button>
+                <button id={{image}} class="bg-teal-700 font-light text-white py-2 px-4 rounded modal-open hover:bg-teal-500">View</button>
             </td>
+        <!-- <td class="border px-4 py-2 imagetd">
+            <img src="/images/Jimmy Woo/jw-metallic.png" alt=""><h6>##########</h6>
+        </td> -->
+        <td class="border px-4 py-2">
+            <button id={{id}} class="bg-teal-700 font-light text-white py-2 px-4 rounded cartBtn hover:bg-teal-500">
+                Cart
+            </button>
+        </td>
         </tr>
         {{/each}}
         </table>
@@ -121,6 +129,10 @@
         </div>
     </script>
 
+    <script type="text/x-template" class="modalTemplate">
+        <img src="images/{{modalImage}}" alt="">
+    </script>
+
 </head>
 
 <body class="font-mono text-base items-center justify-center h-screen">
@@ -137,7 +149,9 @@
             <div class="container mx-auto flex-wrap">
 
                 <div class="text-gray-700 text-center px-4 py-2 m-2">
-                    <button class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded revealBtn hover:bg-teal-500">Add Stock</button>
+                    <button
+                        class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded revealBtn hover:bg-teal-500">Add
+                        Stock</button>
                 </div>
 
             </div>
@@ -251,7 +265,8 @@
                 <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
                     <button
                         class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded checkoutBtn hover:bg-teal-500">Checkout</button>
-                    <button class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded cancelBtn hover:bg-teal-500">Cancel</button>
+                    <button
+                        class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded cancelBtn hover:bg-teal-500">Cancel</button>
                 </div>
             </div>
 
@@ -260,53 +275,49 @@
         </div>
     </div>
 
+    <!--Modal-->
+    <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
+        <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
 
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto" style="background-color: rgb(79, 84, 93)">
 
-  
-        <!-- <button class="modal-open bg-transparent border border-gray-500 hover:border-indigo-500 text-gray-500 hover:text-indigo-500 font-bold py-2 px-4 rounded-full">Open Modal</button> -->
-        
-        <!--Modal-->
-        <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
-          <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-          
-          <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
-            
-            <div class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
-              <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-              </svg>
-              <span class="text-sm">(Esc)</span>
+            <div
+                class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">
+                <svg class="fill-current text-white" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
+                    viewBox="0 0 18 18">
+                    <path
+                        d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
+                    </path>
+                </svg>
+                <span class="text-sm">(Esc)</span>
             </div>
-      
+
+            <!-- 
+            <div class="flex flex-col settingsContainers rounded-lg w-128">
+                <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded"> -->
             <!-- Add margin if you want to see some of the overlay behind the modal-->
-            <div class="modal-content py-4 text-left px-6">
-              <!--Title-->
-              <div class="flex justify-between items-center pb-3">
-                <p class="text-2xl font-bold">Simple Modal!</p>
-                <div class="modal-close cursor-pointer z-50">
-                  <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
-                    <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
-                  </svg>
+            <div class="py-4 text-left px-6 m-2 settingsContainers rounded">
+                <!--Title-->
+                <div class="flex justify-between items-center pb-3">
+                    <p class="text-2xl font-bold" style="color: rgb(176, 173, 167)">Preview</p>
+                    <div class="modal-close cursor-pointer z-50">
+
+                    </div>
                 </div>
-              </div>
-      
-              <!--Body-->
-              <div>
-              <p>Modal content can go here</p>
-              <p>...</p>
-              <p>...</p>
-              <img src="images/jw-black.png" alt=""><h6>##########</h6>
-              <p>...</p>
+
+                <!--Body-->
+                <div class="modalTemplateInsertPoint divContainers rounded border-teal-300">
+                </div>
+                <!--Footer-->
+                <div class="flex justify-end pt-2">
+                    <!-- <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button> -->
+                    <button
+                        class="modal-close bg-teal-700 font-light text-white py-2 px-4 m-2 rounded text-center hover:bg-teal-500">Close</button>
+                </div>
+
             </div>
-              <!--Footer-->
-              <div class="flex justify-end pt-2">
-                <!-- <button class="px-4 bg-transparent p-3 rounded-lg text-indigo-500 hover:bg-gray-100 hover:text-indigo-400 mr-2">Action</button> -->
-                <button class="modal-close px-4 bg-indigo-500 p-3 rounded-lg text-white hover:bg-indigo-400">Close</button>
-              </div>
-              
-            </div>
-          </div>
         </div>
+    </div>
 
 
 
