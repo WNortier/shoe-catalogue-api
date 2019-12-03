@@ -3,7 +3,7 @@ const ShoeServiceTesting = require("../services/shoes-service");
 
 const pg = require("pg");
 const Pool = pg.Pool;
-const connectionString = process.env.DATABASE_URL || 'postgresql://warwick:pg123@localhost:5432/shoecatalogue_test';
+const connectionString = process.env.DATABASE_URL || 'postgresql://warwick:pg123@localhost:5432/shoecatalogue';
 
 let useSSL = false;
 let local = process.env.LOCAL || false;
@@ -39,6 +39,27 @@ describe('all function', async () => {
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
+        //Zonverse images
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        //Yuma images
+        await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (8, 'y-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (5, 'y-black.png')`);
+        //Kucci images
+        await pool.query(`insert into stockimages (id, image) values (10, 'k-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (11, 'k-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (12, 'k-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (9, 'k-black.png')`);
+        //Jimmy Woo images        
+        await pool.query(`insert into stockimages (id, image) values (13, 'jw-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (14, 'jw-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (15, 'jw-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (16, 'jw-metallic.png')`);
+
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (3, 3, 3, 899, 3, 11)`);
@@ -73,6 +94,27 @@ describe('allStock function', async () => {
         await pool.query(`insert into sizes (id, size) values (2, 7)`);
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
+
+        //Zonverse images
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        //Yuma images
+        await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (8, 'y-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (5, 'y-black.png')`);
+        //Kucci images
+        await pool.query(`insert into stockimages (id, image) values (10, 'k-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (11, 'k-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (12, 'k-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (9, 'k-black.png')`);
+        //Jimmy Woo images        
+        await pool.query(`insert into stockimages (id, image) values (13, 'jw-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (14, 'jw-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (15, 'jw-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (16, 'jw-metallic.png')`);
 
         //INSERTING FOUR SHOES INTO DATABASE
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
@@ -122,6 +164,27 @@ describe('add function', async () => {
         await pool.query(`insert into sizes (id, size) values (2, 7)`);
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
+
+        //Zonverse images
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        //Yuma images
+        await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (8, 'y-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (5, 'y-black.png')`);
+        //Kucci images
+        await pool.query(`insert into stockimages (id, image) values (10, 'k-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (11, 'k-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (12, 'k-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (9, 'k-black.png')`);
+        //Jimmy Woo images        
+        await pool.query(`insert into stockimages (id, image) values (13, 'jw-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (14, 'jw-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (15, 'jw-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (16, 'jw-metallic.png')`);
 
         //INSERTING FOUR SHOES INTO DATABASE
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
@@ -224,6 +287,27 @@ describe('search function', async () => {
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
 
+        //Zonverse images
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        //Yuma images
+        await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (8, 'y-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (5, 'y-black.png')`);
+        //Kucci images
+        await pool.query(`insert into stockimages (id, image) values (10, 'k-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (11, 'k-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (12, 'k-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (9, 'k-black.png')`);
+        //Jimmy Woo images        
+        await pool.query(`insert into stockimages (id, image) values (13, 'jw-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (14, 'jw-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (15, 'jw-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (16, 'jw-metallic.png')`);
+
         //INSERTING FOUR SHOES INTO DATABASE
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (2, 2, 2, 799, 3, 6)`);
@@ -297,6 +381,27 @@ describe('cart function', async () => {
         await pool.query(`insert into sizes (id, size) values (2, 7)`);
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
+
+        //Zonverse images
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        //Yuma images
+        await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (8, 'y-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (5, 'y-black.png')`);
+        //Kucci images
+        await pool.query(`insert into stockimages (id, image) values (10, 'k-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (11, 'k-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (12, 'k-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (9, 'k-black.png')`);
+        //Jimmy Woo images        
+        await pool.query(`insert into stockimages (id, image) values (13, 'jw-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (14, 'jw-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (15, 'jw-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (16, 'jw-metallic.png')`);
 
         //INSERTING FOUR SHOES INTO DATABASE
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
@@ -390,6 +495,27 @@ describe('checkout function', async () => {
         await pool.query(`insert into sizes (id, size) values (2, 7)`);
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
+
+        //Zonverse images
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        //Yuma images
+        await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (8, 'y-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (5, 'y-black.png')`);
+        //Kucci images
+        await pool.query(`insert into stockimages (id, image) values (10, 'k-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (11, 'k-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (12, 'k-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (9, 'k-black.png')`);
+        //Jimmy Woo images        
+        await pool.query(`insert into stockimages (id, image) values (13, 'jw-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (14, 'jw-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (15, 'jw-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (16, 'jw-metallic.png')`);
 
         //INSERTING FOUR SHOES INTO DATABASE
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
@@ -487,6 +613,27 @@ describe('cancel function', async () => {
         await pool.query(`insert into sizes (id, size) values (2, 7)`);
         await pool.query(`insert into sizes (id, size) values (3, 8)`);
         await pool.query(`insert into sizes (id, size) values (4, 9)`);
+
+        //Zonverse images
+        await pool.query(`insert into stockimages (id, image) values (3, 'z-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (1, 'z-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (4, 'z-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (2, 'z-pink.png')`);
+        //Yuma images
+        await pool.query(`insert into stockimages (id, image) values (6, 'y-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (7, 'y-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (8, 'y-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (5, 'y-black.png')`);
+        //Kucci images
+        await pool.query(`insert into stockimages (id, image) values (10, 'k-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (11, 'k-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (12, 'k-metallic.png')`);
+        await pool.query(`insert into stockimages (id, image) values (9, 'k-black.png')`);
+        //Jimmy Woo images        
+        await pool.query(`insert into stockimages (id, image) values (13, 'jw-black.png')`);
+        await pool.query(`insert into stockimages (id, image) values (14, 'jw-pink.png')`);
+        await pool.query(`insert into stockimages (id, image) values (15, 'jw-red.png')`);
+        await pool.query(`insert into stockimages (id, image) values (16, 'jw-metallic.png')`);
 
         //INSERTING FOUR SHOES INTO DATABASE
         await pool.query(`insert into stock (brand_id, color_id, size_id, price, quantity, image_id) values (1, 1, 1, 999, 3, 1)`);
