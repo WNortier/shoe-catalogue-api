@@ -281,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
                     clearFields();
                 }).catch(function (err) {
-                    return true;
+                    alert(err)
                 })
         } else if (isModal) {
             let html = modalTemplateInstance({
