@@ -1,57 +1,51 @@
 document.addEventListener('DOMContentLoaded', function () {
 
     function compileTemplate(selector) {
-        let template = document.querySelector(selector);
-        let templateInstance = Handlebars.compile(template.innerHTML);
+        const template = document.querySelector(selector);
+        const templateInstance = Handlebars.compile(template.innerHTML);
         return templateInstance;
     }
 
     //QUERYSELECTORS
-    let stockTemplateInsertPoint = document.querySelector('.stockTemplateInsertPoint');
-    let stockTemplateInstance = compileTemplate('.stockTemplate')
-    // let stockTemplate = document.querySelector('.stockTemplate')
-    // let stockTemplateInstance = Handlebars.compile(stockTemplate.innerHTML);
-
-    let filteredStockTemplateInsertPoint = document.querySelector('.filteredStockTemplateInsertPoint');
-    let filteredStockTemplateInstance = compileTemplate('.filteredStockTemplate')
-    // let filteredStockTemplate = document.querySelector('.filteredStockTemplate');
-    // let filteredStockTemplateInstance = Handlebars.compile(filteredStockTemplate.innerHTML);
-
-    let cartedStockTemplateInsertPoint = document.querySelector(".cartedStockTemplateInsertPoint")
-    let cartedStockTemplateInstance = compileTemplate('.cartedStockTemplate')
-    // let cartedStockTemplate = document.querySelector('.cartedStockTemplate');
-    // let cartedStockTemplateInstance = Handlebars.compile(cartedStockTemplate.innerHTML)
-    let updateStockContainer = document.querySelector(".updateStockContainer")
-    let dynamicCarting = document.querySelector("#dynamicCarting")
-
-    let updateErrorElem = document.querySelector('.updateError')
-    let filterErrorElem = document.querySelector('.filterError')
-    let errorsTemplateInstance = compileTemplate('.errorsTemplate');
+    const stockTemplateInsertPoint = document.querySelector('.stockTemplateInsertPoint');
+    const stockTemplateInstance = compileTemplate('.stockTemplate')
+    const filteredStockTemplateInstance = compileTemplate('.filteredStockTemplate')
+    const cartedStockTemplateInsertPoint = document.querySelector(".cartedStockTemplateInsertPoint")
+    const cartedStockTemplateInstance = compileTemplate('.cartedStockTemplate')
+    const dynamicCarting = document.querySelector("#dynamicCarting")
+    const updateErrorElem = document.querySelector('.updateError')
+    const filterErrorElem = document.querySelector('.filterError')
+    const errorsTemplateInstance = compileTemplate('.errorsTemplate');
+    const updateStockContainer = document.querySelector(".updateStockContainer")
+    const body = document.querySelector('body')
+    const modal = document.querySelector('.modal')
+    const overlay = document.querySelector('.modal-overlay')
 
     //BUTTONS
-    var updateBtn = document.querySelector(".updateBtn");
-    var filterBtn = document.querySelector(".filterBtn");
-    var cartBtns = document.querySelector(".cartBtn");
-
-    var checkoutBtn = document.querySelector(".checkoutBtn")
-    var cancelBtn = document.querySelector(".cancelBtn")
-    var revealBtn = document.querySelector(".revealBtn")
+    const updateBtn = document.querySelector(".updateBtn");
+    const filterBtn = document.querySelector(".filterBtn");
+    const checkoutBtn = document.querySelector(".checkoutBtn")
+    const cancelBtn = document.querySelector(".cancelBtn")
+    const revealBtn = document.querySelector(".revealBtn")
 
     //FILTER DROPDOWN MENU 
-    var selectFilterBrand = document.querySelector(".selectFilterBrand");
-    var selectFilterColor = document.querySelector(".selectFilterColor");
-    var selectFilterSize = document.querySelector(".selectFilterSize");
-    //ADD DROPDOWN MENU 
-    var selectAddBrand = document.querySelector(".selectAddBrand");
-    var selectAddColor = document.querySelector(".selectAddColor");
-    var selectAddSize = document.querySelector(".selectAddSize");
-    //ADD INPUT FIELDS 
-    var addPrice = document.querySelector(".addPrice");
-    var addQuantity = document.querySelector(".addQuantity");
+    const selectFilterBrand = document.querySelector(".selectFilterBrand");
+    const selectFilterColor = document.querySelector(".selectFilterColor");
+    const selectFilterSize = document.querySelector(".selectFilterSize");
     
-
+    //ADD DROPDOWN MENU 
+    const selectAddBrand = document.querySelector(".selectAddBrand");
+    const selectAddColor = document.querySelector(".selectAddColor");
+    const selectAddSize = document.querySelector(".selectAddSize");
+    
+    //ADD INPUT FIELDS 
+    const addPrice = document.querySelector(".addPrice");
+    const addQuantity = document.querySelector(".addQuantity");
+    
+    //FACTORYFUNCTION
     const shoesService = ShoesService();
 
+    //UTILITY FUNCTIONS
     function clearFields() {
         addPrice.value = "";
         addQuantity.value = "";
@@ -67,6 +61,20 @@ document.addEventListener('DOMContentLoaded', function () {
         updateStockContainer.style.display = (updateStockContainer.style.display !== "none") ? "none" : "block";
     })
 
+    overlay.addEventListener('click', toggleModal)
+
+    var closemodal = document.querySelectorAll('.modal-close')
+    for (var i = 0; i < closemodal.length; i++) {
+        closemodal[i].addEventListener('click', toggleModal)
+    }
+
+    function toggleModal() {
+        modal.classList.toggle('opacity-0')
+        modal.classList.toggle('pointer-events-none')
+        body.classList.toggle('modal-active')
+    }
+    
+    //API CALLS 
     function showShoes() {
         shoesService
             .getShoes()
@@ -96,13 +104,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 alert(err);
             })
     }
-    showCart();
-
+    
     filterBtn.addEventListener('click', function () {
 
-        brand = selectFilterBrand.value
-        color = selectFilterColor.value
-        size = selectFilterSize.value
+        let brand = selectFilterBrand.value
+        let color = selectFilterColor.value
+        let size = selectFilterSize.value
 
         let error = [];
         error.length = 0;
@@ -208,14 +215,9 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     })
-
-
     
     dynamicCarting.addEventListener("click", function (event) {
-        console.log(event.target.id)
-        // console.log(event.target.classList)
-        var check = event.target.id.endsWith("png")
-        console.log(check)
+        var isModal = event.target.id.endsWith("png")
         var openmodal = document.querySelectorAll('.modal-open')
         if (event.target.id.length < 5) {
             shoesService.getCart(event.target.id)
@@ -232,62 +234,13 @@ document.addEventListener('DOMContentLoaded', function () {
                     reject(err);
                 })
         } 
-        else if (check) {
-            
-            let modal = document.querySelector('.modal')
-            event.preventDefault()
-            //console.log("here")
-           // for (var i = 0; i < openmodal.length; i++) {
-                //console.log("here2")
-                // openmodal[i].addEventListener('click', function () {
-                //event.preventDefault()
+        else if (isModal) {
+                event.preventDefault()
                 modal.classList.toggle('opacity-0')
                 modal.classList.toggle('pointer-events-none')
                 body.classList.toggle('modal-active')
-                // })
-           // }
-
         }
     })
-
-    const body = document.querySelector('body')
-    const modal = document.querySelector('.modal')
-
-    const overlay = document.querySelector('.modal-overlay')
-    overlay.addEventListener('click', toggleModal)
-
-    var closemodal = document.querySelectorAll('.modal-close')
-    for (var i = 0; i < closemodal.length; i++) {
-        closemodal[i].addEventListener('click', toggleModal)
-    }
-
-    // document.onkeydown = function (evt) {
-    //     evt = evt || window.event
-    //     var isEscape = false
-    //     if ("key" in evt) {
-    //         isEscape = (evt.key === "Escape" || evt.key === "Esc")
-    //     } else {
-    //         isEscape = (evt.keyCode === 27)
-    //     }
-    //     if (isEscape && document.body.classList.contains('modal-active')) {
-    //         toggleModal()
-    //     }
-    // };
-
-    function toggleModal() {
-        let modal = document.querySelector('.modal')
-        // const body = document.querySelector('body')
-        // const modal = document.querySelector('.modal')
-        modal.classList.toggle('opacity-0')
-        modal.classList.toggle('pointer-events-none')
-        body.classList.toggle('modal-active')
-    }
-
-
-
-
-
-
 
     checkoutBtn.addEventListener('click', function () {
         shoesService.postCheckout()
@@ -324,7 +277,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }).catch(function (err) {
                 alert(err);
             });
-
     });
 
     updateBtn.addEventListener('click', function () {
@@ -358,7 +310,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
     });
+    
     showShoes();
-
-
+    showCart();
 })
