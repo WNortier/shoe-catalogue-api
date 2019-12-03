@@ -84,29 +84,23 @@
     <script type="text/x-handlebars-template" class="cartedStockTemplate">
         <table class="table-fixed px-2 py-2">
             {{#if cartedShoes}}
+                <thead>
+                <tr class="bg-gray-100">
+                    <th class="w-1/2 px-4 py-2">Info</th>
+                    <th class="w-1/2 px-4 py-2">Price</th>
+                    <th class="w-1/2 px-4 py-2">Quantity</th>
+                    <th class="w-1/2 px-4 py-2">Item</th>
+                </tr>
+                </thead>
             {{#each cartedShoes}}
-            <thead>
             <tr class="bg-gray-100">
-                <th class="w-1/2 px-4 py-2">Info</th>
-                <th class="w-1/2 px-4 py-2">Price</th>
-                <th class="w-1/2 px-4 py-2">Quantity</th>
-            </tr>
-            </thead>
-            <tr class="bg-gray-100">
-                <td class="border px-4 py-2">{{brand}}</td>
+                <td class="border px-4 py-2">{{brand}}:{{size}}:{{color}}</td>
                 <td class="border px-4 py-2">R{{price}}.00</td>
                 <td class="border px-4 py-2">{{quantity}}</td>
-            </tr>
-            <tr class="bg-gray-100">
-                <td class="border px-4 py-2">{{size}}</td>
-                <td class="border px-4 py-2"></td>
-                <td class="border px-4 py-2"></td>
-                <!-- <td><button>del</button></td> -->
-            </tr>
-            <tr class="bg-gray-100">
-                <td class="border px-4 py-2">{{color}}</td>
-                <td class="border px-4 py-2"></td>
-                <td class="border px-4 py-2"></td>
+                <td class="border px-4 py-2 imagetd">
+            <img src="/images/{{image}}" alt=""><h6>##########</h6>
+        </td>
+                <!-- <td><button>{{id}}</button></td> -->
             </tr>
             {{/each}}
         <table class="w-full">
@@ -265,13 +259,12 @@
                 <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
                     <button
                         class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded checkoutBtn hover:bg-teal-500">Checkout</button>
-                    <button
+                    
+                        <button
                         class="bg-teal-700 font-light text-white py-2 px-4 m-2 rounded cancelBtn hover:bg-teal-500">Cancel</button>
+                
                 </div>
             </div>
-
-
-
         </div>
     </div>
 
@@ -279,7 +272,8 @@
     <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
 
-        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto" style="background-color: rgb(79, 84, 93)">
+        <div class="modal-container bg-white w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto"
+            style="background-color: rgb(79, 84, 93)">
 
             <div
                 class="modal-close absolute top-0 right-0 cursor-pointer flex flex-col items-center mt-4 mr-4 text-white text-sm z-50">

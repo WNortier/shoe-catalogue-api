@@ -222,10 +222,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var isModal = event.target.id.endsWith("png")
         var openmodal = document.querySelectorAll('.modal-open')
         if (event.target.id.length < 5) {
+            console.log(event.target.id)
             shoesService.getCart(event.target.id)
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+                    console.log(data)
                     let html = cartedStockTemplateInstance({
                         cartedShoes: data
                     });

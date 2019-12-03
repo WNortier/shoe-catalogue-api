@@ -7,10 +7,6 @@ function ShoesService() {
         return axios.get('/api/shoes')
     }
 
-    function getFilterAll(){
-        return axios.get('/api/shoes/all')
-    }
-
     function getFilterBrand(brand) {
         return axios.get('/api/shoes/brand/' + brand)
     }
@@ -53,7 +49,6 @@ function ShoesService() {
         getFilterBrandColorSize,
         getCart,
         postCheckout,
-        postCancel,
-        getFilterAll
+        postCancel
     }
 }

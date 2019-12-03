@@ -20,7 +20,7 @@ create table stock(
     size_id int not null,
     price int not null,
     quantity int not null,
-    image_id init not null,
+    image_id int not null,
     foreign key (brand_id) references brands(id),
     foreign key (color_id) references colors(id),
     foreign key (size_id) references sizes(id)
@@ -33,6 +33,7 @@ create table cart(
     size int not null,
     price int not null,
     quantity int not null,
+    cart_image int not null,
 	stock_id int,
 	foreign key (stock_id) references stock(id)
 );

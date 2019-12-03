@@ -133,7 +133,7 @@ module.exports = function ShoeService(pool) {
         INNER JOIN brands ON stock.brand_id = brands.id 
         INNER JOIN colors ON stock.color_id = colors.id 
         INNER JOIN sizes ON stock.size_id = sizes.id
-        INNER JOIN stockImages on stock.image_id = stockImages.id
+        INNER JOIN stockImages ON stock.image_id = stockImages.id
         WHERE stock.brand_id = $1 AND stock.color_id = $2 AND stock.size_id = $3`, [brand, color, size]);
         let brandColorSizeFilter = brandColorSizeFilterExtraction.rows
         console.log(brandColorSizeFilter)
@@ -141,11 +141,12 @@ module.exports = function ShoeService(pool) {
     }
 
     async function showCart() {
-        const allCart = await pool.query(`select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
-        from cart 
-        inner join brands on cart.brand = brands.id 
-        inner join colors on cart.color = colors.id 
-        inner join sizes on cart.size = sizes.id`)
+        const allCart = await pool.query(`SELECT brands.brand, colors.color, sizes.size, cart.price, cart.quantity, stockImages.image
+        FROM cart 
+        INNER JOIN brands ON cart.brand = brands.id 
+        INNER JOIN colors ON cart.color = colors.id 
+        INNER JOIN sizes ON cart.size = sizes.id
+        INNER JOIN stockImages on cart.cart_image = stockImages.id`)
         if (allCart.rowCount > 0) {
             let cartItems = allCart.rows
             let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
@@ -164,11 +165,9 @@ module.exports = function ShoeService(pool) {
             //Checking if the shoe has been carted before
             let alreadyCartedCheck = await pool.query(`SELECT * FROM cart where brand = $1 AND color = $2 AND size = $3`, [cartedShoe.brand_id, cartedShoe.color_id, cartedShoe.size_id])
             //If the rowCount is 0, add it to the cart
-
-            //console.log(alreadyCartedCheck.rowCount)
             if (alreadyCartedCheck.rowCount == 0) {
                 cartedShoe.quantity = 1
-                await pool.query(`INSERT INTO cart (brand, color, size, price, quantity, stock_id) VALUES ($1, $2, $3, $4, $5, $6)`, [cartedShoe.brand_id, cartedShoe.color_id, cartedShoe.size_id, cartedShoe.price, cartedShoe.quantity, cartedShoe.id]);
+                await pool.query(`INSERT INTO cart (brand, color, size, price, quantity, stock_id, cart_image) VALUES ($1, $2, $3, $4, $5, $6, $7)`, [cartedShoe.brand_id, cartedShoe.color_id, cartedShoe.size_id, cartedShoe.price, cartedShoe.quantity, cartedShoe.id, cartedShoe.image_id]);
             }
             //Else if the rowCount is > 0 update the quantity of the shoe already carted...
             else if (alreadyCartedCheck.rowCount > 0) {
@@ -180,26 +179,29 @@ module.exports = function ShoeService(pool) {
                     await pool.query(`UPDATE cart SET quantity = $1 WHERE stock_id = $2`, [cartUpdate.quantity, cartedShoe.id]);
                     //if they are the same simply return what is currently in the cart
                 } else if (cartUpdate.quantity == cartedShoe.quantity) {
-                    let cartItemsExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
-                from cart 
-                inner join brands on cart.brand = brands.id 
-                inner join colors on cart.color = colors.id 
-                inner join sizes on cart.size = sizes.id`);
+                    let cartItemsExtraction = await pool.query(`SELECT brands.brand, colors.color, sizes.size, cart.price, cart.quantity, stockImages.image
+                FROM cart 
+                INNER JOIN brands ON cart.brand = brands.id 
+                INNER JOIN colors ON cart.color = colors.id 
+                INNER JOIN sizes ON cart.size = sizes.id
+                INNER JOIN stockImages on cart.cart_image = stockImages.id`);
                     let cartItems = cartItemsExtraction.rows
                     let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
                     let cartTotal = cartTotalExtraction.rows[0].totalprice
                     cartItems[0].total = cartTotal
                 }
             }
-            let cartItemsExtraction = await pool.query(`select brands.brand, colors.color, sizes.size, cart.price, cart.quantity 
-            from cart 
-            inner join brands on cart.brand = brands.id 
-            inner join colors on cart.color = colors.id 
-            inner join sizes on cart.size = sizes.id`);
+            let cartItemsExtraction = await pool.query(`SELECT brands.brand, colors.color, sizes.size, cart.price, cart.quantity, stockImages.image
+            FROM cart 
+            INNER JOIN brands ON cart.brand = brands.id 
+            INNER JOIN colors ON cart.color = colors.id 
+            INNER JOIN sizes ON cart.size = sizes.id
+            INNER JOIN stockImages on cart.cart_image = stockImages.id`);
             let cartItems = cartItemsExtraction.rows
             let cartTotalExtraction = await pool.query(`SELECT SUM(price * quantity) AS totalprice FROM cart`)
             let cartTotal = cartTotalExtraction.rows[0].totalprice
             cartItems[0].total = cartTotal
+            console.log(cartItems)
             return cartItems
         } else
             return await showCart();
