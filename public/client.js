@@ -267,7 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             setTimeout(function () {
                 filterErrorInsertPoint.innerHTML = '';
-            }, 4000)
+            }, 3000)
         }
     })
 
@@ -280,12 +280,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function (results) {
                     let response = results.data;
                     let data = response.data;
+
                     let html = cartedStockTemplateInstance({
                         cartedShoes: data
                     });
                     let cartedTableHtml = html;
                     cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
                     clearFields();
+                    // let successMessage = []
+                    // successMessage.push("Item carted!")
+                    // let successHtml = checkoutMessageInstance({
+                    //     confirmation: successMessage
+                    // });
+                    // let successMessageHtml = successHtml;
+                    // filterErrorInsertPoint.innerHTML = successMessageHtml
+                    // setTimeout(function () {
+                    //     filterErrorInsertPoint.innerHTML = '';
+                    // }, 3000)
                 }).catch({
 
                 })
@@ -321,16 +332,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     showShoes();
                     clearFields();
                     cartedStockTemplateInsertPoint.innerHTML = "";
-                    console.log(successMessage)
                     let html = checkoutMessageInstance({
                         confirmation: successMessage
                     });
                     let successMessageHtml = html;
-                    console.log(successMessageHtml)
                     checkoutMessageInsertPoint.innerHTML = successMessageHtml
                     setTimeout(function () {
                         checkoutMessageInsertPoint.innerHTML = '';
-                    }, 4000)
+                    }, 3000)
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -343,7 +352,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
             setTimeout(function () {
                 checkoutMessageInsertPoint.innerHTML = '';
-            }, 4000)
+            }, 3000)
         }
     });
 
@@ -386,6 +395,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 .then(function () {
                     clearFields();
                     showShoes();
+                    let successMessage = []
+                    successMessage.push("Stock added!")
+                    let successHtml = checkoutMessageInstance({
+                        confirmation: successMessage
+                    });
+                    let successMessageHtml = successHtml;
+                    updateErrorInsertPoint.innerHTML = successMessageHtml
+                    setTimeout(function () {
+                        updateErrorInsertPoint.innerHTML = '';
+                    }, 3000)
                 })
                 .catch(function (err) {
                     alert(err);
@@ -396,7 +415,7 @@ document.addEventListener('DOMContentLoaded', function () {
             })
             setTimeout(function () {
                 updateErrorInsertPoint.innerHTML = '';
-            }, 4000)
+            }, 3000)
         }
     });
 
