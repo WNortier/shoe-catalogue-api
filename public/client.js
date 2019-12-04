@@ -134,6 +134,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        setTimeout(function () {
+                            filterErrorInsertPoint.innerHTML = '';
+                        }, 3000)
                     } else {
                         let html = filteredStockTemplateInstance({
                             filteredShoes: data
@@ -158,6 +161,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        setTimeout(function () {
+                            filterErrorInsertPoint.innerHTML = '';
+                        }, 3000)
                     } else {
                         let html = filteredStockTemplateInstance({
                             filteredShoes: data
@@ -181,6 +187,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        setTimeout(function () {
+                            filterErrorInsertPoint.innerHTML = '';
+                        }, 3000)
                     } else {
                         let html = filteredStockTemplateInstance({
                             filteredShoes: data
@@ -204,6 +213,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        setTimeout(function () {
+                            filterErrorInsertPoint.innerHTML = '';
+                        }, 3000)
                     } else {
                         let html = filteredStockTemplateInstance({
                             filteredShoes: data
@@ -227,6 +239,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        setTimeout(function () {
+                            filterErrorInsertPoint.innerHTML = '';
+                        }, 3000)
                     } else {
                         let html = filteredStockTemplateInstance({
                             filteredShoes: data
@@ -250,6 +265,9 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        setTimeout(function () {
+                            filterErrorInsertPoint.innerHTML = '';
+                        }, 3000)
                     } else {
                         let html = stockTemplateInstance({
                             shoesEntry: data
