@@ -53,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function clearFields() {
         addPrice.value = "";
         addQuantity.value = "";
-        updateErrorInsertPoint.innerHTML = "";
-        filterErrorInsertPoint.innerHTML = "";
+        // updateErrorInsertPoint.innerHTML = "";
+        // filterErrorInsertPoint.innerHTML = "";
         let dropdowns = document.querySelectorAll('.dropdowns');
         for (var i = 0, l = dropdowns.length; i < l; i++) {
             dropdowns[i].selected = dropdowns[i].defaultSelected;
@@ -134,6 +134,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        clearFields();
                         setTimeout(function () {
                             filterErrorInsertPoint.innerHTML = '';
                         }, 3000)
@@ -161,6 +162,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        clearFields();
                         setTimeout(function () {
                             filterErrorInsertPoint.innerHTML = '';
                         }, 3000)
@@ -187,6 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        clearFields();
                         setTimeout(function () {
                             filterErrorInsertPoint.innerHTML = '';
                         }, 3000)
@@ -213,6 +216,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        clearFields();
                         setTimeout(function () {
                             filterErrorInsertPoint.innerHTML = '';
                         }, 3000)
@@ -239,6 +243,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        clearFields();
                         setTimeout(function () {
                             filterErrorInsertPoint.innerHTML = '';
                         }, 3000)
@@ -265,6 +270,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
+                        clearFields();
                         setTimeout(function () {
                             filterErrorInsertPoint.innerHTML = '';
                         }, 3000)
@@ -286,6 +292,7 @@ document.addEventListener('DOMContentLoaded', function () {
             setTimeout(function () {
                 filterErrorInsertPoint.innerHTML = '';
             }, 3000)
+            clearFields();
         }
     })
 
