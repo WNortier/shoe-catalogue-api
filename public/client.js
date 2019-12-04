@@ -13,9 +13,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const cartedStockTemplateInsertPoint = document.querySelector(".cartedStockTemplateInsertPoint")
     const cartedStockTemplateInstance = compileTemplate('.cartedStockTemplate')
     const dynamicCarting = document.querySelector("#dynamicCarting")
-    const updateErrorElem = document.querySelector('.updateError')
-    const filterErrorElem = document.querySelector('.filterError')
+    const updateErrorInsertPoint = document.querySelector('.updateErrorInsertPoint')
+    const filterErrorInsertPoint = document.querySelector('.filterErrorInsertPoint')
     const errorsTemplateInstance = compileTemplate('.errorsTemplate');
+    const checkoutMessageInsertPoint = document.querySelector('.checkoutMessageInsertPoint')
+    const checkoutMessageInstance = compileTemplate('.checkoutMessageTemplate')
     const updateStockContainer = document.querySelector(".updateStockContainer")
     const modalTemplateInsertPoint = document.querySelector('.modalTemplateInsertPoint')
     const modalTemplateInstance = compileTemplate('.modalTemplate')
@@ -51,8 +53,8 @@ document.addEventListener('DOMContentLoaded', function () {
     function clearFields() {
         addPrice.value = "";
         addQuantity.value = "";
-        updateErrorElem.innerHTML = "";
-        filterErrorElem.innerHTML = "";
+        updateErrorInsertPoint.innerHTML = "";
+        filterErrorInsertPoint.innerHTML = "";
         let dropdowns = document.querySelectorAll('.dropdowns');
         for (var i = 0, l = dropdowns.length; i < l; i++) {
             dropdowns[i].selected = dropdowns[i].defaultSelected;
@@ -129,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.length == 0) {
                         error = [];
                         error.push('No entries found!')
-                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                        filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
                     } else {
@@ -153,17 +155,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.length == 0) {
                         error = [];
                         error.push('No entries found!')
-                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                        filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
                     } else {
-                    let html = filteredStockTemplateInstance({
-                        filteredShoes: data
-                    });
-                    let filteredStockTableHTML = html;
-                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
-                    clearFields();
-                }
+                        let html = filteredStockTemplateInstance({
+                            filteredShoes: data
+                        });
+                        let filteredStockTableHTML = html;
+                        stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                        clearFields();
+                    }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -176,17 +178,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.length == 0) {
                         error = [];
                         error.push('No entries found!')
-                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                        filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
                     } else {
-                    let html = filteredStockTemplateInstance({
-                        filteredShoes: data
-                    });
-                    let filteredStockTableHTML = html;
-                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
-                    clearFields();
-                }
+                        let html = filteredStockTemplateInstance({
+                            filteredShoes: data
+                        });
+                        let filteredStockTableHTML = html;
+                        stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                        clearFields();
+                    }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -199,17 +201,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.length == 0) {
                         error = [];
                         error.push('No entries found!')
-                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                        filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
                     } else {
-                    let html = filteredStockTemplateInstance({
-                        filteredShoes: data
-                    });
-                    let filteredStockTableHTML = html;
-                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
-                    clearFields();
-                }
+                        let html = filteredStockTemplateInstance({
+                            filteredShoes: data
+                        });
+                        let filteredStockTableHTML = html;
+                        stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                        clearFields();
+                    }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -222,17 +224,17 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.length == 0) {
                         error = [];
                         error.push('No entries found!')
-                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                        filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
                     } else {
-                    let html = filteredStockTemplateInstance({
-                        filteredShoes: data
-                    });
-                    let filteredStockTableHTML = html;
-                    stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
-                    clearFields();
-                }
+                        let html = filteredStockTemplateInstance({
+                            filteredShoes: data
+                        });
+                        let filteredStockTableHTML = html;
+                        stockTemplateInsertPoint.innerHTML = filteredStockTableHTML;
+                        clearFields();
+                    }
                 }).catch(function (err) {
                     alert(err);
                 });
@@ -245,28 +247,32 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (data.length == 0) {
                         error = [];
                         error.push('No entries found!')
-                        filterErrorElem.innerHTML = errorsTemplateInstance({
+                        filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                             error
                         });
                     } else {
-                    let html = stockTemplateInstance({
-                        shoesEntry: data
-                    });
-                    let stockTableHTML = html;
-                    stockTemplateInsertPoint.innerHTML = stockTableHTML;
-                    clearFields();
-                }
+                        let html = stockTemplateInstance({
+                            shoesEntry: data
+                        });
+                        let stockTableHTML = html;
+                        stockTemplateInsertPoint.innerHTML = stockTableHTML;
+                        clearFields();
+                    }
                 }).catch(function (err) {
                     alert(err);
                 });
         } else {
-            filterErrorElem.innerHTML = errorsTemplateInstance({
+            filterErrorInsertPoint.innerHTML = errorsTemplateInstance({
                 error
             });
+            setTimeout(function () {
+                filterErrorInsertPoint.innerHTML = '';
+            }, 4000)
         }
     })
 
     dynamicCarting.addEventListener("click", function (event) {
+        event.preventDefault()
         var isModal = event.target.id.endsWith("png")
         var openmodal = document.querySelectorAll('.modal-open')
         if (event.target.id.length < 5) {
@@ -280,8 +286,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     let cartedTableHtml = html;
                     cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
                     clearFields();
-                }).catch(function (err) {
-                    alert(err)
+                }).catch({
+
                 })
         } else if (isModal) {
             let html = modalTemplateInstance({
@@ -297,22 +303,48 @@ document.addEventListener('DOMContentLoaded', function () {
     })
 
     checkoutBtn.addEventListener('click', function () {
-        shoesService.postCheckout()
-            .then(function (results) {
-                let response = results.data;
-                let data = response.data;
-                let html = cartedStockTemplateInstance({
-                    cartedShoes: data
+        console.log(cartedStockTemplateInsertPoint.innerHTML.length)
+        if (cartedStockTemplateInsertPoint.innerHTML.length > 100) {
+            var successMessage = []
+            var errorMessage = []
+            shoesService.postCheckout()
+                .then(function (results) {
+                    let response = results.data;
+                    let data = response.data;
+                    let html = cartedStockTemplateInstance({
+                        cartedShoes: data
+                    });
+                    successMessage.push("Order received!")
+                    let cartedTableHtml = html;
+                    cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
+                }).then(function () {
+                    showShoes();
+                    clearFields();
+                    cartedStockTemplateInsertPoint.innerHTML = "";
+                    console.log(successMessage)
+                    let html = checkoutMessageInstance({
+                        confirmation: successMessage
+                    });
+                    let successMessageHtml = html;
+                    console.log(successMessageHtml)
+                    checkoutMessageInsertPoint.innerHTML = successMessageHtml
+                    setTimeout(function () {
+                        checkoutMessageInsertPoint.innerHTML = '';
+                    }, 4000)
+                }).catch(function (err) {
+                    alert(err);
                 });
-                let cartedTableHtml = html;
-                cartedStockTemplateInsertPoint.innerHTML = cartedTableHtml;
-            }).then(function () {
-                showShoes();
-                clearFields();
-                cartedStockTemplateInsertPoint.innerHTML = "";
-            }).catch(function (err) {
-                alert(err);
+        } else {
+            var errorMessage = []
+            errorMessage.push("Cart is empty!")
+            checkoutMessageInsertPoint.innerHTML = errorsTemplateInstance({
+                error: errorMessage
+                
             });
+            setTimeout(function () {
+                checkoutMessageInsertPoint.innerHTML = '';
+            }, 4000)
+        }
     });
 
     cancelBtn.addEventListener('click', function () {
@@ -359,9 +391,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     alert(err);
                 });
         } else {
-            updateErrorElem.innerHTML = errorsTemplateInstance({
+            updateErrorInsertPoint.innerHTML = errorsTemplateInstance({
                 error
-            });
+            })
+            setTimeout(function () {
+                updateErrorInsertPoint.innerHTML = '';
+            }, 4000)
         }
     });
 

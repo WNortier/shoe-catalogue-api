@@ -116,10 +116,16 @@
     </script>
 
     <script type="text/x-template" class="errorsTemplate">
-
         <div class="bg-red-100 text-red-700 px-4 py-3 rounded my-3 opacity-50" role="alert">
         <strong class="font-bold">Error</strong>
         <span class="block sm:inline text-center">{{error}}</span>
+        </div>
+    </script>
+
+    <script type="text/x-template" class="checkoutMessageTemplate">
+        <div class="bg-green-100 text-green-700 px-4 py-3 rounded my-3 opacity-50" role="alert">
+        <strong class="font-bold">Success</strong>
+        <span class="block sm:inline text-center">{{confirmation}}</span>
         </div>
     </script>
 
@@ -157,7 +163,7 @@
                         <h3 class="font-bold" style="color: rgb(176, 173, 167)">Update Dashboard</h3>
                     </div>
 
-                    <div class="updateError flex justify-center w-full">
+                    <div class="updateErrorInsertPoint flex justify-center w-full">
                     </div>
 
                     <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 content-between rounded">
@@ -207,7 +213,7 @@
                         <h3 class="font-bold" style="color: rgb(176, 173, 167)">Stock Dashboard</h3>
                     </div>
 
-                    <div class="filterError flex justify-center w-full">
+                    <div class="filterErrorInsertPoint flex justify-center w-full">
                     </div>
 
                     <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded block sm:flex">
@@ -250,6 +256,8 @@
 
         <div class="container mx-auto flex-wrap px-5 py-4">
             <div class="flex flex-col settingsContainers rounded">
+                    <div class="checkoutMessageInsertPoint flex justify-center w-full">
+                        </div>
                 <div class="text-gray-700 text-center divContainers px-4 py-2 m-2 rounded">
                     <h3 class="font-bold" style="color: rgb(176, 173, 167)">Cart</h3>
                 </div>
